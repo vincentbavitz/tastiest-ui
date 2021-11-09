@@ -10,7 +10,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { Tooltip } from '.';
+import { Tooltip } from './Tooltip';
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> {
@@ -159,14 +159,14 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       color === 'neutral' && [
         hasFocus ? 'border-gray-500' : 'border-gray-400',
         'hover:border-gray-500',
-      ],
+      ]
     );
 
     const colorStyles = error ? 'border-danger' : borderColors;
 
     const sizeStyles = clsx(
       size === 'medium' && 'h-10 leading-10',
-      size === 'small' && 'h-6 leading-6',
+      size === 'small' && 'h-6 leading-6'
     );
 
     // Keep value in sync with props.
@@ -185,7 +185,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'flex justify-between mb-1 items-end leading-0',
               size === 'small' ? 'text-sm' : 'text-base',
               labelTheme === 'primary' &&
-                'text-primary font-medium tracking-wide',
+                'text-primary font-medium tracking-wide'
             )}
           >
             {label ? <div>{label}</div> : null}
@@ -232,7 +232,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               colorStyles,
               size === 'small' ? 'px-2' : 'px-4',
               disabled && 'opacity-75 cursor-not-allowed',
-              className,
+              className
             )}
           >
             {prefix && (
@@ -255,7 +255,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 center && 'text-center',
                 fontSize,
                 sizeStyles,
-                inputClassName,
+                inputClassName
               )}
               {...inputProps}
               type={type}
@@ -280,5 +280,5 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         </div>
       </div>
     );
-  },
+  }
 );

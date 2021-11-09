@@ -20,7 +20,7 @@ export interface SelectProps {
   labelTheme?: 'primary' | 'normal';
 }
 
-export const Select: FC<SelectProps> = props => {
+export const Select: FC<SelectProps> = (props) => {
   const {
     children,
     noDefault,
@@ -40,7 +40,7 @@ export const Select: FC<SelectProps> = props => {
             size === 'small' ? 'text-sm' : 'text-base',
             labelTheme === 'primary'
               ? 'text-primary tracking-wide font-medium'
-              : 'text-black',
+              : 'text-black'
           )}
         >
           {label}
@@ -54,9 +54,9 @@ export const Select: FC<SelectProps> = props => {
           className={clsx(
             'block w-full bg-transparent border-2 outline-none appearance-none border-secondary center',
             size === 'small' && 'h-6 text-sm px-2 rounded',
-            size === 'medium' && 'h-10 pl-4 pr-10 rounded-lg',
+            size === 'medium' && 'h-10 pl-4 pr-10 rounded-lg'
           )}
-          onChange={event => props?.onChange?.(event?.target?.value)}
+          onChange={(event) => props?.onChange?.(event?.target?.value)}
         >
           {noDefault && (
             <option disabled selected={defaultSelected}>
@@ -69,7 +69,7 @@ export const Select: FC<SelectProps> = props => {
           className={clsx(
             'absolute right-0 z-0 transform rotate-90 fill-current text-primary pointer-events-none',
             size === 'small' && 'h-2 mr-2',
-            size === 'medium' && 'h-3 mr-4',
+            size === 'medium' && 'h-3 mr-4'
           )}
           viewBox="0 0 15 18"
         >
