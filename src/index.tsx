@@ -7,6 +7,7 @@ export * from './IconButton';
 export * from './Input';
 export * from './Popover';
 export * from './Select';
+export * from './StatusOrb';
 export * from './TastiestBrand';
 export * from './TextArea';
 export * from './Tooltip';
