@@ -1,198 +1,160 @@
-import clsx from 'clsx';
-import React, { FC, ReactNode, useEffect, useRef, useState } from 'react';
-import { useHoverDirty } from 'react-use';
+import { Transition } from '@headlessui/react';
+import { Placement } from '@popperjs/core/lib/enums';
+import React, { FC, ReactNode, useEffect, useState } from 'react';
+import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 
-export type TooltipPlacement =
-  | 'top'
-  | 'top-left'
-  | 'top-right'
-  | 'bottom'
-  | 'bottom-left'
-  | 'bottom-right';
-
-type TooltipTrigger = 'hover' | 'manual';
-type TooltipTheme = 'light' | 'error' | 'normal' | 'success' | 'alt';
-
 export interface TooltipProps {
-  trigger?: TooltipTrigger;
-  size?: 'small' | 'medium' | 'large';
-  placement?: TooltipPlacement;
-  theme?: TooltipTheme;
-  content: ReactNode;
-  children: string | JSX.Element | JSX.Element[];
+  trigger?: 'hover' | 'click';
+  placement?: Placement;
+  children: ReactNode;
 
-  // The following are only applicable to 'manual' trigger.
-  isOpen?: boolean;
-  hideAfter?: number; // close after X milliseconds
-  unhideDependencies?: Array<unknown>; // dependencies like useEffect which trigger to unhide.
+  // How many ms to wait before automatically closing
+  // This is very complicated, so it's on hold for now.
+  //
+  // eg. What if the user hovers, unhovers, and re-hovers.
+  // the event from the first hover will trigger a timer
+  // which closes the second hover prematurely.
+  // delayClose?: number;
 }
 
-const pointerWidth = 0.725;
-
-interface PointerProps {
-  placement: TooltipPlacement;
-}
-
-interface ContentProps {
-  placement: TooltipPlacement;
-  theme: TooltipTheme;
-  display: boolean;
-}
-
-const Pointer = styled.div<PointerProps>`
-  position: absolute;
-  height: 0.5em;
-  width: ${pointerWidth}em;
-  clip-path: ${(props) =>
-    props.placement.includes('top')
-      ? 'polygon(50% 100%, 0% 0%, 100% 0%)'
-      : 'polygon(50% 0, 0 100%, 100% 100%)'};
-  margin-left: calc(50% - ${pointerWidth / 2}em);
-  top: ${(props) => (props.placement.includes('bottom') ? '-0.4em' : 'unset')};
-  bottom: ${(props) => (props.placement.includes('top') ? '-0.4em' : 'unset')};
-`;
-
-const Content = styled.div<ContentProps>`
-  position: absolute;
-  z-index: 100;
-  width: max-content;
-  filter: ${(props) =>
-    props.theme === 'light' || props.theme === 'success'
-      ? 'drop-shadow(1px 1px 3px rgba(0,0,0,0.25));'
-      : 'drop-shadow(2px 2px 8px rgba(0,0,0,0.1))'};
-  top: ${(props) => (props.placement.includes('top') ? '-1rem' : 'unset')};
-  bottom: ${(props) =>
-    props.placement.includes('bottom') ? '-1rem' : 'unset'};
-  transform: translateY(
-    ${(props) =>
-      props.placement.includes('bottom')
-        ? '100%'
-        : props.placement.includes('top')
-        ? '-100%'
-        : '0%'}
-  );
-  transition: opacity 500ms ease-in-out;
-  opacity: ${(props) => (props.display ? 1 : 0)};
-`;
-
+/**
+ * Using Popper
+ * ref. https://popper.js.org/react-popper/v2/
+ */
 export const Tooltip: FC<TooltipProps> = (props) => {
-  const {
-    trigger = 'hover',
-    content,
-    children,
-    size = 'medium',
-    placement = 'top',
-    theme = 'normal',
-    hideAfter,
-    unhideDependencies,
-  } = props;
+  const { children, placement = 'top', trigger = 'hover' } = props;
 
-  // Manage isOpen status internally
-  const [isOpen, setIsOpen] = useState(props.isOpen);
-  const [hidden, setHidden] = useState(false);
-  const [hideTimeout, setHideTimeout] = useState<NodeJS.Timeout | null>(null);
+  // const hoverDelayClose = delayClose ?? 0;
+  // const clickDelayClose = delayClose ?? 1500;
 
-  // Use hooks
-  const tooltipRef = useRef(null);
-  const isHovering = useHoverDirty(tooltipRef);
+  const [referenceElement, setReferenceElement] = useState(null);
+  const [popperElement, setPopperElement] = useState(null);
+  const [arrowElement, setArrowElement] = useState(null);
 
-  // Sync isOpen with props
-  useEffect(() => {
-    if (trigger === 'manual') {
-      setIsOpen(props.isOpen);
+  const { styles, attributes, update } = usePopper(
+    referenceElement,
+    popperElement,
+    {
+      placement,
+      modifiers: [
+        { name: 'arrow', options: { element: arrowElement } },
+        {
+          name: 'offset',
+          options: {
+            offset: [0, 15],
+          },
+        },
+      ],
     }
-  }, [props.isOpen]);
+  );
 
-  // Sync isOpen with hover
+  const [visible, setVisible] = useState(false);
+  const [hovering, setHovering] = useState(false);
+
+  // Control visibility based upon trigger.
   useEffect(() => {
     if (trigger === 'hover') {
-      setIsOpen(isHovering);
+      setVisible(hovering);
     }
-  }, [isHovering]);
+  }, [hovering]);
 
-  // Remove hidden status when content changes
+  // Force update the popper on visibility change.
+  // This is to maintain the correct positioning offset by Transition
   useEffect(() => {
-    if (trigger === 'manual') {
-      setHidden(false);
+    if (visible) {
+      update?.();
     }
-  }, [content, isOpen]);
+  }, [visible]);
 
-  // Disappear after...
-  useEffect(() => {
-    if (trigger === 'manual') {
-      // Clear previous hide timeout
-      if (hideTimeout) {
-        clearTimeout(hideTimeout);
-        setHideTimeout(null);
-      }
-
-      if (!isHovering && isOpen && hideAfter) {
-        setHideTimeout(
-          setTimeout(() => {
-            setHidden(true);
-          }, hideAfter)
-        );
-      }
+  const handleReferenceElementClick = () => {
+    if (trigger === 'click') {
+      setVisible(!visible);
     }
-
-    // Cleanup timeout
-    return () => {
-      if (hideTimeout) {
-        clearTimeout(hideTimeout);
-      }
-    };
-  }, [isOpen, hidden]);
-
-  // Reappear on...
-  useEffect(() => {
-    if (trigger === 'manual' && unhideDependencies?.length) {
-      setHidden(false);
-    }
-  }, unhideDependencies ?? []);
-
-  // prettier-ignore
-  const background = 
-    theme === 'light' ? 'bg-white' :
-    theme === 'success' ? 'bg-green-400' :
-    theme === 'normal' ? 'bg-gray-200' : 
-    theme === 'error' ? 'bg-red-300' :
-    theme === 'alt' ? 'bg-alt-2 text-white' :
-    '';
+  };
 
   return (
-    <div className={clsx('flex transform')}>
-      <div
-        onClick={() => setHidden(true)}
-        className="relative flex justify-center"
+    <div className="flex">
+      <PopperContainer
+        ref={setPopperElement as React.Ref<HTMLDivElement>}
+        style={styles.popper}
+        {...attributes.popper}
       >
-        <Content
-          display={Boolean(isOpen && !hidden)}
-          placement={placement}
-          theme={theme}
+        <Transition
+          show={visible}
+          unmount={false}
+          enter="transition ease-out duration-200"
+          enterFrom="opacity-0 translate-y-1"
+          enterTo="opacity-100 translate-y-0"
+          leave="transition ease-in duration-150"
+          leaveFrom="opacity-100 translate-y-0"
+          leaveTo="opacity-0 translate-y-1"
         >
-          <Pointer placement={placement} className={background} />
-          <div
-            style={{
-              marginLeft:
-                (placement.includes('left') && '33%') ||
-                (placement.includes('right') && '-33%') ||
-                '0%',
-            }}
-            className={clsx(
-              'w-full h-full text-sm text-black rounded-md',
-              size === 'large' && 'px-6 py-4',
-              size === 'medium' && 'p-3',
-              size === 'small' && 'px-3 py-1',
-              background
-            )}
-          >
-            {content}
-          </div>
-        </Content>
+          <PopperArrow
+            ref={setArrowElement as React.Ref<HTMLDivElement>}
+            style={styles.arrow}
+            className="arrow"
+          />
 
-        <div ref={tooltipRef}>{children}</div>
+          <PopperContent className="text-sm">
+            This is some Tooltip content
+          </PopperContent>
+        </Transition>
+      </PopperContainer>
+
+      <div ref={setReferenceElement as React.Ref<HTMLDivElement>}>
+        <div
+          onClick={handleReferenceElementClick}
+          onMouseEnter={() => setHovering(true)}
+          onMouseLeave={() => setHovering(false)}
+        >
+          {children}
+        </div>
       </div>
     </div>
   );
 };
+
+const PopperContainer = styled.div`
+  text-align: center;
+  filter: drop-shadow(0px 0px 3px rgba(0, 0, 0, 0.1));
+
+  &[data-popper-placement^='top'] .arrow {
+    bottom: -0.375rem;
+  }
+
+  &[data-popper-placement^='bottom'] .arrow {
+    top: -0.375rem;
+  }
+
+  &[data-popper-placement^='left'] .arrow {
+    right: 0;
+  }
+
+  &[data-popper-placement^='right'] .arrow {
+    left: -0.75rem;
+  }
+`;
+
+const PopperArrow = styled.div`
+  position: absolute;
+  z-index: 10;
+  width: 0.75rem;
+  height: 0.75rem;
+
+  &:after {
+    content: ' ';
+    background-color: white;
+    position: absolute;
+    height: 0.75rem;
+    width: 0.75rem;
+    transform: rotate(45deg);
+  }
+`;
+
+const PopperContent = styled.div`
+  width: max-content;
+  padding: 0.5rem 1rem;
+  background-color: white;
+  border-radius: 0.25rem;
+`;

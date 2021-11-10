@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { FC } from 'react';
 
 export interface IconButtonProps {
   icon: any;
@@ -7,7 +7,7 @@ export interface IconButtonProps {
   onClick?: () => void;
 }
 
-export default function IconButton(props: IconButtonProps) {
+export const IconButton: FC<IconButtonProps> = (props) => {
   const { icon: IconComponent, theme, onClick } = props;
 
   return (
@@ -28,4 +28,4 @@ export default function IconButton(props: IconButtonProps) {
       <IconComponent className="text-xl" />
     </button>
   );
-}
+};

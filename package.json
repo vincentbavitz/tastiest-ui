@@ -23,7 +23,7 @@
     "prepare": "install-peers && tsdx build",
     "size": "size-limit",
     "analyze": "size-limit --why",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 --no-dll",
     "build-storybook": "build-storybook"
   },
   "husky": {
@@ -51,16 +51,19 @@
   "peerDependencies": {
     "@ant-design/icons": "^4.7.0",
     "clsx": "^1.1.1",
-    "react": ">=16",
     "next": ">=11",
+    "react": ">=16",
     "react-use": "^17.3.1",
+    "rsuite": "^5.0.0",
     "styled-components": "^5.0.0"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.1",
     "@nivo/core": "^0.74.0",
     "@nivo/line": "^0.74.0",
-    "@tastiest-io/tastiest-icons": "^0.28.0"
+    "@popperjs/core": "^2.10.2",
+    "@tastiest-io/tastiest-icons": "^0.28.0",
+    "react-popper": "^2.2.5"
   },
   "devDependencies": {
     "@ant-design/icons": "^4.7.0",
@@ -86,6 +89,7 @@
     "react-is": "^17.0.2",
     "react-use": "^17.3.1",
     "rollup-plugin-postcss": "^4.0.1",
+    "rsuite": "^5.2.0",
     "size-limit": "^6.0.3",
     "styled-components": "^5.3.3",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
