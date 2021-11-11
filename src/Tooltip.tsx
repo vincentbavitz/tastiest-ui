@@ -5,9 +5,16 @@ import { usePopper } from 'react-popper';
 import styled from 'styled-components';
 
 export interface TooltipProps {
-  trigger?: 'hover' | 'click';
+  trigger?: 'hover' | 'click' | 'manual';
   placement?: Placement;
   children: ReactNode;
+  content: ReactNode;
+
+  // Manually control whether to show or not.
+  show?: boolean;
+
+  // When these change, it will disappear.
+  unhideDependencies?: Array<any>;
 
   // How many ms to wait before automatically closing
   // This is very complicated, so it's on hold for now.
@@ -23,7 +30,14 @@ export interface TooltipProps {
  * ref. https://popper.js.org/react-popper/v2/
  */
 export const Tooltip: FC<TooltipProps> = (props) => {
-  const { children, placement = 'top', trigger = 'hover' } = props;
+  const {
+    children,
+    placement = 'top',
+    trigger = 'hover',
+    content,
+    show,
+    unhideDependencies,
+  } = props;
 
   // const hoverDelayClose = delayClose ?? 0;
   // const clickDelayClose = delayClose ?? 1500;
@@ -49,12 +63,13 @@ export const Tooltip: FC<TooltipProps> = (props) => {
     }
   );
 
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(show ?? false);
   const [hovering, setHovering] = useState(false);
 
   // Control visibility based upon trigger.
   useEffect(() => {
-    if (trigger === 'hover') {
+    // only if they're not manually showing
+    if (show === undefined && trigger === 'hover') {
       setVisible(hovering);
     }
   }, [hovering]);
@@ -62,10 +77,10 @@ export const Tooltip: FC<TooltipProps> = (props) => {
   // Force update the popper on visibility change.
   // This is to maintain the correct positioning offset by Transition
   useEffect(() => {
-    if (visible) {
+    if (show || visible) {
       update?.();
     }
-  }, [visible]);
+  }, [visible, show]);
 
   const handleReferenceElementClick = () => {
     if (trigger === 'click') {
@@ -81,7 +96,7 @@ export const Tooltip: FC<TooltipProps> = (props) => {
         {...attributes.popper}
       >
         <Transition
-          show={visible}
+          show={show ?? visible}
           unmount={false}
           enter="transition ease-out duration-200"
           enterFrom="opacity-0 translate-y-1"
@@ -96,9 +111,7 @@ export const Tooltip: FC<TooltipProps> = (props) => {
             className="arrow"
           />
 
-          <PopperContent className="text-sm">
-            This is some Tooltip content
-          </PopperContent>
+          <PopperContent className="text-sm">{content}</PopperContent>
         </Transition>
       </PopperContainer>
 
@@ -121,6 +134,10 @@ const PopperContainer = styled.div`
 
   &[data-popper-placement^='top'] .arrow {
     bottom: -0.375rem;
+  }
+
+  &[data-popper-placement^='top-end'] .arrow:after {
+    right: 0.75rem;
   }
 
   &[data-popper-placement^='bottom'] .arrow {

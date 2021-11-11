@@ -32,6 +32,7 @@ export const Top = Template.bind({});
 export const Left = Template.bind({});
 export const Right = Template.bind({});
 export const Bottom = Template.bind({});
+export const ManualShow = Template.bind({});
 
 Top.args = {
   trigger: 'hover',
@@ -54,5 +55,12 @@ Right.args = {
 Bottom.args = {
   trigger: 'hover',
   content: 'This is some tooltip content!',
+  placement: 'bottom',
+};
+
+ManualShow.args = {
+  trigger: 'manual',
+  show: true,
+  content: 'This is some manual content!',
   placement: 'bottom',
 };

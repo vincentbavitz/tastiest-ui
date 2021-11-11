@@ -1,15 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { AlertIcon } from '@tastiest-io/tastiest-icons';
+import { WarningOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
-import React, {
-  ChangeEvent,
-  CSSProperties,
-  FocusEvent,
-  ReactNode,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import { useHoverDirty } from 'react-use';
+import styled from 'styled-components';
 import { Tooltip } from './Tooltip';
 
 export interface InputProps
@@ -28,27 +22,21 @@ export interface InputProps
 
   // Content
   // Sublabel can be used as a subtle descriptor to the right of label
-  label?: string;
-  labelTheme?: 'primary' | 'normal';
-  subLabel?: string | ReactNode;
+  label: string;
   prefix?: JSX.Element;
   suffix?: JSX.Element;
-  externalSuffix?: JSX.Element;
 
   // Styling
   disabled?: boolean;
-  style?: CSSProperties;
-  readonly?: boolean;
   center?: boolean;
 
   // Error message displayed above the input
   // This is used in controlled react-hook-forms
   // but can also be set manually if you like.
   error?: string;
-  errorDisappearAfter?: number; // disappear tooltip after X milliseconds
 
   // Values
-  value?: string | number;
+  value?: string;
   onValueChange?(value: string): void;
 
   // Transforms the input on before the new value is set
@@ -67,31 +55,29 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       inputClassName,
       type = 'text',
       center = false,
-      readonly = false,
       size = 'medium',
       color = 'secondary',
       style,
       prefix,
       label,
-      labelTheme,
-      subLabel,
       suffix,
-      externalSuffix,
       disabled,
       regex,
       formatter,
       onValueChange,
       error,
-      errorDisappearAfter = 3000,
       ...inputProps
     } = props;
+
+    const wrapperRef = useRef(null);
+    const isHovering = useHoverDirty(wrapperRef);
 
     // Focus
     const inputRef = useRef<HTMLInputElement>(null);
 
     // Value
-    const [value, setValue] = useState('' as string | number);
-    const [hasFocus, setHasFocus] = useState(false);
+    const [value, setValue] = useState<string>('');
+    const [isFocused, setIsFocused] = useState(false);
 
     // Styles
     const fontSize = size === 'large' ? 'text-lg' : 'text-base';
@@ -101,6 +87,11 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       const element = event?.target as HTMLInputElement;
       if (element?.value === undefined) {
         return;
+      }
+
+      // Force focus on autocomplete
+      if (element.value.length > 0) {
+        setIsFocused(true);
       }
 
       const _value = formatter?.(element.value) ?? element.value;
@@ -129,41 +120,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       setValue(_value);
     };
 
-    const handleOnBlur = (event: FocusEvent<HTMLInputElement>) => {
-      setHasFocus(false);
-
-      if (props.onBlur) {
-        props.onBlur(event);
-      }
-    };
-
-    const handleOnFocus = (event: FocusEvent<HTMLInputElement>) => {
-      if (!readonly) {
-        setHasFocus(true);
-      }
-
-      if (props.onFocus) {
-        props.onFocus(event);
-      }
-    };
-
-    const borderColors = clsx(
-      color === 'primary' && [
-        hasFocus ? 'border-secondary' : 'border-primary',
-        'hover:border-secondary',
-      ],
-      color === 'secondary' && [
-        hasFocus ? 'border-primary' : 'border-secondary',
-        'hover:border-primary',
-      ],
-      color === 'neutral' && [
-        hasFocus ? 'border-gray-500' : 'border-gray-400',
-        'hover:border-gray-500',
-      ]
-    );
-
-    const colorStyles = error ? 'border-danger' : borderColors;
-
     const sizeStyles = clsx(
       size === 'medium' && 'h-10 leading-10',
       size === 'small' && 'h-6 leading-6'
@@ -178,58 +134,45 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     }, [props.value]);
 
     return (
-      <div className="w-full cursor-text">
-        {label || subLabel ? (
-          <div
-            className={clsx(
-              'flex justify-between mb-1 items-end leading-0',
-              size === 'small' ? 'text-sm' : 'text-base',
-              labelTheme === 'primary' &&
-                'text-primary font-medium tracking-wide'
-            )}
-          >
-            {label ? <div>{label}</div> : null}
-            {subLabel ? <div>{subLabel}</div> : null}
-          </div>
-        ) : null}
+      <div ref={wrapperRef} className="w-full font-secondary cursor-text">
+        <div className="relative flex items-center gap-3">
+          <InputLabel
+            size={size}
+            color={color}
+            isFocused={isFocused}
+            hasPrefix={Boolean(prefix)}
+            label={label}
+          />
 
-        {error && (
-          <div className="flex justify-end">
-            <div className="pr-6 w-min">
+          {error && (
+            <div className="absolute top-0 w-0 left-0">
               <Tooltip
-                isOpen={true}
-                size="small"
+                show
                 content={
                   <div className="flex items-center space-x-2 whitespace-nowrap">
-                    <AlertIcon className="h-4 fill-current text-danger" />
+                    <WarningOutlined className="text-yellow-600" />
                     <p>{error}</p>
                   </div>
                 }
-                placement="top-right"
-                hideAfter={errorDisappearAfter}
+                placement="top-end"
                 unhideDependencies={[value, props.value, error]}
               >
-                <div className="flex-1 h-0"></div>
+                <div className="w-full h-0"></div>
               </Tooltip>
             </div>
-          </div>
-        )}
+          )}
 
-        <div className="flex items-center space-x-3">
           <div
-            style={style ?? {}}
+            style={{
+              width: '100%',
+            }}
             className={clsx(
               'flex',
               'items-center',
               'appearance-none',
-              'w-full',
               'text-gray-700',
               'leading-tight',
-              'duration-300',
-              'border-l-2 rounded',
-              'bg-primary bg-opacity-10',
-              hasFocus ? 'ring-2 ring-secondary ring-opacity-25' : '',
-              colorStyles,
+              'duration-150',
               size === 'small' ? 'px-2' : 'px-4',
               disabled && 'opacity-75 cursor-not-allowed',
               className
@@ -248,9 +191,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               className={clsx(
                 'bg-transparent',
                 'outline-none leading-12',
-                'flex-1',
-                'w-0',
-                externalSuffix && 'w-full',
+                'w-0 flex-1',
                 disabled && 'cursor-not-allowed',
                 center && 'text-center',
                 fontSize,
@@ -263,22 +204,134 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               spellCheck={false}
               disabled={disabled}
               onChange={handleOnChange}
-              onBlur={handleOnBlur}
-              onFocus={handleOnFocus}
+              onFocus={() =>
+                props.readOnly || props.disabled ? null : setIsFocused(true)
+              }
+              onBlur={() => (value.length === 0 ? setIsFocused(false) : null)}
+              placeholder={''}
             ></input>
 
-            {suffix && (
+            <InputBorder
+              label={label}
+              color={color}
+              isHovering={isHovering}
+              isFocused={isFocused}
+              hasError={Boolean(error)}
+            />
+
+            {suffix ? (
               <span
                 className={clsx(`text-primary`, 'flex', 'items-center', 'pl-4')}
               >
                 {suffix}
               </span>
-            )}
+            ) : null}
           </div>
-
-          {externalSuffix}
         </div>
       </div>
     );
   }
 );
+
+interface InputLabelProps {
+  label: string;
+  color: string;
+  isFocused: boolean;
+  hasPrefix: boolean;
+  size: 'large' | 'medium' | 'small';
+}
+
+const InputLabel = (props: InputLabelProps) => {
+  const { label, color, hasPrefix, isFocused, size } = props;
+
+  return (
+    <div
+      style={{
+        transform: `translate(${
+          isFocused ? `${hasPrefix ? '-2.28' : '-0.175'}rem` : '0rem'
+        }, ${isFocused ? '-1.25rem' : '0rem'})`,
+      }}
+      className={clsx(
+        'absolute flex items-center leading-0 duration-150 pointer-events-none whitespace-nowrap select-none',
+        isFocused
+          ? 'text-xs font-medium'
+          : size === 'small'
+          ? 'text-sm'
+          : 'text-base',
+        hasPrefix ? 'left-12 ml-px pl-px' : 'left-4',
+        isFocused ? `text-${color}` : 'text-gray-600'
+      )}
+    >
+      <div
+        style={{
+          height: isFocused ? '11px' : 'unset',
+          fontSize: isFocused ? '0.75em' : 'unset',
+        }}
+      >
+        {label}
+      </div>
+    </div>
+  );
+};
+
+const FieldSet = styled.fieldset`
+  text-align: left;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  top: -5px;
+  left: 0;
+  margin: 0;
+  padding: 0 8px;
+  pointer-events: none;
+  overflow: hidden;
+  min-width: 0%;
+  z-index: 0;
+`;
+
+const Legend = styled.legend`
+  display: block;
+  padding: 0;
+  height: 11px;
+  font-size: 0.75em;
+  visibility: hidden;
+  width: auto;
+  transition: max-width 150ms cubic-bezier(0, 0, 0.2, 1) 0ms;
+`;
+
+interface InputBorderProps {
+  label: string;
+  color: string;
+  isHovering: boolean;
+  isFocused: boolean;
+  hasError: boolean;
+}
+
+const InputBorder = (props: InputBorderProps) => {
+  const { label, color, isHovering, isFocused, hasError } = props;
+
+  const borderColors = clsx(
+    isHovering || isFocused ? 'border-opacity-100' : 'border-opacity-75',
+    color === 'primary' && 'border-primary',
+    color === 'secondary' && 'border-secondary',
+    color === 'neutral' && 'border-gray-400'
+  );
+
+  const borderStyles = clsx(
+    'rounded',
+    isFocused ? 'border-2' : 'border',
+    hasError ? 'border-danger' : borderColors
+  );
+
+  return (
+    <FieldSet className={clsx(borderStyles, isFocused ? '' : '')}>
+      <Legend
+        style={{
+          maxWidth: isFocused ? '100%' : '0.01px',
+        }}
+      >
+        <span>{label}</span>
+      </Legend>
+    </FieldSet>
+  );
+};

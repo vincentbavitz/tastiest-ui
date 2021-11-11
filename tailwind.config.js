@@ -11,6 +11,11 @@ module.exports = {
       lg: '900px',
       xl: '1100px',
     },
+    fontFamily: {
+      primary: ['Marmelad'],
+      secondary: ['Montserrat'],
+      mono: ['SourceCodePro'],
+    },
     fontSize: {
       '2xs': ['.66rem'],
       xs: ['.75rem'],
