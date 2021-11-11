@@ -1,14 +1,20 @@
 import clsx from 'clsx';
 import Link from 'next/link';
-import React from 'react';
-import { ISidebarItem } from './Sidebar';
+import React, { FC } from 'react';
+
+export interface ISidebarItem {
+  icon: FC<any>;
+  label: string;
+  page: string;
+  float: 'top' | 'bottom';
+}
 
 export interface SidebarItemProps extends ISidebarItem {
   selected?: boolean;
   compact?: boolean;
 }
 
-export default function SidebarItem(props: SidebarItemProps) {
+export const SidebarItem = (props: SidebarItemProps) => {
   const { label, page, selected, compact } = props;
 
   return (
@@ -39,4 +45,4 @@ export default function SidebarItem(props: SidebarItemProps) {
       </a>
     </Link>
   );
-}
+};

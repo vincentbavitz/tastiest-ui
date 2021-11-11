@@ -13,9 +13,6 @@ export interface TooltipProps {
   // Manually control whether to show or not.
   show?: boolean;
 
-  // When these change, it will disappear.
-  unhideDependencies?: Array<any>;
-
   // How many ms to wait before automatically closing
   // This is very complicated, so it's on hold for now.
   //
@@ -36,7 +33,6 @@ export const Tooltip: FC<TooltipProps> = (props) => {
     trigger = 'hover',
     content,
     show,
-    unhideDependencies,
   } = props;
 
   // const hoverDelayClose = delayClose ?? 0;

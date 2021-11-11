@@ -80,7 +80,17 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const [isFocused, setIsFocused] = useState(false);
 
     // Styles
-    const fontSize = size === 'large' ? 'text-lg' : 'text-base';
+    const fontSize = clsx(
+      size === 'large' && 'text-base',
+      size === 'medium' && 'text-base',
+      size === 'small' && 'text-xs'
+    );
+
+    const sizeStyles = clsx(
+      size === 'large' && 'h-12',
+      size === 'medium' && 'h-10',
+      size === 'small' && 'h-8'
+    );
 
     // Functions
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -120,11 +130,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       setValue(_value);
     };
 
-    const sizeStyles = clsx(
-      size === 'medium' && 'h-10 leading-10',
-      size === 'small' && 'h-6 leading-6'
-    );
-
     // Keep value in sync with props.
     // This ensures that formatter works
     useEffect(() => {
@@ -137,10 +142,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       <div ref={wrapperRef} className="w-full font-secondary cursor-text">
         <div className="relative flex items-center gap-3">
           <InputLabel
-            size={size}
             color={color}
             isFocused={isFocused}
             hasPrefix={Boolean(prefix)}
+            fontSize={fontSize}
             label={label}
           />
 
@@ -155,7 +160,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                   </div>
                 }
                 placement="top-end"
-                unhideDependencies={[value, props.value, error]}
               >
                 <div className="w-full h-0"></div>
               </Tooltip>
@@ -173,24 +177,27 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'text-gray-700',
               'leading-tight',
               'duration-150',
-              size === 'small' ? 'px-2' : 'px-4',
+              size === 'small' ? 'px-2' : 'px-3',
               disabled && 'opacity-75 cursor-not-allowed',
               className
             )}
           >
             {prefix && (
-              <span
-                className={clsx(`text-black`, 'flex', 'items-center', 'pr-4')}
+              <div
+                className={clsx(
+                  'text-black flex justify-center items-center',
+                  'pr-2 w-6'
+                )}
               >
                 {prefix}
-              </span>
+              </div>
             )}
 
             <input
               ref={ref || inputRef}
               className={clsx(
                 'bg-transparent',
-                'outline-none leading-12',
+                'outline-none leading-none',
                 'w-0 flex-1',
                 disabled && 'cursor-not-allowed',
                 center && 'text-center',
@@ -221,7 +228,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
             {suffix ? (
               <span
-                className={clsx(`text-primary`, 'flex', 'items-center', 'pl-4')}
+                className={clsx(`text-primary`, 'flex', 'items-center', 'pl-2')}
               >
                 {suffix}
               </span>
@@ -238,28 +245,26 @@ interface InputLabelProps {
   color: string;
   isFocused: boolean;
   hasPrefix: boolean;
-  size: 'large' | 'medium' | 'small';
+  fontSize: string;
 }
 
 const InputLabel = (props: InputLabelProps) => {
-  const { label, color, hasPrefix, isFocused, size } = props;
+  const { label, color, hasPrefix, isFocused, fontSize } = props;
+
+  const translateX = isFocused ? `${hasPrefix ? '-1.28' : '0.33'}rem` : '0rem';
+  const translateY = isFocused ? '-0.33rem' : '0rem';
 
   return (
     <div
       style={{
-        transform: `translate(${
-          isFocused ? `${hasPrefix ? '-2.28' : '-0.175'}rem` : '0rem'
-        }, ${isFocused ? '-1.25rem' : '0rem'})`,
+        transform: `translate(${translateX}, ${translateY})`,
       }}
       className={clsx(
-        'absolute flex items-center leading-0 duration-150 pointer-events-none whitespace-nowrap select-none',
-        isFocused
-          ? 'text-xs font-medium'
-          : size === 'small'
-          ? 'text-sm'
-          : 'text-base',
-        hasPrefix ? 'left-12 ml-px pl-px' : 'left-4',
-        isFocused ? `text-${color}` : 'text-gray-600'
+        'absolute top-0 flex items-center leading-0 duration-150 pointer-events-none whitespace-nowrap select-none',
+        isFocused ? 'text-xs font-medium' : fontSize,
+        hasPrefix ? 'left-8 ml-px pl-px' : 'left-2',
+        isFocused ? `text-${color}` : 'text-gray-600',
+        isFocused ? '' : 'bottom-0'
       )}
     >
       <div

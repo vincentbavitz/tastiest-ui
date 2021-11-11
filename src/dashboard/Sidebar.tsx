@@ -1,15 +1,8 @@
 import clsx from 'clsx';
 import { NextRouter } from 'next/router';
-import React, { cloneElement, FC, ReactElement } from 'react';
+import React, { cloneElement, ReactElement } from 'react';
 import { TastiestBrand } from '../TastiestBrand';
 import { SidebarItemProps } from './SidebarItem';
-
-export interface ISidebarItem {
-  icon: FC<any>;
-  label: string;
-  page: string;
-  float: 'top' | 'bottom';
-}
 
 export interface SidebarProps {
   router: NextRouter;
@@ -17,7 +10,7 @@ export interface SidebarProps {
   compact?: boolean;
 }
 
-export default function Sidebar(props: SidebarProps) {
+export const Sidebar = (props: SidebarProps) => {
   const { router, compact = false, children } = props;
 
   const elements = React.Children.map(children, (child) => {
@@ -68,4 +61,4 @@ export default function Sidebar(props: SidebarProps) {
       </div>
     </div>
   );
-}
+};

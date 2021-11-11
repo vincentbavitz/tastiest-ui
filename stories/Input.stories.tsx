@@ -31,17 +31,23 @@ const Template: Story<InputProps> = (args) => (
 );
 
 export const Default = Template.bind({});
-Default.args = {};
-
 export const ReadOnly = Template.bind({});
-ReadOnly.args = { readOnly: true };
-
 export const Validated = Template.bind({});
-Validated.args = { error: 'Invalid username' };
-
 export const BellsAndWhistles = Template.bind({});
+
+export const Large = Template.bind({});
+export const Medium = Template.bind({});
+export const Small = Template.bind({});
+
+Default.args = {};
+ReadOnly.args = { readOnly: true };
+Validated.args = { error: 'Invalid username' };
 BellsAndWhistles.args = {
   label: 'Label',
   prefix: <SearchOutlined />,
   suffix: <RightOutlined />,
 };
+
+Large.args = { size: 'large' };
+Medium.args = { size: 'medium' };
+Small.args = { size: 'small' };

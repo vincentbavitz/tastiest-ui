@@ -7,8 +7,7 @@ import { Meta, Story } from '@storybook/react';
 import { HomeIcon, SupportIcon } from '@tastiest-io/tastiest-icons';
 import { NextRouter } from 'next/router';
 import React from 'react';
-import Sidebar, { SidebarProps } from '../src/dashboard/Sidebar';
-import SidebarItem from '../src/dashboard/SidebarItem';
+import { Sidebar, SidebarItem, SidebarProps } from '../src/dashboard';
 
 const meta: Meta = {
   title: 'Sidebar',
