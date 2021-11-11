@@ -1,12 +1,15 @@
 {
   "name": "@tastiest-io/tastiest-ui",
   "author": "vincentbavitz",
+  "description": "Tastiest's complete UI library.",
+  "license": "TASTIEST TECHNOLOGIES",
+  "private": true,
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
   "repository": "git://github.com:tastiest-io/tastiest-ui",
-  "version": "0.13.0",
-  "license": "MIT",
+  "version": "0.16.0",
+  
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -63,6 +66,7 @@
     "@nivo/line": "^0.74.0",
     "@popperjs/core": "^2.10.2",
     "@tastiest-io/tastiest-icons": "^0.28.0",
+    "@tastiest-io/tastiest-ui": "^0.15.0",
     "react-popper": "^2.2.5"
   },
   "devDependencies": {

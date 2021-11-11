@@ -5,6 +5,7 @@ export * from './Dropdown';
 export * from './DropdownItem';
 export * from './IconButton';
 export * from './Input';
+export * from './Modal';
 export * from './Popover';
 export * from './Select';
 export * from './StatusOrb';

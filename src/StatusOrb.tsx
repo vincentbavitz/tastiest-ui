@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import React from 'react';
+import React, { FC } from 'react';
 
 export interface StatusOrbProps {
   size?: 1 | 2 | 3 | 4;
@@ -10,7 +10,7 @@ export interface StatusOrbProps {
 }
 
 /** Used to indicate the status of a system as online or offline. */
-export default function StatusOrb(props: StatusOrbProps) {
+export const StatusOrb: FC<StatusOrbProps> = (props) => {
   const { size = 2, ping = props.status === 'online', status } = props;
 
   return (
@@ -46,4 +46,4 @@ export default function StatusOrb(props: StatusOrbProps) {
       ></div>
     </div>
   );
-}
+};

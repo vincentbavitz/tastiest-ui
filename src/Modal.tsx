@@ -80,7 +80,7 @@ export const Modal: FC<ModalProps> = (props) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="absolute inset-0 z-0 bg-black bg-opacity-[0.05]"></div>
+          <div className="absolute inset-0 z-0 bg-black bg-opacity-25"></div>
         </Transition.Child>
 
         {/* Content */}
