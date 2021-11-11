@@ -25,7 +25,7 @@ export interface ButtonProps {
 
 export const Button: FC<ButtonProps> = (props) => {
   const {
-    color = 'primary',
+    color = 'secondary',
     size = 'medium',
     type = 'solid',
     disabled = false,
@@ -133,6 +133,7 @@ export const Button: FC<ButtonProps> = (props) => {
       : color === 'success'
       ? 'ring-success'
       : '',
+    'ring-offset-1 active:ring-4 focus:ring-4',
     selected && 'ring-4'
   );
 
@@ -162,7 +163,6 @@ export const Button: FC<ButtonProps> = (props) => {
         'filter duration-300',
         'ease-in-out',
         'text-center',
-        'font-semibold',
         'whitespace-nowrap',
         'ring-opacity-25',
         'rounded-md',
@@ -173,7 +173,7 @@ export const Button: FC<ButtonProps> = (props) => {
         disabledStyles
       )}
       role="button"
-      tabIndex={-1}
+      tabIndex={1}
       onClick={onClickFn}
     >
       {loading && (
@@ -200,7 +200,12 @@ export const Button: FC<ButtonProps> = (props) => {
         </div>
       )}
 
-      <div className={clsx('w-full', loading ? 'opacity-0' : 'opacity-100')}>
+      <div
+        className={clsx(
+          'w-full font-normal',
+          loading ? 'opacity-0' : 'opacity-100'
+        )}
+      >
         {children}
       </div>
 

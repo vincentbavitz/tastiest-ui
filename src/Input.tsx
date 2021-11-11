@@ -217,7 +217,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 props.readOnly || props.disabled ? null : setIsFocused(true)
               }
               onBlur={() => (value.length === 0 ? setIsFocused(false) : null)}
-              placeholder={''}
+              placeholder={label ? '' : props.placeholder}
             ></input>
 
             <InputBorder
