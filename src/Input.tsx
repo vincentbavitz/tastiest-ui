@@ -22,7 +22,7 @@ export interface InputProps
 
   // Content
   // Sublabel can be used as a subtle descriptor to the right of label
-  label: string;
+  label?: string;
   prefix?: JSX.Element;
   suffix?: JSX.Element;
 
@@ -141,13 +141,15 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     return (
       <div ref={wrapperRef} className="w-full font-secondary cursor-text">
         <div className="relative flex items-center gap-3">
-          <InputLabel
-            color={color}
-            isFocused={isFocused}
-            hasPrefix={Boolean(prefix)}
-            fontSize={fontSize}
-            label={label}
-          />
+          {label ? (
+            <InputLabel
+              color={color}
+              isFocused={isFocused}
+              hasPrefix={Boolean(prefix)}
+              fontSize={fontSize}
+              label={label}
+            />
+          ) : null}
 
           {error && (
             <div className="absolute top-0 w-0 left-0">
@@ -305,7 +307,7 @@ const Legend = styled.legend`
 `;
 
 interface InputBorderProps {
-  label: string;
+  label?: string;
   color: string;
   isHovering: boolean;
   isFocused: boolean;

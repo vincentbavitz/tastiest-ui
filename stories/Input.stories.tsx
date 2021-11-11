@@ -34,6 +34,7 @@ export const Default = Template.bind({});
 export const ReadOnly = Template.bind({});
 export const Validated = Template.bind({});
 export const BellsAndWhistles = Template.bind({});
+export const WithoutLabel = Template.bind({});
 
 export const Large = Template.bind({});
 export const Medium = Template.bind({});
@@ -46,6 +47,10 @@ BellsAndWhistles.args = {
   label: 'Label',
   prefix: <SearchOutlined />,
   suffix: <RightOutlined />,
+};
+
+WithoutLabel.args = {
+  label: undefined,
 };
 
 Large.args = { size: 'large' };
