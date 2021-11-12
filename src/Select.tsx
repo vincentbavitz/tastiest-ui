@@ -7,22 +7,41 @@ import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import React, { Fragment, ReactElement, useState } from 'react';
 
+type Size = 'small' | 'medium' | 'large';
 export interface SelectProps {
-  size: 'small' | 'medium' | 'large';
+  size: Size;
   children: ReactElement<SelectOptionProps> | ReactElement<SelectOptionProps>[];
   onSelect: (id: string, value: string) => void;
 }
 
 export function Select(props: SelectProps) {
-  const { size = 'medium', children: options } = props;
+  const { size = 'medium', onSelect, children } = props;
 
-  const [selected, setSelected] = useState<string | null>('Daniel');
+  // Selected is given by ID
+  const options = React.Children.map(children, (child) => child.props);
+  const [selected, setSelected] = useState<SelectOptionProps>(options[0]);
+
+  const onChange = (option: SelectOptionProps) => {
+    console.log('Select ➡️ option:', option);
+    setSelected(option);
+    onSelect?.(option.id, option.value);
+  };
 
   return (
-    <Listbox value={selected} onChange={setSelected}>
+    <Listbox
+      value={selected.id}
+      onChange={(onChange as never) as (option: string) => void}
+    >
       <div className="relative mt-1">
-        <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
-          <span className="block truncate">{selected}</span>
+        <Listbox.Button
+          className={clsx(
+            'relative w-full text-left bg-white shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500',
+            size === 'large' && 'text-lg py-3 pl-3 pr-10 rounded-lg',
+            size === 'medium' && 'text-base py-2 pl-3 pr-10 rounded-md',
+            size === 'small' && 'text-sm py-1 pl-2 pr-8 rounded'
+          )}
+        >
+          <span className="block truncate">{selected.value}</span>
           <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
             <div
               style={{ fontSize: '9px' }}
@@ -41,9 +60,9 @@ export function Select(props: SelectProps) {
           leaveTo="opacity-0"
         >
           <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-            {React.Children.map(options, (value, key) => (
-              <Option {...value.props} key={key} />
-            ))}
+            {React.Children.map(children, (child) => {
+              return <Option {...child.props} size={size} />;
+            })}
           </Listbox.Options>
         </Transition>
       </div>
@@ -53,25 +72,28 @@ export function Select(props: SelectProps) {
 
 interface SelectOptionProps {
   id: string;
-  key: string | number;
   value: string;
   disabled?: boolean;
+  size?: Size;
 }
 
-const Option = (props: SelectOptionProps) => {
-  const { key, value, disabled } = props;
+const Option = (option: SelectOptionProps) => {
+  const { id, size, value, disabled } = option;
 
   return (
     <Listbox.Option
-      key={key}
+      key={id}
       className={({ active, disabled }) =>
         clsx(
           active ? 'text-secondary bg-blue-100' : 'text-gray-900',
           disabled ? 'opacity-50' : '',
-          'cursor-default select-none relative py-2 pl-10 pr-4'
+          'cursor-default select-none relative',
+          size === 'large' && 'py-3 pl-10 pr-4 text-lg',
+          size === 'medium' && 'py-2 pl-10 pr-4 text-sm',
+          size === 'small' && 'py-1 pl-10 pr-2 text-sm'
         )
       }
-      value={value}
+      value={option}
       disabled={disabled}
     >
       {({ selected, active }) => (
@@ -89,7 +111,12 @@ const Option = (props: SelectOptionProps) => {
                   absolute inset-y-0 left-0 flex items-center pl-3`}
             >
               <CheckOutlined
-                className="ml-1 text-base text-secondary"
+                className={clsx(
+                  'ml-1 text-secondary',
+                  size === 'large' && 'text-lg',
+                  size === 'medium' && 'text-base',
+                  size === 'small' && 'text-sm'
+                )}
                 aria-hidden="true"
               />
             </span>
