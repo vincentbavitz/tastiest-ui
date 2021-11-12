@@ -20,7 +20,7 @@ const meta: Meta = {
 export default meta;
 
 const router: NextRouter = {
-  pathname: 'localhost:3000/settings',
+  pathname: 'localhost:3000/',
 } as NextRouter;
 
 const Template: Story<SidebarProps> = (args) => (

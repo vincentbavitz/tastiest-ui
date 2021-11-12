@@ -1,6 +1,13 @@
+import {
+  EditOutlined,
+  FormatPainterOutlined,
+  MergeCellsOutlined,
+  SettingOutlined,
+  UserOutlined,
+} from '@ant-design/icons';
 import { Meta, Story } from '@storybook/react';
 import React from 'react';
-import { Dropdown, DropdownItem, DropdownProps } from '../src';
+import { Button, Dropdown, DropdownProps } from '../src';
 
 const meta: Meta = {
   title: 'Dropdown',
@@ -19,36 +26,44 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<DropdownProps> = args => (
+const Template: Story<DropdownProps> = (args) => (
   <div className="flex justify-center w-full">
-    <div className="">
-      <div className="w-8 h-8 rounded-md bg-primary">x</div>
-      <Dropdown isOpen={true} {...args}>
-        {args.children}
-      </Dropdown>
-    </div>
+    <Dropdown show={true} {...args}>
+      <Dropdown.Trigger>
+        <Button color="danger">Danger!</Button>
+      </Dropdown.Trigger>
+
+      <Dropdown.Item href="/" icon={<EditOutlined />}>
+        Profile
+      </Dropdown.Item>
+      <Dropdown.Item icon={<SettingOutlined />}>Settings</Dropdown.Item>
+
+      <Dropdown.Item disabled icon={<MergeCellsOutlined />}>
+        Disabled
+      </Dropdown.Item>
+
+      <Dropdown.Divider />
+
+      <Dropdown.Item theme="primary" icon={<FormatPainterOutlined />}>
+        Primary
+      </Dropdown.Item>
+
+      <Dropdown.Item theme="secondary" icon={<FormatPainterOutlined />}>
+        Secondary (default)
+      </Dropdown.Item>
+
+      <Dropdown.Item theme="success" icon={<FormatPainterOutlined />}>
+        Success
+      </Dropdown.Item>
+
+      <Dropdown.Item theme="danger" icon={<FormatPainterOutlined />}>
+        Danger
+      </Dropdown.Item>
+
+      <Dropdown.Divider />
+      <Dropdown.Item icon={<UserOutlined />}>Sign out</Dropdown.Item>
+    </Dropdown>
   </div>
 );
 
-const defaultChildren = (
-  <>
-    <DropdownItem id="option-1" center>
-      Centered
-    </DropdownItem>
-    <DropdownItem id="option-2">Option 1</DropdownItem>
-    <DropdownItem id="option-3">Option 1</DropdownItem>
-    <DropdownItem id="option-4">Option 1</DropdownItem>
-  </>
-);
-
 export const Default = Template.bind({});
-Default.args = { children: defaultChildren };
-
-export const Right = Template.bind({});
-Right.args = { pull: 'right', children: defaultChildren };
-
-export const Left = Template.bind({});
-Left.args = { pull: 'left', children: defaultChildren };
-
-export const Center = Template.bind({});
-Center.args = { pull: 'center', children: defaultChildren };

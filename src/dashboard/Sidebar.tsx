@@ -6,7 +6,7 @@ import { SidebarItemProps } from './SidebarItem';
 
 export interface SidebarProps {
   router: NextRouter;
-  children: ReactElement<SidebarItemProps>[];
+  children: ReactElement<SidebarItemProps> | ReactElement<SidebarItemProps>[];
   compact?: boolean;
 }
 
@@ -35,7 +35,7 @@ export const Sidebar = (props: SidebarProps) => {
           'relative'
         )}
       >
-        <div className="flex justify-center pt-4 pb-6">
+        <div className="flex justify-center pt-6 pb-6">
           <TastiestBrand theme="dark" type="initial-ring" />
         </div>
 

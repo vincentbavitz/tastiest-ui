@@ -1,6 +1,6 @@
 import { Meta, Story } from '@storybook/react';
 import React from 'react';
-import StatusOrb, { StatusOrbProps } from '../src/StatusOrb';
+import { StatusOrb, StatusOrbProps } from '../src/StatusOrb';
 
 const meta: Meta = {
   title: 'StatusOrb',

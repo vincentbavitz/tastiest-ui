@@ -10,15 +10,12 @@ export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> {
   id?: string;
 
+  size?: 'large' | 'medium' | 'small';
+  color?: 'primary' | 'secondary' | 'neutral';
+
   // Applied to parent only
   className?: string;
   inputClassName?: string;
-
-  // If value is not given in props, the component will manage it through state (default)
-  type?: 'text' | 'number' | 'search' | 'email' | 'password' | 'tel';
-  name?: string;
-  size?: 'large' | 'medium' | 'small';
-  color?: 'primary' | 'secondary' | 'neutral';
 
   // Content
   // Sublabel can be used as a subtle descriptor to the right of label
@@ -27,7 +24,6 @@ export interface InputProps
   suffix?: JSX.Element;
 
   // Styling
-  disabled?: boolean;
   center?: boolean;
 
   // Error message displayed above the input
@@ -36,6 +32,7 @@ export interface InputProps
   error?: string;
 
   // Values
+  // If value is not given in props, the component will manage it through state (default)
   value?: string;
   onValueChange?(value: string): void;
 

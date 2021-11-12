@@ -3,7 +3,6 @@
   "author": "vincentbavitz",
   "description": "Tastiest's complete UI library.",
   "license": "TASTIEST TECHNOLOGIES",
-  "private": true,
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },

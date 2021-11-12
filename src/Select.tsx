@@ -1,81 +1,103 @@
+import {
+  CaretDownFilled,
+  CaretUpFilled,
+  CheckOutlined,
+} from '@ant-design/icons';
+import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
-import React, { FC } from 'react';
-import './tailwind.css';
-
-export type SelectOption = React.DetailedHTMLProps<
-  React.OptionHTMLAttributes<HTMLOptionElement>,
-  HTMLOptionElement
->;
+import React, { Fragment, ReactElement, useState } from 'react';
 
 export interface SelectProps {
-  noDefault?: boolean;
-  defaultSelected?: boolean;
-  // The text shown with noDefault. Else it's an empty box
-  promptText?: string;
-  children: SelectOption | SelectOption[];
-  onChange?: (value: string) => void;
-  size?: 'small' | 'medium';
-
-  label?: string;
-  labelTheme?: 'primary' | 'normal';
+  size: 'small' | 'medium' | 'large';
+  children: ReactElement<SelectOptionProps> | ReactElement<SelectOptionProps>[];
+  onSelect: (id: string, value: string) => void;
 }
 
-export const Select: FC<SelectProps> = (props) => {
-  const {
-    children,
-    noDefault,
-    defaultSelected,
-    promptText,
-    size = 'medium',
-    label,
-    labelTheme,
-  } = props;
+export function Select(props: SelectProps) {
+  const { size = 'medium', children: options } = props;
+
+  const [selected, setSelected] = useState<string | null>('Daniel');
 
   return (
-    <label className="relative block w-full">
-      {label && (
-        <span
-          className={clsx(
-            'mb-1',
-            size === 'small' ? 'text-sm' : 'text-base',
-            labelTheme === 'primary'
-              ? 'text-primary tracking-wide font-medium'
-              : 'text-black'
-          )}
+    <Listbox value={selected} onChange={setSelected}>
+      <div className="relative mt-1">
+        <Listbox.Button className="relative w-full py-2 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 sm:text-sm">
+          <span className="block truncate">{selected}</span>
+          <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+            <div
+              style={{ fontSize: '9px' }}
+              className="flex flex-col leading-none text-gray-400"
+            >
+              <CaretUpFilled />
+              <CaretDownFilled />
+            </div>
+          </span>
+        </Listbox.Button>
+
+        <Transition
+          as={Fragment}
+          leave="transition ease-in duration-100"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
         >
-          {label}
-        </span>
-      )}
-      <div
-        // style={{ width: 'min-content' }}
-        className="relative flex items-center"
-      >
-        <select
-          className={clsx(
-            'block w-full bg-transparent border-2 outline-none appearance-none border-secondary center',
-            size === 'small' && 'h-6 text-sm px-2 rounded',
-            size === 'medium' && 'h-10 pl-4 pr-10 rounded-lg'
-          )}
-          onChange={(event) => props?.onChange?.(event?.target?.value)}
-        >
-          {noDefault && (
-            <option disabled selected={defaultSelected}>
-              {promptText ?? null}
-            </option>
-          )}
-          {children}
-        </select>
-        <svg
-          className={clsx(
-            'absolute right-0 z-0 transform rotate-90 fill-current text-primary pointer-events-none',
-            size === 'small' && 'h-2 mr-2',
-            size === 'medium' && 'h-3 mr-4'
-          )}
-          viewBox="0 0 15 18"
-        >
-          <path d="M15 9L-8.15666e-07 17.6603L-5.85621e-08 0.339745L15 9Z" />
-        </svg>
+          <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            {React.Children.map(options, (value, key) => (
+              <Option {...value.props} key={key} />
+            ))}
+          </Listbox.Options>
+        </Transition>
       </div>
-    </label>
+    </Listbox>
+  );
+}
+
+interface SelectOptionProps {
+  id: string;
+  key: string | number;
+  value: string;
+  disabled?: boolean;
+}
+
+const Option = (props: SelectOptionProps) => {
+  const { key, value, disabled } = props;
+
+  return (
+    <Listbox.Option
+      key={key}
+      className={({ active, disabled }) =>
+        clsx(
+          active ? 'text-secondary bg-blue-100' : 'text-gray-900',
+          disabled ? 'opacity-50' : '',
+          'cursor-default select-none relative py-2 pl-10 pr-4'
+        )
+      }
+      value={value}
+      disabled={disabled}
+    >
+      {({ selected, active }) => (
+        <>
+          <span
+            className={`${
+              selected ? 'font-medium' : 'font-normal'
+            } block truncate`}
+          >
+            {value}
+          </span>
+          {selected ? (
+            <span
+              className={`${active ? 'text-amber-600' : 'text-amber-600'}
+                  absolute inset-y-0 left-0 flex items-center pl-3`}
+            >
+              <CheckOutlined
+                className="ml-1 text-base text-secondary"
+                aria-hidden="true"
+              />
+            </span>
+          ) : null}
+        </>
+      )}
+    </Listbox.Option>
   );
 };
+
+Select.Option = Option;
