@@ -11,3 +11,4 @@ export * from './StatusOrb';
 export * from './TastiestBrand';
 export * from './TextArea';
 export * from './Tooltip';
+export * from './types';

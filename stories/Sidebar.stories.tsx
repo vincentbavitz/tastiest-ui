@@ -7,7 +7,7 @@ import { Meta, Story } from '@storybook/react';
 import { HomeIcon, SupportIcon } from '@tastiest-io/tastiest-icons';
 import { NextRouter } from 'next/router';
 import React from 'react';
-import { Sidebar, SidebarItem, SidebarProps } from '../src/dashboard';
+import { Sidebar, SidebarProps } from '../src/dashboard';
 
 const meta: Meta = {
   title: 'Sidebar',
@@ -26,32 +26,32 @@ const router: NextRouter = {
 const Template: Story<SidebarProps> = (args) => (
   <div style={{ height: '600px' }}>
     <Sidebar router={router}>
-      <SidebarItem label="Home" page="/" icon={HomeIcon} float="top" />
-      <SidebarItem
+      <Sidebar.Item label="Home" page="/" icon={HomeIcon} float="top" />
+      <Sidebar.Item
         label="Slots"
         page="/slots"
         icon={ClockCircleOutlined}
         float="top"
       />
-      <SidebarItem
+      <Sidebar.Item
         label="Followers"
         page="/followers"
         icon={WalletOutlined}
         float="bottom"
       />
-      <SidebarItem
+      <Sidebar.Item
         label="Billing"
         page="/billing"
         icon={WalletOutlined}
         float="top"
       />
-      <SidebarItem
+      <Sidebar.Item
         label="Support"
         page="/support"
         icon={SupportIcon}
         float="bottom"
       />
-      <SidebarItem
+      <Sidebar.Item
         label="Settings"
         page="/settings"
         icon={SettingOutlined}

@@ -3,7 +3,10 @@ import { Menu, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import React, { Fragment, ReactElement, ReactNode, useMemo } from 'react';
-import { Button } from '.';
+import { Button, ComponentSize, Z_INDEX_MODAL_OVERLAY } from '.';
+
+// Underneath modals
+const Z_INDEX_DROPDOWN = Z_INDEX_MODAL_OVERLAY - 1;
 
 type DropdownAllowedChildren =
   | DropdownItemProps
@@ -18,7 +21,7 @@ enum DisplayNames {
 }
 
 export interface DropdownProps {
-  show: boolean;
+  size?: ComponentSize;
 
   /**
    * Allowed children:
@@ -33,7 +36,7 @@ export interface DropdownProps {
 }
 
 export function Dropdown(props: DropdownProps) {
-  const { children } = props;
+  const { size = 'medium', children } = props;
 
   // Get the trigger element. It's either Dropdown.Button or Dropdown.Trigger
   let trigger: ReactElement<
@@ -45,21 +48,31 @@ export function Dropdown(props: DropdownProps) {
     console.log('Dropdown ➡️ displayName:', displayName);
 
     // prettier-ignore
-    if (child && (displayName === DisplayNames.TRIGGER || displayName === DisplayNames.BUTTON)) {
-     trigger = child;
-   }
+    if (child && displayName === DisplayNames.TRIGGER) {
+      trigger = child;
+    }
+
+    if (child && displayName === DisplayNames.BUTTON) {
+      trigger = React.cloneElement(child, { size });
+    }
   });
 
   // Get child elements inside the dropdown
   const items: ReactElement<DropdownItemProps | DropdownDividerProps>[] = [];
   React.Children.forEach(children, (child) => {
     const displayName: DisplayNames = (child?.type as any).displayName;
-    console.log('Dropdown ➡️ displayName:', displayName);
+    if (!child) {
+      return;
+    }
 
-    // prettier-ignore
-    if (child && (displayName === DisplayNames.ITEM || displayName === DisplayNames.DIVIDER)) {
-     items.push(child);
-   }
+    if (displayName === DisplayNames.ITEM) {
+      const item = React.cloneElement(child, { size });
+      items.push(item);
+    }
+
+    if (displayName === DisplayNames.DIVIDER) {
+      items.push(child);
+    }
   });
 
   return (
@@ -75,7 +88,10 @@ export function Dropdown(props: DropdownProps) {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+        <Menu.Items
+          style={{ zIndex: Z_INDEX_DROPDOWN }}
+          className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        >
           <div className="px-1 py-1">{items}</div>
         </Menu.Items>
       </Transition>
@@ -84,12 +100,13 @@ export function Dropdown(props: DropdownProps) {
 }
 
 export interface DropdownButtonProps {
+  size: ComponentSize;
   children: ReactNode;
 }
 
 /** The default dropdown trigger button */
-export const DropdownButton = ({ children }: DropdownButtonProps) => (
-  <Button suffix={<DownOutlined className="text-xs mt-px pt-px" />}>
+export const DropdownButton = ({ size, children }: DropdownButtonProps) => (
+  <Button size={size} suffix={<DownOutlined className="text-xs mt-px pt-px" />}>
     {children}
   </Button>
 );
@@ -109,9 +126,19 @@ export const DropdownTrigger = ({ children }: DropdownTriggerProps) => {
 };
 DropdownTrigger.displayName = DisplayNames.TRIGGER;
 
-interface DropdownDividerProps {}
-export const DropdownDivider = () => {
-  return <hr className="-mx-1 opacity-50 my-2" />;
+interface DropdownDividerProps {
+  size?: ComponentSize;
+}
+export const DropdownDivider = ({ size }: DropdownDividerProps) => {
+  return (
+    <hr
+      className={clsx(
+        '-mx-1 opacity-50 my-2',
+        (size === 'large' || size === 'medium') && 'my-2',
+        size === 'small' && 'my-1'
+      )}
+    />
+  );
 };
 DropdownDivider.displayName = DisplayNames.DIVIDER;
 
@@ -119,6 +146,7 @@ export interface DropdownItemProps {
   theme?: 'primary' | 'secondary' | 'danger' | 'success';
   href?: string;
   icon?: ReactElement;
+  size?: ComponentSize;
   disabled?: boolean;
   children: ReactNode;
   onClick?: () => void;
@@ -128,13 +156,12 @@ export const DropdownItem = (props: DropdownItemProps) => {
   const {
     theme = 'secondary',
     href,
+    size,
     icon,
     disabled,
     onClick,
     children,
   } = props;
-
-  console.log('Dropdown ➡️ disabled:', disabled);
 
   // prettier-ignore
   const iconColor = 
@@ -152,14 +179,20 @@ export const DropdownItem = (props: DropdownItemProps) => {
             className={clsx(
               active && !disabled ? `bg-${theme} text-white` : 'text-gray-900',
               disabled ? 'opacity-75 pointer-events-none cursor-default' : '',
-              'group flex rounded-md items-center w-full px-2 py-2 text-sm select-none'
+              'group flex rounded-md items-center w-full select-none',
+              size === 'large' && 'px-3 py-2 text-base',
+              size === 'medium' && 'px-2 py-2 text-sm',
+              size === 'small' && 'px-2 py-1 text-xs'
             )}
           >
             {icon ? (
               <div
                 className={clsx(
-                  'relative text-lg w-5 h-5 mr-2 overflow-hidden flex items-center justify-center',
-                  active ? iconColor : `text-${theme}`
+                  'relative overflow-hidden flex items-center justify-center',
+                  active ? iconColor : `text-${theme}`,
+                  size === 'large' && 'text-lg w-5 h-5 mr-2',
+                  size === 'medium' && 'text-lg w-5 h-5 mr-2',
+                  size === 'small' && 'text-sm w-4 h-4 mr-2'
                 )}
               >
                 {icon}
@@ -176,7 +209,7 @@ export const DropdownItem = (props: DropdownItemProps) => {
 
   return href && !disabled ? (
     <Link href={href}>
-      <a>
+      <a style={{ textDecoration: 'none' }}>
         <Inner />
       </a>
     </Link>

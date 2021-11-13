@@ -6,10 +6,10 @@ import {
 import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import React, { Fragment, ReactElement, useState } from 'react';
+import { ComponentSize } from './types';
 
-type Size = 'small' | 'medium' | 'large';
 export interface SelectProps {
-  size: Size;
+  size: ComponentSize;
   children: ReactElement<SelectOptionProps> | ReactElement<SelectOptionProps>[];
   onSelect: (id: string, value: string) => void;
 }
@@ -22,7 +22,6 @@ export function Select(props: SelectProps) {
   const [selected, setSelected] = useState<SelectOptionProps>(options[0]);
 
   const onChange = (option: SelectOptionProps) => {
-    console.log('Select ➡️ option:', option);
     setSelected(option);
     onSelect?.(option.id, option.value);
   };
@@ -74,7 +73,7 @@ interface SelectOptionProps {
   id: string;
   value: string;
   disabled?: boolean;
-  size?: Size;
+  size?: ComponentSize;
 }
 
 const Option = (option: SelectOptionProps) => {

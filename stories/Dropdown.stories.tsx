@@ -28,7 +28,7 @@ export default meta;
 
 const Template: Story<DropdownProps> = (args) => (
   <div className="flex justify-center w-full">
-    <Dropdown show={true} {...args}>
+    <Dropdown {...args}>
       <Dropdown.Trigger>
         <Button color="danger">Danger!</Button>
       </Dropdown.Trigger>
@@ -67,3 +67,8 @@ const Template: Story<DropdownProps> = (args) => (
 );
 
 export const Default = Template.bind({});
+export const Large = Template.bind({});
+export const Small = Template.bind({});
+
+Large.args = { size: 'large' };
+Small.args = { size: 'small' };

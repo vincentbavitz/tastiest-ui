@@ -2,12 +2,13 @@ import { LoadingOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 import React, { FC, ReactNode } from 'react';
 import './tailwind.css';
+import { ComponentSize } from './types';
 
 export interface ButtonProps {
   // eslint-disable-next-line prettier/prettier
   color?: 'primary' | 'secondary' | 'light' | 'danger' | 'success';
   type?: 'text' | 'solid' | 'outline';
-  size?: 'tiny' | 'small' | 'medium' | 'large';
+  size?: 'tiny' | ComponentSize;
   wide?: boolean;
 
   onClick?: () => void;

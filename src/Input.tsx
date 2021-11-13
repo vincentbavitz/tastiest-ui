@@ -5,12 +5,13 @@ import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useHoverDirty } from 'react-use';
 import styled from 'styled-components';
 import { Tooltip } from './Tooltip';
+import { ComponentSize } from './types';
 
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> {
   id?: string;
 
-  size?: 'large' | 'medium' | 'small';
+  size?: ComponentSize;
   color?: 'primary' | 'secondary' | 'neutral';
 
   // Applied to parent only

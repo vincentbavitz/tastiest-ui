@@ -1,17 +1,21 @@
 import clsx from 'clsx';
+import Link from 'next/link';
 import { NextRouter } from 'next/router';
-import React, { cloneElement, ReactElement } from 'react';
+import React, { cloneElement, FC, ReactElement, useState } from 'react';
 import { TastiestBrand } from '../TastiestBrand';
-import { SidebarItemProps } from './SidebarItem';
 
 export interface SidebarProps {
   router: NextRouter;
-  children: ReactElement<SidebarItemProps> | ReactElement<SidebarItemProps>[];
   compact?: boolean;
+  children: ReactElement<SidebarItemProps> | ReactElement<SidebarItemProps>[];
 }
 
 export const Sidebar = (props: SidebarProps) => {
-  const { router, compact = false, children } = props;
+  const { router, children } = props;
+
+  // Allow users to set compact
+  const [compact, setCompact] = useState(props.compact ?? false);
+  setCompact;
 
   const elements = React.Children.map(children, (child) => {
     const selected =
@@ -39,22 +43,23 @@ export const Sidebar = (props: SidebarProps) => {
           <TastiestBrand theme="dark" type="initial-ring" />
         </div>
 
-        <div className="flex flex-col flex-grow justify-between">
-          {/* <div
-              onClick={() => toggleCollapsed()}
-              className={clsx(
-                'absolute right-0 z-50 bg-white flex items-center w-4 h-10',
-                'border-t-2 border-b-2 border-r-2 border-gray-300 rounded-r-md',
-                'transform translate-x-full top-3 cursor-pointer',
-              )}
-            >
-              {collapsed ? (
-                <RightOutlined className="text-sm text-gray-500" />
-              ) : (
-                <LeftOutlined className="text-sm text-gray-500" />
-              )}
-            </div> */}
+        {/* <div
+          onClick={() => setCompact(!compact)}
+          className={clsx(
+            'absolute right-0 z-50 -bg-primary-1 flex items-center w-4 h-10',
+            'shadow-md rounded-r-md',
+            'transform translate-x-full top-6 cursor-pointer',
+            'text-gray-300 hover:text-white'
+          )}
+        >
+          {compact ? (
+            <RightOutlined className="text-xs" />
+          ) : (
+            <LeftOutlined className="text-xs" />
+          )}
+        </div> */}
 
+        <div className="relative flex flex-col flex-grow justify-between">
           <div>{top}</div>
           <div>{bottom}</div>
         </div>
@@ -62,3 +67,47 @@ export const Sidebar = (props: SidebarProps) => {
     </div>
   );
 };
+
+export interface SidebarItemProps {
+  label: string;
+  page: string;
+  icon: FC<any>;
+  float: 'top' | 'bottom';
+  selected?: boolean;
+  compact?: boolean;
+}
+
+const Item = (props: SidebarItemProps) => {
+  const { label, page, selected, compact } = props;
+
+  return (
+    <Link href={page}>
+      <a style={{ textDecoration: 'none' }}>
+        <div
+          className={clsx(
+            'text-gray-400 duration-150 hover:text-primary py-4 filter',
+            compact ? 'px-6' : 'px-4',
+            selected ? '-bg-primary-1' : 'bg-primary',
+            'hover:brightness-95'
+          )}
+        >
+          <div
+            className={clsx(
+              'flex flex-col items-center font-medium',
+              compact && 'justify-center',
+              selected ? 'text-light' : 'text-gray-300'
+            )}
+          >
+            <props.icon
+              className={clsx('h-6 stroke-current w-6 text-xl fill-current')}
+            />
+
+            {!compact && <p className={clsx()}>{label}</p>}
+          </div>
+        </div>
+      </a>
+    </Link>
+  );
+};
+
+Sidebar.Item = Item;

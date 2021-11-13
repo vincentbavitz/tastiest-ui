@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 import { Meta, Story } from '@storybook/react';
 import React from 'react';
-import IconButton, { IconButtonProps } from '../src/IconButton';
+import { IconButton, IconButtonProps } from '../src/IconButton';
 
 const meta: Meta = {
   title: 'IconButton',

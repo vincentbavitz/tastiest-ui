@@ -12,7 +12,7 @@ import React, {
 import ReactDOM from 'react-dom';
 import { useKey } from 'react-use';
 
-const Z_INDEX_MODAL_OVERLAY = 3333;
+export const Z_INDEX_MODAL_OVERLAY = 3333;
 
 export interface ModalProps {
   portalId?: string;
