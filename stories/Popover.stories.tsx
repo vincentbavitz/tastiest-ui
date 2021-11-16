@@ -1,6 +1,6 @@
 import { Meta, Story } from '@storybook/react';
 import React from 'react';
-import { Popover } from '../src';
+import { Button, Popover } from '../src';
 
 const meta: Meta = {
   title: 'Popover',
@@ -19,7 +19,16 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story = (args) => <Popover {...args}>{args.children}</Popover>;
+const Template: Story = (args) => (
+  <div className="pt-20 pl-48 relative">
+    <Popover {...args}>
+      <Popover.Trigger>
+        <Button>Trigger</Button>
+      </Popover.Trigger>
+      <Popover.Panel>Very big and long popover</Popover.Panel>
+    </Popover>
+  </div>
+);
 
 export const Default = Template.bind({});
-// Default.args = { ' };
+Default.args = {};

@@ -15,10 +15,10 @@ type DropdownAllowedChildren =
   | DropdownTriggerProps;
 
 enum DisplayNames {
-  ITEM = 'DropdownItem',
-  BUTTON = 'DropdownButton',
-  TRIGGER = 'DropdownTrigger',
-  DIVIDER = 'DropdownDivider',
+  ITEM = 'Dropdown.Item',
+  BUTTON = 'Dropdown.Button',
+  TRIGGER = 'Dropdown.Trigger',
+  DIVIDER = 'Dropdown.Divider',
 }
 
 export interface DropdownProps {
@@ -106,7 +106,7 @@ export interface DropdownButtonProps {
 }
 
 /** The default dropdown trigger button */
-export const DropdownButton = ({ size, children }: DropdownButtonProps) => (
+const DropdownButton = ({ size, children }: DropdownButtonProps) => (
   <Button size={size} suffix={<DownOutlined className="text-xs mt-px pt-px" />}>
     {children}
   </Button>
@@ -118,7 +118,7 @@ export interface DropdownTriggerProps {
 }
 
 /** Used to make alternative or more custom triggers. */
-export const DropdownTrigger = ({ children }: DropdownTriggerProps) => {
+const DropdownTrigger = ({ children }: DropdownTriggerProps) => {
   return (
     <Menu.Button as="div" className="relative">
       {children}
@@ -130,7 +130,7 @@ DropdownTrigger.displayName = DisplayNames.TRIGGER;
 interface DropdownDividerProps {
   size?: ComponentSize;
 }
-export const DropdownDivider = ({ size }: DropdownDividerProps) => {
+const DropdownDivider = ({ size }: DropdownDividerProps) => {
   return (
     <hr
       className={clsx(
@@ -153,7 +153,7 @@ export interface DropdownItemProps {
   onClick?: () => void;
 }
 
-export const DropdownItem = (props: DropdownItemProps) => {
+const DropdownItem = (props: DropdownItemProps) => {
   const {
     theme = 'secondary',
     href,
