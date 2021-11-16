@@ -117,7 +117,7 @@ const ModalInner = (props: ModalProps) => {
         maxWidth: fullscreen ? 'unset' : '500px',
       }}
       className={classNames(
-        'relative bg-white shadow-lg',
+        'relative bg-white shadow-lg overflow-hidden',
         fullscreen ? 'rounded-none' : 'rounded-lg',
         !noPadding && 'px-6 pt-4 pb-5',
         className
@@ -126,16 +126,14 @@ const ModalInner = (props: ModalProps) => {
       <div
         className={clsx(
           'flex w-full gap-10 justify-between',
-          title ? 'items-center pb-3' : 'items-start'
+          title ? 'items-center pb-3' : 'h-10 items-start'
         )}
       >
         {title ? (
           <div className="flex-grow text-xl font-medium whitespace-nowrap">
             {title}
           </div>
-        ) : (
-          <div className="block pb-8"></div>
-        )}
+        ) : null}
 
         {close ? (
           <ExitIcon
