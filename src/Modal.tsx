@@ -126,7 +126,7 @@ const ModalInner = (props: ModalProps) => {
       <div
         className={clsx(
           'flex w-full gap-10 justify-between',
-          title ? 'items-center pb-3' : 'h-10 items-start'
+          title ? 'items-center pb-3' : 'h-14 items-start'
         )}
       >
         {title ? (
