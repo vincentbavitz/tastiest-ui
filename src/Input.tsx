@@ -75,7 +75,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     // Value
     const [value, setValue] = useState<string>('');
-    const [isFocused, setIsFocused] = useState(false);
+    const [isFocused, setIsFocused] = useState(Boolean(props.value?.length));
 
     // Styles
     const fontSize = clsx(
@@ -92,6 +92,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     // Functions
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
+      // Call external onChange if it exists
+      props.onChange?.(event);
+
       const element = event?.target as HTMLInputElement;
       if (element?.value === undefined) {
         return;
@@ -121,11 +124,18 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         onValueChange(_value);
       }
 
-      if (props.onChange) {
-        props.onChange(event);
-      }
-
       setValue(_value);
+    };
+
+    // Handle onBlur to accept external values.
+    // Eg. from react-hook-form
+    const handleOnBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+      // Call external onBlur if it exists
+      props.onBlur?.(event);
+
+      if (value.length === 0) {
+        setIsFocused(false);
+      }
     };
 
     // Keep value in sync with props.
@@ -135,6 +145,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         setValue(props.value);
       }
     }, [props.value]);
+
+    // Always focus when value changes
+    useEffect(() => {
+      if (value.length) {
+        setIsFocused(true);
+      }
+    }, [value]);
 
     return (
       <div ref={wrapperRef} className="w-full font-secondary cursor-text">
@@ -214,7 +231,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               onFocus={() =>
                 props.readOnly || props.disabled ? null : setIsFocused(true)
               }
-              onBlur={() => (value.length === 0 ? setIsFocused(false) : null)}
+              onBlur={handleOnBlur}
               placeholder={label ? '' : props.placeholder}
             ></input>
 
