@@ -6,12 +6,16 @@ import {
 import { Listbox, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import React, { Fragment, ReactElement, useState } from 'react';
+import { Z_INDEX_MODAL_OVERLAY } from './Modal';
 import { ComponentSize } from './types';
 
+// Underneath modals
+const Z_INDEX_SELECT = Z_INDEX_MODAL_OVERLAY - 1;
+
 export interface SelectProps {
-  size: ComponentSize;
   children: ReactElement<SelectOptionProps> | ReactElement<SelectOptionProps>[];
   onSelect: (id: string, value: string) => void;
+  size?: ComponentSize;
 }
 
 export function Select(props: SelectProps) {
@@ -58,7 +62,10 @@ export function Select(props: SelectProps) {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+          <Listbox.Options
+            style={{ zIndex: Z_INDEX_SELECT }}
+            className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+          >
             {React.Children.map(children, (child) => {
               return <Option {...child.props} size={size} />;
             })}
@@ -84,9 +91,9 @@ const Option = (option: SelectOptionProps) => {
       key={id}
       className={({ active, disabled }) =>
         clsx(
+          'cursor-default select-none relative list-none',
           active ? 'text-secondary bg-blue-100' : 'text-gray-900',
           disabled ? 'opacity-50' : '',
-          'cursor-default select-none relative',
           size === 'large' && 'py-3 pl-10 pr-4 text-lg',
           size === 'medium' && 'py-2 pl-10 pr-4 text-sm',
           size === 'small' && 'py-1 pl-10 pr-2 text-sm'

@@ -3,6 +3,7 @@ import { Menu, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import Link from 'next/link';
 import React, { Fragment, ReactElement, ReactNode, useMemo } from 'react';
+import { v4 as uuid } from 'uuid';
 import { Button, ComponentSize, Z_INDEX_MODAL_OVERLAY } from '.';
 
 // Underneath modals
@@ -172,7 +173,7 @@ export const DropdownItem = (props: DropdownItemProps) => {
 
   const Inner = useMemo(
     () => () => (
-      <Menu.Item disabled={disabled}>
+      <Menu.Item key={uuid()} disabled={disabled}>
         {({ active, disabled }) => (
           <button
             onClick={disabled ? () => null : onClick}

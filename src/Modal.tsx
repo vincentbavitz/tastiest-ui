@@ -134,9 +134,7 @@ const ModalInner = (props: ModalProps) => {
             {title}
           </div>
         ) : (
-          <div className="flex-grow text-gray-800 font-light pr-10">
-            {children}
-          </div>
+          <div className="block pb-8"></div>
         )}
 
         {close ? (
@@ -150,9 +148,7 @@ const ModalInner = (props: ModalProps) => {
         ) : null}
       </div>
 
-      {title ? (
-        <div className="text-gray-800 font-light">{children}</div>
-      ) : null}
+      <div className="text-gray-800 font-light">{children}</div>
     </div>
   );
 };
