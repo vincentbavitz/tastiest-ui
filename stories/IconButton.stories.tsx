@@ -1,7 +1,7 @@
 import {
   CheckOutlined,
   CloseOutlined,
-  RightOutlined,
+  ShareAltOutlined,
   WalletOutlined,
 } from '@ant-design/icons';
 import { Meta, Story } from '@storybook/react';
@@ -28,7 +28,7 @@ export default meta;
 const Template: Story<IconButtonProps> = (args) => <IconButton {...args} />;
 
 export const Primary = Template.bind({});
-Primary.args = { icon: RightOutlined, theme: 'primary' };
+Primary.args = { icon: ShareAltOutlined, theme: 'primary' };
 
 export const Secondary = Template.bind({});
 Secondary.args = { icon: WalletOutlined, theme: 'secondary' };
@@ -38,3 +38,6 @@ Danger.args = { icon: CloseOutlined, theme: 'danger' };
 
 export const Success = Template.bind({});
 Success.args = { icon: CheckOutlined, theme: 'success' };
+
+export const Circle = Template.bind({});
+Circle.args = { icon: ShareAltOutlined, circle: true };

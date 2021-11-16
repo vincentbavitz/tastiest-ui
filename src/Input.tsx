@@ -77,18 +77,13 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const [value, setValue] = useState<string>('');
     const [isFocused, setIsFocused] = useState(Boolean(props.value?.length));
 
-    // Styles
-    const fontSize = clsx(
-      size === 'large' && 'text-base',
-      size === 'medium' && 'text-base',
-      size === 'small' && 'text-xs'
-    );
-
-    const sizeStyles = clsx(
-      size === 'large' && 'h-12',
-      size === 'medium' && 'h-10',
-      size === 'small' && 'h-8'
-    );
+    const styles = {
+      size: {
+        small: 'h-8 text-sm',
+        medium: 'h-10 text-base',
+        large: 'h-12 text-base',
+      },
+    };
 
     // Functions
     const handleOnChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -154,34 +149,33 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     }, [value]);
 
     return (
-      <div ref={wrapperRef} className="w-full font-secondary cursor-text">
+      <div
+        ref={wrapperRef}
+        className="relative w-full font-secondary cursor-text"
+      >
+        <Tooltip
+          show={Boolean(error)}
+          content={
+            <div className="flex items-center space-x-2 whitespace-nowrap">
+              <WarningOutlined className="text-yellow-600" />
+              <p>{error}</p>
+            </div>
+          }
+          placement="top-start"
+        >
+          <div className="relative w-0 h-0"></div>
+        </Tooltip>
+
         <div className="relative flex items-center gap-3">
           {label ? (
             <InputLabel
               color={color}
               isFocused={isFocused}
               hasPrefix={Boolean(prefix)}
-              fontSize={fontSize}
               label={label}
+              size={size}
             />
           ) : null}
-
-          {error && (
-            <div className="absolute top-0 w-0 left-0">
-              <Tooltip
-                show
-                content={
-                  <div className="flex items-center space-x-2 whitespace-nowrap">
-                    <WarningOutlined className="text-yellow-600" />
-                    <p>{error}</p>
-                  </div>
-                }
-                placement="top-end"
-              >
-                <div className="w-full h-0"></div>
-              </Tooltip>
-            </div>
-          )}
 
           <div
             style={{
@@ -218,8 +212,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 'w-0 flex-1',
                 disabled && 'cursor-not-allowed',
                 center && 'text-center',
-                fontSize,
-                sizeStyles,
+                styles.size[size],
                 inputClassName
               )}
               {...inputProps}
@@ -262,14 +255,20 @@ interface InputLabelProps {
   color: string;
   isFocused: boolean;
   hasPrefix: boolean;
-  fontSize: string;
+  size: ComponentSize;
 }
 
 const InputLabel = (props: InputLabelProps) => {
-  const { label, color, hasPrefix, isFocused, fontSize } = props;
+  const { label, color, hasPrefix, isFocused, size } = props;
 
-  const translateX = isFocused ? `${hasPrefix ? '-1.28' : '0.33'}rem` : '0rem';
-  const translateY = isFocused ? '-0.33rem' : '0rem';
+  const translateX = isFocused ? `${hasPrefix ? '-0.95' : '0.70'}rem` : '0rem';
+  const translateY = isFocused ? '-0.35rem' : '0rem';
+
+  const fontSize = clsx(
+    size === 'large' && 'text-base',
+    size === 'medium' && 'text-base',
+    size === 'small' && 'text-sm'
+  );
 
   return (
     <div
@@ -277,7 +276,8 @@ const InputLabel = (props: InputLabelProps) => {
         transform: `translate(${translateX}, ${translateY})`,
       }}
       className={clsx(
-        'absolute top-0 flex items-center leading-0 duration-150 pointer-events-none whitespace-nowrap select-none',
+        'absolute top-0 right-0 flex items-center leading-0 duration-150 pointer-events-none whitespace-nowrap select-none',
+        isFocused ? '' : 'overflow-hidden',
         isFocused ? 'text-xs font-medium' : fontSize,
         hasPrefix ? 'left-8 ml-px pl-px' : 'left-2',
         isFocused ? `text-${color}` : 'text-gray-600',
@@ -287,7 +287,7 @@ const InputLabel = (props: InputLabelProps) => {
       <div
         style={{
           height: isFocused ? '11px' : 'unset',
-          fontSize: isFocused ? '0.75em' : 'unset',
+          fontSize: isFocused ? '0.75rem' : 'unset',
         }}
       >
         {label}
@@ -313,9 +313,10 @@ const FieldSet = styled.fieldset`
 
 const Legend = styled.legend`
   display: block;
-  padding: 0;
   height: 11px;
-  font-size: 0.75em;
+  padding: 0;
+  margin-left: 5px;
+  font-size: 0.75rem;
   visibility: hidden;
   width: auto;
   transition: max-width 150ms cubic-bezier(0, 0, 0.2, 1) 0ms;
@@ -352,7 +353,11 @@ const InputBorder = (props: InputBorderProps) => {
           maxWidth: isFocused ? '100%' : '0.01px',
         }}
       >
-        <span>{label}</span>
+        {label?.length ? (
+          <span style={{ paddingLeft: '5px', paddingRight: '5px' }}>
+            {label}
+          </span>
+        ) : null}
       </Legend>
     </FieldSet>
   );

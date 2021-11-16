@@ -32,6 +32,7 @@ export interface PopoverProps {
 
 export function Popover(props: PopoverProps) {
   const { size = 'medium', align = 'left', children } = props;
+  size;
 
   React.Children.forEach(children, (child) =>
     console.log('Popover ➡️ child:', (child?.type as any).displayName)
@@ -111,6 +112,7 @@ const PopoverPanel = (props: PopoverPanelProps) => {
     </HeadlessPopover.Panel>
   );
 };
+PopoverPanel.displayName = DisplayNames.PANEL;
 
 interface PopoverTriggerProps {
   children: ReactNode;
