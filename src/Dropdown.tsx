@@ -4,7 +4,8 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import React, { Fragment, ReactElement, ReactNode, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
-import { Button, ComponentSize, Z_INDEX_MODAL_OVERLAY } from '.';
+import { Button, ComponentSize } from '.';
+import { Z_INDEX_MODAL_OVERLAY } from './Modal';
 
 // Underneath modals
 const Z_INDEX_DROPDOWN = Z_INDEX_MODAL_OVERLAY - 1;
@@ -44,6 +45,8 @@ export function Dropdown(props: DropdownProps) {
   let trigger: ReactElement<
     DropdownButtonProps | DropdownTriggerProps
   > | null = null;
+
+  console.log('Dropdown ➡️ Z_INDEX_DROPDOWN:', Z_INDEX_DROPDOWN);
 
   React.Children.forEach(children, (child) => {
     const displayName: DisplayNames = (child?.type as any).displayName;
