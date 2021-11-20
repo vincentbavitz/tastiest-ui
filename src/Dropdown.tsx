@@ -23,6 +23,7 @@ enum DisplayNames {
 
 export interface DropdownProps {
   size?: ComponentSize;
+  offset?: number; // in px
 
   /**
    * Allowed children:
@@ -37,7 +38,7 @@ export interface DropdownProps {
 }
 
 export function Dropdown(props: DropdownProps) {
-  const { size = 'medium', children } = props;
+  const { size = 'medium', offset = 12, children } = props;
 
   // Get the trigger element. It's either Dropdown.Button or Dropdown.Trigger
   let trigger: ReactElement<
@@ -90,8 +91,10 @@ export function Dropdown(props: DropdownProps) {
         leaveTo="transform opacity-0 scale-95"
       >
         <Menu.Items
-          style={{ zIndex: Z_INDEX_DROPDOWN }}
-          className="absolute right-0 w-56 mt-2 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+          style={{ zIndex: Z_INDEX_DROPDOWN, marginTop: `${offset}px` }}
+          className={clsx(
+            'absolute right-0 w-56 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'
+          )}
         >
           <div className="px-1 py-1">{items}</div>
         </Menu.Items>
@@ -149,6 +152,7 @@ export interface DropdownItemProps {
   icon?: ReactElement;
   size?: ComponentSize;
   disabled?: boolean;
+  display?: boolean;
   children: ReactNode;
   onClick?: () => void;
 }
@@ -156,6 +160,7 @@ export interface DropdownItemProps {
 const DropdownItem = (props: DropdownItemProps) => {
   const {
     theme = 'secondary',
+    display = true,
     href,
     size,
     icon,
@@ -207,6 +212,11 @@ const DropdownItem = (props: DropdownItemProps) => {
     ),
     [props]
   );
+
+  // Eg, if not signed-in, display none.
+  if (!display) {
+    return null;
+  }
 
   return href && !disabled ? (
     <Link href={href}>
