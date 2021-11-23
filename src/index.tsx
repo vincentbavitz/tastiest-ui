@@ -1,5 +1,6 @@
 export * from './Avatar';
 export * from './Button';
+export * from './ButtonGroup';
 export * from './Checkbox';
 export * from './dashboard';
 export * from './Dropdown';

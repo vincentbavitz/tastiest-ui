@@ -6,16 +6,20 @@ export interface TastiestBrandProps {
   fill?: boolean;
   type?: 'initial' | 'initial-ring' | 'full';
   theme?: 'light' | 'dark';
+  onClick?: () => void;
 }
 
-export const TastiestBrand: FC<TastiestBrandProps> = ({
-  type = 'initial-ring',
-  size = 8,
-  fill = false,
-  theme = 'light',
-}) => {
+export const TastiestBrand: FC<TastiestBrandProps> = (props) => {
+  const {
+    type = 'initial-ring',
+    size = 8,
+    fill = false,
+    theme = 'light',
+    onClick,
+  } = props;
+
   return (
-    <div>
+    <div onClick={onClick} className="select-none">
       {type === 'initial' || type === 'initial-ring' ? (
         <div
           className={clsx(

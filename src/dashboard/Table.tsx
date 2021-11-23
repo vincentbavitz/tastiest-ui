@@ -9,6 +9,7 @@ import {
   useSortBy,
   useTable,
 } from 'react-table';
+import { ButtonGroup } from '..';
 import { Button } from '../Button';
 import { Input } from '../Input';
 
@@ -101,10 +102,6 @@ export function Table(props: TableProps) {
     useSortBy,
     useFlexLayout
   );
-
-  console.log('Table ➡️ getTablePr5ops:', getTableProps());
-  console.log('Table ➡️ headerGroups:', headerGroups);
-  console.log('Table ➡️ rows:', rows);
 
   const [page, setPage] = useState(1);
   const numPages = useMemo(
@@ -325,34 +322,39 @@ const TablePagination = (props: TablePaginationProps) => {
 
   return (
     <div className="flex justify-end w-full gap-1 mt-2 font-mono">
-      <Button
-        size="small"
-        color="light"
-        onClick={() => (page <= 1 ? null : setPage(page - 1))}
-        disabled={page <= 1}
-      >
-        {'<'}
-      </Button>
-
-      {pageDisplayNumbers.map((p) => (
+      <ButtonGroup shadow>
         <Button
-          key={p}
-          size="tiny"
-          color={p === page ? 'secondary' : 'light'}
-          onClick={() => setPage(p)}
+          size="small"
+          color="light"
+          onClick={() => (page <= 1 ? null : setPage(page - 1))}
+          disabled={page <= 1}
         >
-          {p}
+          {'<'}
         </Button>
-      ))}
 
-      <Button
-        size="small"
-        color="light"
-        onClick={() => (page >= numPages ? null : setPage(page + 1))}
-        disabled={page >= numPages}
-      >
-        {'>'}
-      </Button>
+        {
+          pageDisplayNumbers.map((p) => (
+            <Button
+              key={p}
+              size="tiny"
+              color={'light'}
+              selected={p === page}
+              onClick={() => setPage(p)}
+            >
+              {p}
+            </Button>
+          )) as any
+        }
+
+        <Button
+          size="small"
+          color="light"
+          onClick={() => (page >= numPages ? null : setPage(page + 1))}
+          disabled={page >= numPages}
+        >
+          {'>'}
+        </Button>
+      </ButtonGroup>
     </div>
   );
 };

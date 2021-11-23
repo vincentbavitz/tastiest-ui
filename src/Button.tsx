@@ -22,6 +22,9 @@ export interface ButtonProps {
   prefix?: JSX.Element;
   suffix?: JSX.Element;
   children?: ReactNode;
+
+  // For button groups
+  flatEdge?: 'left' | 'right' | 'both';
 }
 
 export const Button: FC<ButtonProps> = (props) => {
@@ -36,6 +39,7 @@ export const Button: FC<ButtonProps> = (props) => {
     children,
     prefix,
     suffix,
+    flatEdge,
     wide = false,
   } = props;
 
@@ -94,15 +98,15 @@ export const Button: FC<ButtonProps> = (props) => {
     // prettier-ignore
     color === 'primary'
       ? ['text-primary', disabled ? null : 'hover:bg-primary hover:text-white']
-      : color === 'secondary'
+    : color === 'secondary'
       ? ['text-secondary', disabled ? null : 'hover:bg-secondary hover:text-white']
-      : color === 'light'
-      ? ['text-light', disabled ? null : 'hover:bg-light hover:text-dark filter drop-shadow-md']
-      : color === 'danger'
+    : color === 'light'
+      ? ['text-light', disabled ? null : `hover:bg-light hover:text-dark ${flatEdge ? '' : 'filter drop-shadow-md'}`]
+    : color === 'danger'
       ? ['text-danger', disabled ? null : 'hover:bg-danger hover:text-light']
-      : color === 'success'
+    : color === 'success'
       ? ['text-success', disabled ? null : 'hover:bg-success hover:text-light']
-      : '',
+    : '',
     border
   );
 
@@ -112,15 +116,25 @@ export const Button: FC<ButtonProps> = (props) => {
       : color === 'secondary'
       ? 'bg-secondary text-light'
       : color === 'light'
-      ? 'bg-light text-dark filter drop-shadow-md'
+      ? [
+          'text-dark',
+          flatEdge ? '' : 'filter drop-shadow-md',
+          selected ? 'bg-indigo-300 bg-opacity-25' : 'bg-light',
+        ]
       : color === 'danger'
       ? 'bg-danger text-light'
       : color === 'success'
       ? 'bg-success text-light'
       : '',
-    { [`hover:brightness-125`]: !disabled },
-    border
+    { [`hover:brightness-125`]: !disabled }
   );
+
+  // prettier-ignore
+  const ringSize = 
+    size === 'large' ? 4 :
+    size === 'medium' ? 4 :
+    size === 'small' ? 2 :
+    size === 'tiny' ? 0 : 0;
 
   const selectedStyles = clsx(
     color === 'primary'
@@ -128,22 +142,19 @@ export const Button: FC<ButtonProps> = (props) => {
       : color === 'secondary'
       ? 'ring-secondary'
       : color === 'light'
-      ? 'ring-gray-400'
+      ? 'ring-blue-400'
       : color === 'danger'
       ? 'ring-danger'
       : color === 'success'
       ? 'ring-success'
       : '',
-    'ring-offset-1 active:ring-4 focus:ring-4',
-    selected && 'ring-4'
+    `active:ring-${ringSize} focus:ring-${ringSize}`,
+    selected && `ring-${ringSize} filter brightness-110`
   );
 
   const disabledStyles = disabled
-    ? 'brightness-90 cursor-not-allowed'
+    ? [color === 'light' ? '' : '!brightness-90', '!cursor-not-allowed']
     : 'cursor-pointer';
-
-  // Make bg crop to text with tailwind on gradient
-  // https://tailwindcss.com/docs/background-clip#class-reference
 
   // prettier-ignore
   const typeStyles = clsx(
@@ -151,6 +162,13 @@ export const Button: FC<ButtonProps> = (props) => {
     type === 'text' ? textTypeStyles : null,
     type === 'outline' ? outlineStyles : null,
   );
+
+  // prettier-ignore
+  const roundedStyles = 
+    flatEdge === 'left' ? 'rounded-r-md' :
+    flatEdge === 'right' ? 'rounded-l-md' :
+    flatEdge === 'both' ? 'rounded-none' :
+    'rounded-md';
 
   return (
     <button
@@ -166,10 +184,10 @@ export const Button: FC<ButtonProps> = (props) => {
         'text-center',
         'whitespace-nowrap',
         'ring-opacity-25',
-        'rounded-md',
         'select-none',
         sizeStyles,
         typeStyles,
+        roundedStyles,
         selectedStyles,
         disabledStyles
       )}

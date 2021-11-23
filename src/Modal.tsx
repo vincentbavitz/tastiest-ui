@@ -11,6 +11,7 @@ import React, {
 } from 'react';
 import ReactDOM from 'react-dom';
 import { useKey } from 'react-use';
+import { ComponentSize } from './types';
 
 export const Z_INDEX_MODAL_OVERLAY = 3333;
 
@@ -18,7 +19,7 @@ export interface ModalProps {
   portalId?: string;
   show: boolean;
   children: ReactNode;
-  // size: 'small' | 'regular' | 'large';
+  size?: ComponentSize | 'unbound';
   title?: string;
   preload?: boolean; // should we load it in the DOM before isOpen?
   className?: string;
@@ -80,7 +81,7 @@ export const Modal: FC<ModalProps> = (props) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
         >
-          <div className="absolute inset-0 z-0 bg-black bg-opacity-25"></div>
+          <div className="absolute inset-0 z-0 bg-black bg-opacity-10"></div>
         </Transition.Child>
 
         {/* Content */}
@@ -101,8 +102,47 @@ export const Modal: FC<ModalProps> = (props) => {
 };
 
 const ModalInner = (props: ModalProps) => {
-  const { title, close, className, children, noPadding, fullscreen } = props;
+  const {
+    title,
+    close,
+    className,
+    children,
+    noPadding,
+    fullscreen,
+    size = 'medium',
+  } = props;
   const boxRef = useRef(null);
+
+  // prettier-ignore
+  const maxWidth = 
+    size === 'unbound' ? 'unset' :
+    size === 'small' ? '400px' :
+    size === 'medium' ? '500px' :
+    size === 'large' ? '650px' :
+    'unset';
+
+  const styles = {
+    padding: {
+      small: 'px-4 pt-3 pb-4',
+      medium: 'px-6 pt-4 pb-5',
+      large: 'px-6 pt-4 pb-5',
+      unbound: 'ppx-6 pt-4 pb-5',
+    },
+    size: {
+      title: {
+        small: 'text-lg',
+        medium: 'text-xl',
+        large: 'text-xl',
+        unbound: 'text-xl',
+      },
+      header: {
+        small: 'h-8',
+        medium: 'h-12',
+        large: 'h-14',
+        unbound: 'h-14',
+      },
+    },
+  };
 
   useKey('Escape', () => {
     close?.();
@@ -114,23 +154,30 @@ const ModalInner = (props: ModalProps) => {
       style={{
         height: fullscreen ? '100%' : 'unset',
         width: fullscreen ? '100vw' : 'unset',
-        maxWidth: fullscreen ? 'unset' : '500px',
+        maxWidth: fullscreen ? 'unset' : maxWidth,
       }}
       className={classNames(
         'relative bg-white shadow-lg overflow-hidden',
         fullscreen ? 'rounded-none' : 'rounded-lg',
-        !noPadding && 'px-6 pt-4 pb-5',
+        !noPadding && styles.padding[size],
         className
       )}
     >
       <div
         className={clsx(
           'flex w-full gap-10 justify-between',
-          title ? 'items-center pb-3' : 'h-14 items-start'
+          title
+            ? 'items-center pb-3'
+            : `items-start ${styles.size.header[size]}`
         )}
       >
         {title ? (
-          <div className="flex-grow text-xl font-medium whitespace-nowrap">
+          <div
+            className={clsx(
+              'flex-grow font-medium whitespace-nowrap',
+              styles.size.title[size]
+            )}
+          >
             {title}
           </div>
         ) : null}
