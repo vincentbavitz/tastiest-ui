@@ -107,7 +107,7 @@ export const Tooltip: FC<TooltipProps> = (props) => {
             className="arrow"
           />
 
-          <PopperContent className="text-sm">{content}</PopperContent>
+          <PopperContent className="text-dark text-sm">{content}</PopperContent>
         </Transition>
       </PopperContainer>
 

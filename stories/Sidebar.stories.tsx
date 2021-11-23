@@ -25,7 +25,7 @@ const router: NextRouter = {
 
 const Template: Story<SidebarProps> = (args) => (
   <div style={{ height: '600px' }}>
-    <Sidebar router={router}>
+    <Sidebar router={router} {...args}>
       <Sidebar.Item label="Home" page="/" icon={HomeIcon} float="top" />
       <Sidebar.Item
         label="Slots"

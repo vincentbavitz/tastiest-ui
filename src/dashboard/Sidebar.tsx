@@ -1,8 +1,9 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import { NextRouter } from 'next/router';
-import React, { cloneElement, FC, ReactElement, useState } from 'react';
+import React, { cloneElement, FC, ReactElement } from 'react';
 import { TastiestBrand } from '../TastiestBrand';
+import { Tooltip } from '../Tooltip';
 
 export interface SidebarProps {
   router: NextRouter;
@@ -11,11 +12,11 @@ export interface SidebarProps {
 }
 
 export const Sidebar = (props: SidebarProps) => {
-  const { router, children } = props;
+  const { router, compact, children } = props;
 
   // Allow users to set compact
-  const [compact, setCompact] = useState(props.compact ?? false);
-  setCompact;
+  // const [compact, setCompact] = useState(props.compact ?? false);
+  // setCompact;
 
   const elements = React.Children.map(children, (child) => {
     const selected =
@@ -80,7 +81,7 @@ export interface SidebarItemProps {
 const Item = (props: SidebarItemProps) => {
   const { label, page, selected, compact } = props;
 
-  return (
+  const inner = (
     <Link href={page}>
       <a style={{ textDecoration: 'none' }}>
         <div
@@ -107,6 +108,14 @@ const Item = (props: SidebarItemProps) => {
         </div>
       </a>
     </Link>
+  );
+
+  return compact ? (
+    <Tooltip placement="right" content={label}>
+      {inner}
+    </Tooltip>
+  ) : (
+    <>{inner}</>
   );
 };
 

@@ -1,7 +1,7 @@
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import { TriangleIcon } from '@tastiest-io/tastiest-icons';
 import clsx from 'clsx';
-import lodash, { isUndefined } from 'lodash';
+import lodash from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   HeaderGroup,
@@ -245,7 +245,7 @@ const TableHead = (props: TableHeadProps) => {
     <thead>
       {headerGroups.map((headerGroup, i) => (
         <tr {...headerGroup.getHeaderGroupProps()}>
-          {headerGroup.headers.map((column, j) => (
+          {headerGroup.headers.map((column) => (
             <th
               {...column.getHeaderProps((column as any).getSortByToggleProps())}
               className={clsx(
@@ -255,7 +255,7 @@ const TableHead = (props: TableHeadProps) => {
               <div className="flex items-center pr-2 text-center">
                 <p
                   className={clsx(
-                    !isUndefined(leftAlignedColumns.find((n) => n === i))
+                    !lodash.isUndefined(leftAlignedColumns.find((n) => n === i))
                       ? 'text-left'
                       : 'text-center',
                     'w-full font-medium'
