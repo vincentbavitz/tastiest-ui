@@ -1,7 +1,8 @@
 import { Popover as HeadlessPopover, Transition } from '@headlessui/react';
 import clsx from 'clsx';
 import React, { ReactElement, ReactNode } from 'react';
-import { ComponentSize, Z_INDEX_MODAL_OVERLAY } from '.';
+import { Z_INDEX_MODAL_OVERLAY } from './Modal';
+import { ComponentSize } from './types';
 
 // Underneath modals
 const Z_INDEX_POPOVER = Z_INDEX_MODAL_OVERLAY - 1;

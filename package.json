@@ -7,7 +7,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "repository": "git://github.com:tastiest-io/tastiest-ui",
-  "version": "0.31.0",
+  "version": "0.36.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -64,7 +64,6 @@
     "@nivo/line": "^0.74.0",
     "@popperjs/core": "^2.10.2",
     "@tastiest-io/tastiest-icons": "^0.28.0",
-    "lodash": "^4.17.21",
     "react-popper": "^2.2.5",
     "react-table": "^7.7.0",
     "uuid": "^8.3.2"

@@ -1,7 +1,6 @@
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import { TriangleIcon } from '@tastiest-io/tastiest-icons';
 import clsx from 'clsx';
-import lodash from 'lodash';
 import React, { useEffect, useMemo, useState } from 'react';
 import {
   HeaderGroup,
@@ -10,7 +9,11 @@ import {
   useSortBy,
   useTable,
 } from 'react-table';
-import { Button, Input } from '..';
+import { Button } from '../Button';
+import { Input } from '../Input';
+
+// prettier-ignore
+const range = (start: number, end: number) => [...Array(end - start + 1).keys()].map((x) => x + start);
 
 export interface TableProps {
   label?: string;
@@ -255,10 +258,9 @@ const TableHead = (props: TableHeadProps) => {
               <div className="flex items-center pr-2 text-center">
                 <p
                   className={clsx(
-                    !lodash.isUndefined(leftAlignedColumns.find((n) => n === i))
+                    (leftAlignedColumns.find((n) => n === i)
                       ? 'text-left'
-                      : 'text-center',
-                    'w-full font-medium'
+                      : 'text-center') ?? 'w-full font-medium'
                   )}
                 >
                   {column.render('Header')}
@@ -318,7 +320,7 @@ const TablePagination = (props: TablePaginationProps) => {
     const start = center - variance;
     const end = center + variance + 1;
 
-    return lodash.range(start, end);
+    return range(start, end);
   }, [page, numPages]);
 
   return (
