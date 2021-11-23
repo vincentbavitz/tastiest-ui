@@ -7,12 +7,16 @@ import styled from 'styled-components';
 import { Tooltip } from './Tooltip';
 import { ComponentSize } from './types';
 
+type InputVariant = 'default' | 'solid';
+
 export interface InputProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'size' | 'prefix'> {
   id?: string;
 
+  // Appearance
   size?: ComponentSize;
   color?: 'primary' | 'secondary' | 'neutral';
+  variant?: InputVariant;
 
   // Applied to parent only
   className?: string;
@@ -55,6 +59,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       center = false,
       size = 'medium',
       color = 'secondary',
+      variant = 'default',
       style,
       prefix,
       label,
@@ -82,6 +87,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         small: 'h-8 text-sm',
         medium: 'h-10 text-base',
         large: 'h-12 text-base',
+      },
+      variant: {
+        default: 'bg-transparent',
+        solid: 'bg-white rounded filter shadow',
       },
     };
 
@@ -190,6 +199,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               'duration-150',
               size === 'small' ? 'px-2' : 'px-3',
               disabled && 'opacity-75 cursor-not-allowed',
+              styles.variant[variant],
               className
             )}
           >
@@ -234,6 +244,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               isHovering={isHovering}
               isFocused={isFocused}
               hasError={Boolean(error)}
+              variant={variant}
             />
 
             {suffix ? (
@@ -328,10 +339,11 @@ interface InputBorderProps {
   isHovering: boolean;
   isFocused: boolean;
   hasError: boolean;
+  variant: InputVariant;
 }
 
 const InputBorder = (props: InputBorderProps) => {
-  const { label, color, isHovering, isFocused, hasError } = props;
+  const { label, color, isHovering, isFocused, hasError, variant } = props;
 
   const borderColors = clsx(
     isHovering || isFocused ? 'border-opacity-100' : 'border-opacity-75',
@@ -347,7 +359,12 @@ const InputBorder = (props: InputBorderProps) => {
   );
 
   return (
-    <FieldSet className={clsx(borderStyles, isFocused ? '' : '')}>
+    <FieldSet
+      className={clsx(
+        variant === 'default' && borderStyles,
+        isFocused ? '' : ''
+      )}
+    >
       <Legend
         style={{
           maxWidth: isFocused ? '100%' : '0.01px',

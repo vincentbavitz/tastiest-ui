@@ -64,8 +64,8 @@
     "@nivo/line": "^0.74.0",
     "@popperjs/core": "^2.10.2",
     "@tastiest-io/tastiest-icons": "^0.28.0",
-    "@tastiest-io/tastiest-ui": "^0.15.0",
     "react-popper": "^2.2.5",
+    "react-table": "^7.7.0",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -80,6 +80,7 @@
     "@tailwindcss/postcss7-compat": "^2.2.17",
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
+    "@types/react-table": "^7.7.8",
     "@types/styled-components": "^5.1.15",
     "@types/uuid": "^8.3.1",
     "autoprefixer": "^9",
