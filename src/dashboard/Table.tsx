@@ -13,7 +13,7 @@ import { Button } from '../Button';
 import { Input } from '../Input';
 
 // prettier-ignore
-const range = (start: number, end: number) => [...Array(end - start + 1).keys()].map((x) => x + start);
+const range = (start: number, end: number) =>  (new Array(end - start + 1)).fill(undefined).map((_, i) => i + start);
 
 export interface TableProps {
   label?: string;
@@ -318,7 +318,7 @@ const TablePagination = (props: TablePaginationProps) => {
     if (page >= centerMax) center = centerMax;
 
     const start = center - variance;
-    const end = center + variance + 1;
+    const end = center + variance;
 
     return range(start, end);
   }, [page, numPages]);
