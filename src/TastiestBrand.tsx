@@ -24,10 +24,10 @@ export const TastiestBrand: FC<TastiestBrandProps> = ({
               ? 'ring-primary text-primary'
               : 'ring-light text-light',
             type === 'initial-ring' && 'ring-2',
-            fill ? 'bg-primary text-light' : 'text-primary',
+            fill ? 'bg-primary !text-light' : '',
             size === 6 && 'w-6 h-6 text-xl',
             size === 8 && 'w-8 h-8 text-2xl',
-            size === 10 && 'w-10 h-10 text-3xl',
+            size === 10 && 'w-10 h-10 text-3xl'
           )}
         >
           T
@@ -39,14 +39,14 @@ export const TastiestBrand: FC<TastiestBrandProps> = ({
             size === 6 && 'text-2xl',
             size === 8 && 'text-3xl',
             size === 10 && 'text-4xl',
-            theme === 'dark' ? 'text-light' : 'text-dark',
+            theme === 'dark' ? 'text-light' : 'text-dark'
           )}
         >
           Tastiest
           <span
             className={clsx(
               'no-underline',
-              theme === 'dark' ? 'text-secondary' : 'text-primary',
+              theme === 'dark' ? 'text-secondary' : 'text-primary'
             )}
           >
             .
