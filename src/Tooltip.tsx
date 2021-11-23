@@ -3,6 +3,10 @@ import { Placement } from '@popperjs/core/lib/enums';
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { usePopper } from 'react-popper';
 import styled from 'styled-components';
+import { Z_INDEX_MODAL_OVERLAY } from './Modal';
+
+// Same as modals
+const Z_INDEX_TOOLTIP = Z_INDEX_MODAL_OVERLAY;
 
 export interface TooltipProps {
   trigger?: 'hover' | 'click' | 'manual';
@@ -88,7 +92,7 @@ export const Tooltip: FC<TooltipProps> = (props) => {
     <div className="flex">
       <PopperContainer
         ref={setPopperElement as React.Ref<HTMLDivElement>}
-        style={styles.popper}
+        style={{ ...styles.popper, zIndex: Z_INDEX_TOOLTIP }}
         {...attributes.popper}
       >
         <Transition
