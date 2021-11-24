@@ -3,15 +3,27 @@ import clsx from 'clsx';
 import React, { FC } from 'react';
 import styled, { keyframes } from 'styled-components';
 
+type InfoCardColor =
+  | 'primary'
+  | 'secondary'
+  | 'tertiary'
+  | 'dark'
+  | 'light'
+  | 'danger'
+  | 'success'
+  | 'alt-1'
+  | 'alt-2'
+  | 'alt-3';
+
 export interface InfoCardProps {
   label: string;
-  color?: string;
   info: string | number;
   polyfillInfo?: string | number;
   isLoading?: boolean;
   chart?: boolean;
   data?: Serie[];
   compact?: boolean;
+  color?: InfoCardColor;
 }
 
 const PolyfillAnimation = keyframes`
@@ -40,26 +52,42 @@ export const InfoCard: FC<InfoCardProps> = (props) => {
     compact = false,
   } = props;
 
+  const styles = {
+    color: {
+      primary: 'bg-primary text-white',
+      secondary: 'bg-secondary text-white',
+      tertiary: 'bg-tertiary text-dark',
+      dark: 'bg-dark text-white',
+      light: 'bg-light text-dark',
+      danger: 'bg-danger text-white',
+      success: 'bg-success text-white',
+      'alt-1': 'bg-alt-1 text-white',
+      'alt-2': 'bg-alt-2 text-white',
+      'alt-3': 'bg-alt-3 text-dark',
+    },
+  };
+
   return (
     <div
       className={clsx(
-        `relative w-full rounded-md h-auto overflow-hidden bg-${color}`,
-        isLoading && 'bg-opacity-75'
+        'relative w-full rounded-md h-auto overflow-hidden',
+        isLoading && 'bg-opacity-75',
+        styles.color[color]
       )}
     >
       <div className={clsx(compact ? 'px-4 py-3 pb-12' : 'px-6 py-4 pb-10')}>
         <p
           className={clsx(
-            'text-white font-primary',
-            isLoading && 'opacity-75',
+            isLoading ? 'opacity-50' : 'opacity-75',
             compact ? 'text-base' : 'text-lg'
           )}
         >
           {label}
         </p>
+
         <div
           className={clsx(
-            'flex items-center tracking-wide text-white',
+            'flex items-center tracking-wide',
             isLoading && 'opacity-50',
             compact ? 'text-lg h-6' : 'text-2xl h-10'
           )}

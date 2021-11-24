@@ -314,8 +314,14 @@ const TablePagination = (props: TablePaginationProps) => {
     if (page <= centerMin) center = centerMin;
     if (page >= centerMax) center = centerMax;
 
-    const start = center - variance;
+    const start = Math.max(1, center - variance);
     const end = center + variance;
+
+    console.log('Table ➡️ center:', center);
+    console.log('Table ➡️ centerMin:', centerMin);
+    console.log('Table ➡️ centerMax:', centerMax);
+    console.log('Table ➡️ start:', start);
+    console.log('Table ➡️ end:', end);
 
     return range(start, end);
   }, [page, numPages]);

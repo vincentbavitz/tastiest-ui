@@ -85,7 +85,7 @@ const Template: Story<TableProps> = (args) => {
         data={data}
         noDataLabel="No restaurants yet"
         searchFunction={searchFunction}
-        paginateInterval={2}
+        paginateInterval={12}
         rowAccordianElement={({ id, row }) => (
           <>
             id: {id}, row: {String(row)}
