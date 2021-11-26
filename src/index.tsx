@@ -8,6 +8,7 @@ export * from './IconButton';
 export * from './Input';
 export * from './Modal';
 export * from './Popover';
+export * from './RangeSlider';
 export * from './Select';
 export * from './StatusOrb';
 export * from './TastiestBrand';

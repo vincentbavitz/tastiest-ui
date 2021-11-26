@@ -76,10 +76,11 @@ export interface SidebarItemProps {
   float: 'top' | 'bottom';
   selected?: boolean;
   compact?: boolean;
+  notifications?: { amount: number; urgency: 'default' | 'moderate' | 'high' };
 }
 
 const Item = (props: SidebarItemProps) => {
-  const { label, page, selected, compact } = props;
+  const { label, page, selected, compact, notifications } = props;
 
   const inner = (
     <Link href={page}>
