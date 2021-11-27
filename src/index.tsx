@@ -6,6 +6,7 @@ export * from './ButtonGroup';
 export * from './Checkbox';
 export * from './dashboard';
 export * from './Dropdown';
+export * from './hooks';
 export * from './IconButton';
 export * from './Input';
 export * from './Modal';

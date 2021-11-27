@@ -1,8 +1,7 @@
 import mapboxgl from 'mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import { useEffect, useState } from 'react';
 
-const getMapBoxStyleUrl = (styleId) =>
+const getMapBoxStyleUrl = (styleId: string) =>
   `mapbox://styles/tastiestvince/${styleId}`;
 
 interface UseMapParams {
@@ -25,6 +24,14 @@ interface UseMapOptions {
   styleId?: string;
 }
 
+/**
+ * NOTE!
+ * When consuming this hook, ensure you
+ *    `import mapbox-gl/dist/mapbox-gl.css`
+ * in the consuming project file.
+ *
+ * You should also have mapbox-gl in your dependencies.
+ */
 export const useMap = (
   container: string,
   params: UseMapParams,
@@ -45,6 +52,8 @@ export const useMap = (
 
   // Initialize map
   useEffect(() => {
+    if (!accessToken || !styleId) return;
+
     mapboxgl.accessToken = accessToken;
     const _map = new mapboxgl.Map({
       style: getMapBoxStyleUrl(styleId),
@@ -93,7 +102,7 @@ export const useMap = (
     if (map) {
       map.setCenter([params.lng, params.lat]);
       map.setCenter([params.lng, params.lat]);
-      map.setZoom(params.zoom);
+      map.setZoom(zoom);
       map.setPitch(pitch);
     }
   }, [map, params.lng, params.lat, params.zoom, params.pitch]);

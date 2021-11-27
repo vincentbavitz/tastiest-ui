@@ -1,6 +1,6 @@
 import { Meta, Story } from '@storybook/react';
 import React from 'react';
-import { useMap } from '../hooks/useMap';
+import { useMap } from '../src/hooks/useMap';
 
 const meta: Meta = {
   title: 'useMap',

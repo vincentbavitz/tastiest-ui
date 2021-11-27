@@ -70,10 +70,11 @@ export const InfoCard: FC<InfoCardProps> = (props) => {
   return (
     <div
       className={clsx(
-        'relative w-full rounded-md h-auto overflow-hidden',
+        'relative w-full rounded-md overflow-hidden',
         isLoading && 'bg-opacity-75',
         styles.color[color]
       )}
+      style={{ height: 'fit-content' }}
     >
       <div className={clsx(compact ? 'px-4 py-3 pb-12' : 'px-6 py-4 pb-10')}>
         <p
