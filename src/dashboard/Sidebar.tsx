@@ -81,6 +81,7 @@ export interface SidebarItemProps {
 
 const Item = (props: SidebarItemProps) => {
   const { label, page, selected, compact, notifications } = props;
+  notifications;
 
   const inner = (
     <Link href={page}>

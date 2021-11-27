@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import React, { ChangeEvent, FocusEvent, useRef, useState } from 'react';
-import './tailwind.css';
 import { ComponentSize } from './types';
 
 export interface TextAreaProps

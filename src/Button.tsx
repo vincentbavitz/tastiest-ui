@@ -1,7 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 import React, { FC, ReactNode } from 'react';
-import './tailwind.css';
 import { ComponentSize } from './types';
 
 export interface ButtonProps {

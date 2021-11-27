@@ -1,19 +1,15 @@
 const postcss = require('rollup-plugin-postcss');
-const autoprefixer = require('autoprefixer');
-const tailwindcss = require('tailwindcss');
 
 module.exports = {
   rollup(config, options) {
     config.plugins.push(
       postcss({
-        plugins: [tailwindcss(), autoprefixer()],
-        use: [['less', { javascriptEnabled: true }]],
-        extensions: ['.css', '.less'],
+        config: { path: 'postcss.config.js' },
         minimize: true,
         inject: {
           insertAt: 'top',
         },
-        // extract: true,
+        extract: false,
       })
     );
     return config;
