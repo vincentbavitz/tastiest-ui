@@ -4,8 +4,9 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import React, { Fragment, ReactElement, ReactNode, useMemo } from 'react';
 import { v4 as uuid } from 'uuid';
-import { Button, ComponentSize } from '.';
+import { Button } from './Button';
 import { Z_INDEX_MODAL_OVERLAY } from './Modal';
+import { ComponentSize } from './types';
 
 // Underneath modals
 const Z_INDEX_DROPDOWN = Z_INDEX_MODAL_OVERLAY - 1;
@@ -42,13 +43,12 @@ export function Dropdown(props: DropdownProps) {
   const { size = 'medium', offset = 12, children } = props;
 
   // Get the trigger element. It's either Dropdown.Button or Dropdown.Trigger
-  let trigger: ReactElement<
-    DropdownButtonProps | DropdownTriggerProps
-  > | null = null;
+  let trigger: ReactElement<DropdownButtonProps | DropdownTriggerProps> | null =
+    null;
 
   console.log('Dropdown ➡️ Z_INDEX_DROPDOWN:', Z_INDEX_DROPDOWN);
 
-  React.Children.forEach(children, (child) => {
+  React.Children.forEach(children, child => {
     const displayName: DisplayNames = (child?.type as any).displayName;
     console.log('Dropdown ➡️ displayName:', displayName);
 
@@ -64,7 +64,7 @@ export function Dropdown(props: DropdownProps) {
 
   // Get child elements inside the dropdown
   const items: ReactElement<DropdownItemProps | DropdownDividerProps>[] = [];
-  React.Children.forEach(children, (child) => {
+  React.Children.forEach(children, child => {
     const displayName: DisplayNames = (child?.type as any).displayName;
     if (!child) {
       return;
@@ -96,7 +96,7 @@ export function Dropdown(props: DropdownProps) {
         <Menu.Items
           style={{ zIndex: Z_INDEX_DROPDOWN, marginTop: `${offset}px` }}
           className={clsx(
-            'absolute right-0 w-56 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'
+            'absolute right-0 w-56 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
           )}
         >
           <div className="px-1 py-1">{items}</div>
@@ -142,7 +142,7 @@ const DropdownDivider = ({ size }: DropdownDividerProps) => {
       className={clsx(
         '-mx-1 opacity-50 my-2',
         (size === 'large' || size === 'medium') && 'my-2',
-        size === 'small' && 'my-1'
+        size === 'small' && 'my-1',
       )}
     />
   );
@@ -180,40 +180,43 @@ const DropdownItem = (props: DropdownItemProps) => {
     theme === 'danger' ? 'pink-100' : '';
 
   const Inner = useMemo(
-    () => () => (
-      <Menu.Item key={uuid()} disabled={disabled}>
-        {({ active, disabled }) => (
-          <button
-            onClick={disabled ? () => null : onClick}
-            className={clsx(
-              active && !disabled ? `bg-${theme} text-white` : 'text-gray-900',
-              disabled ? 'opacity-75 pointer-events-none cursor-default' : '',
-              'group flex rounded-md items-center w-full select-none',
-              size === 'large' && 'px-3 py-2 text-base',
-              size === 'medium' && 'px-2 py-2 text-sm',
-              size === 'small' && 'px-2 py-1 text-xs'
-            )}
-          >
-            {icon ? (
-              <div
-                className={clsx(
-                  'relative overflow-hidden flex items-center justify-center',
-                  active ? iconColor : `text-${theme}`,
-                  size === 'large' && 'text-lg w-5 h-5 mr-2',
-                  size === 'medium' && 'text-lg w-5 h-5 mr-2',
-                  size === 'small' && 'text-sm w-4 h-4 mr-2'
-                )}
-              >
-                {icon}
-              </div>
-            ) : null}
+    () => () =>
+      (
+        <Menu.Item key={uuid()} disabled={disabled}>
+          {({ active, disabled }) => (
+            <button
+              onClick={disabled ? () => null : onClick}
+              className={clsx(
+                active && !disabled
+                  ? `bg-${theme} text-white`
+                  : 'text-gray-900',
+                disabled ? 'opacity-75 pointer-events-none cursor-default' : '',
+                'group flex rounded-md items-center w-full select-none',
+                size === 'large' && 'px-3 py-2 text-base',
+                size === 'medium' && 'px-2 py-2 text-sm',
+                size === 'small' && 'px-2 py-1 text-xs',
+              )}
+            >
+              {icon ? (
+                <div
+                  className={clsx(
+                    'relative overflow-hidden flex items-center justify-center',
+                    active ? iconColor : `text-${theme}`,
+                    size === 'large' && 'text-lg w-5 h-5 mr-2',
+                    size === 'medium' && 'text-lg w-5 h-5 mr-2',
+                    size === 'small' && 'text-sm w-4 h-4 mr-2',
+                  )}
+                >
+                  {icon}
+                </div>
+              ) : null}
 
-            <div>{children}</div>
-          </button>
-        )}
-      </Menu.Item>
-    ),
-    [props]
+              <div>{children}</div>
+            </button>
+          )}
+        </Menu.Item>
+      ),
+    [props],
   );
 
   // Eg, if not signed-in, display none.

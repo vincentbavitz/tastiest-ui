@@ -200,14 +200,14 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               size === 'small' ? 'px-2' : 'px-3',
               disabled && 'opacity-75 cursor-not-allowed',
               styles.variant[variant],
-              className
+              className,
             )}
           >
             {prefix && (
               <div
                 className={clsx(
                   'text-black flex justify-center items-center',
-                  'pr-2 w-6'
+                  'pr-2 w-6',
                 )}
               >
                 {prefix}
@@ -223,7 +223,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
                 disabled && 'cursor-not-allowed',
                 center && 'text-center',
                 styles.size[size],
-                inputClassName
+                inputClassName,
               )}
               {...inputProps}
               type={type}
@@ -258,7 +258,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         </div>
       </div>
     );
-  }
+  },
 );
 
 interface InputLabelProps {
@@ -278,7 +278,7 @@ const InputLabel = (props: InputLabelProps) => {
   const fontSize = clsx(
     size === 'large' && 'text-base',
     size === 'medium' && 'text-base',
-    size === 'small' && 'text-sm'
+    size === 'small' && 'text-sm',
   );
 
   return (
@@ -292,7 +292,7 @@ const InputLabel = (props: InputLabelProps) => {
         isFocused ? 'text-xs font-medium' : fontSize,
         hasPrefix ? 'left-8 ml-px pl-px' : 'left-2',
         isFocused ? `text-${color}` : 'text-gray-600',
-        isFocused ? '' : 'bottom-0'
+        isFocused ? '' : 'bottom-0',
       )}
     >
       <div
@@ -349,20 +349,20 @@ const InputBorder = (props: InputBorderProps) => {
     isHovering || isFocused ? 'border-opacity-100' : 'border-opacity-75',
     color === 'primary' && 'border-primary',
     color === 'secondary' && 'border-secondary',
-    color === 'neutral' && 'border-gray-400'
+    color === 'neutral' && 'border-gray-400',
   );
 
   const borderStyles = clsx(
     'rounded',
     isFocused ? 'border-2' : 'border',
-    hasError ? 'border-danger' : borderColors
+    hasError ? 'border-danger' : borderColors,
   );
 
   return (
     <FieldSet
       className={clsx(
         variant === 'default' && borderStyles,
-        isFocused ? '' : ''
+        isFocused ? '' : '',
       )}
     >
       <Legend

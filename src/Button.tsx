@@ -1,7 +1,6 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 import React, { FC, ReactNode } from 'react';
-import './tailwind.css';
 import { ComponentSize } from './types';
 
 export interface ButtonProps {
@@ -27,7 +26,7 @@ export interface ButtonProps {
   flatEdge?: 'left' | 'right' | 'both';
 }
 
-export const Button: FC<ButtonProps> = (props) => {
+export const Button: FC<ButtonProps> = props => {
   const {
     color = 'secondary',
     size = 'medium',
@@ -60,7 +59,7 @@ export const Button: FC<ButtonProps> = (props) => {
     size === 'large' ? clsx('text-lg', 'py-2') : null,
     size === 'medium' ? clsx('text-base', 'py-1') : null,
     size === 'small' ? clsx('text-sm', 'py-1') : null,
-    size === 'tiny' ? clsx('text-xs', 'py-0') : null
+    size === 'tiny' ? clsx('text-xs', 'py-0') : null,
   );
 
   const border = clsx(
@@ -76,7 +75,7 @@ export const Button: FC<ButtonProps> = (props) => {
       ? 'border-danger'
       : color === 'success'
       ? 'border-success'
-      : ''
+      : '',
   );
 
   const textTypeStyles = clsx(
@@ -91,7 +90,7 @@ export const Button: FC<ButtonProps> = (props) => {
       ? ['text-danger', disabled ? null : 'hover:border-danger']
       : color === 'success'
       ? ['text-success', disabled ? null : 'hover:border-success']
-      : ''
+      : '',
   );
 
   const outlineStyles = clsx(
@@ -107,7 +106,7 @@ export const Button: FC<ButtonProps> = (props) => {
     : color === 'success'
       ? ['text-success', disabled ? null : 'hover:bg-success hover:text-light']
     : '',
-    border
+    border,
   );
 
   const solidStyles = clsx(
@@ -126,7 +125,7 @@ export const Button: FC<ButtonProps> = (props) => {
       : color === 'success'
       ? 'bg-success text-light'
       : '',
-    { [`hover:brightness-125`]: !disabled }
+    { [`hover:brightness-125`]: !disabled },
   );
 
   // prettier-ignore
@@ -149,7 +148,7 @@ export const Button: FC<ButtonProps> = (props) => {
       ? 'ring-success'
       : '',
     `active:ring-${ringSize} focus:ring-${ringSize}`,
-    selected && `ring-${ringSize} filter brightness-110`
+    selected && `ring-${ringSize} filter brightness-110`,
   );
 
   const disabledStyles = disabled
@@ -189,10 +188,9 @@ export const Button: FC<ButtonProps> = (props) => {
         typeStyles,
         roundedStyles,
         selectedStyles,
-        disabledStyles
+        disabledStyles,
       )}
-      role="button"
-      tabIndex={1}
+      tabIndex={-1}
       onClick={onClickFn}
     >
       {loading && (
@@ -201,7 +199,7 @@ export const Button: FC<ButtonProps> = (props) => {
             className={clsx(
               size === 'large' && 'text-2xl',
               size === 'medium' && 'text-lg',
-              size === 'small' && 'text-base'
+              size === 'small' && 'text-base',
             )}
           />
         </div>
@@ -212,7 +210,7 @@ export const Button: FC<ButtonProps> = (props) => {
           className={clsx(
             'flex items-center',
             children ? 'pr-2' : null,
-            loading ? 'opacity-0' : 'opacity-100'
+            loading ? 'opacity-0' : 'opacity-100',
           )}
         >
           {prefix}
@@ -222,7 +220,7 @@ export const Button: FC<ButtonProps> = (props) => {
       <div
         className={clsx(
           'w-full font-normal',
-          loading ? 'opacity-0' : 'opacity-100'
+          loading ? 'opacity-0' : 'opacity-100',
         )}
       >
         {children}
@@ -234,7 +232,7 @@ export const Button: FC<ButtonProps> = (props) => {
             'flex',
             'items-center',
             children ? 'pl-2' : null,
-            loading ? 'opacity-0' : 'opacity-100'
+            loading ? 'opacity-0' : 'opacity-100',
           )}
         >
           {suffix}

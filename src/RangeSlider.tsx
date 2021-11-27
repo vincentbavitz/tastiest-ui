@@ -1,8 +1,6 @@
 import React, { FC } from 'react';
-import { RangeSlider as RSuiteRangeSlider, RangeSliderProps } from 'rsuite';
-// import 'rsuite/Slider/styles/index.less';
-import './test.less';
+import RSuiteRangeSlider, { RangeSliderProps } from 'rsuite/RangeSlider';
 
-export const RangeSlider: FC<RangeSliderProps> = (props) => {
+export const RangeSlider: FC<RangeSliderProps> = props => {
   return <RSuiteRangeSlider {...props} />;
 };

@@ -23,7 +23,7 @@ export function Avatar(props: AvatarProps) {
         imageSrc
           ? 'hover:ring-2 ring-secondary ring-opacity-25'
           : 'filter hover:brightness-125',
-        `h-${size} w-${size}`
+        `h-${size} w-${size}`,
       )}
     >
       {imageSrc ? (
@@ -37,7 +37,7 @@ export function Avatar(props: AvatarProps) {
         <div
           className={clsx(
             'flex items-center justify-center w-full h-full text-white font-primary',
-            size === 6 ? 'text-base' : 'text-xl'
+            size === 6 ? 'text-base' : 'text-xl',
           )}
         >
           {initial[0]}

@@ -10,7 +10,7 @@ export interface StatusOrbProps {
 }
 
 /** Used to indicate the status of a system as online or offline. */
-export const StatusOrb: FC<StatusOrbProps> = (props) => {
+export const StatusOrb: FC<StatusOrbProps> = props => {
   const { size = 2, ping = props.status === 'online', status } = props;
 
   return (
@@ -20,7 +20,7 @@ export const StatusOrb: FC<StatusOrbProps> = (props) => {
         size === 1 && 'h-1 w-1',
         size === 2 && 'h-2 w-2',
         size === 3 && 'h-3 w-3',
-        size === 4 && 'h-4 w-4'
+        size === 4 && 'h-4 w-4',
       )}
     >
       {ping ? (
@@ -30,7 +30,7 @@ export const StatusOrb: FC<StatusOrbProps> = (props) => {
               'h-full w-full z-0 rounded-full animate-ping',
               status === 'online' && 'bg-green-300',
               status === 'warning' && 'bg-yellow-500',
-              status === 'offline' && 'bg-red-400'
+              status === 'offline' && 'bg-red-400',
             )}
           ></div>
         </div>
@@ -41,7 +41,7 @@ export const StatusOrb: FC<StatusOrbProps> = (props) => {
           'absolute inset-0 rounded-full',
           status === 'online' && 'bg-green-400',
           status === 'warning' && 'bg-yellow-500',
-          status === 'offline' && 'bg-red-500'
+          status === 'offline' && 'bg-red-500',
         )}
       ></div>
     </div>

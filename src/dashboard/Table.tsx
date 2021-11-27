@@ -1,3 +1,5 @@
+/* eslint-disable react/jsx-key */
+
 import { LoadingOutlined, SearchOutlined } from '@ant-design/icons';
 import { TriangleIcon } from '@tastiest-io/tastiest-icons';
 import clsx from 'clsx';
@@ -9,8 +11,8 @@ import {
   useSortBy,
   useTable,
 } from 'react-table';
-import { ButtonGroup } from '..';
 import { Button } from '../Button';
+import { ButtonGroup } from '../ButtonGroup';
 import { Input } from '../Input';
 
 // prettier-ignore
@@ -39,7 +41,7 @@ export interface TableProps {
   updateData?: (
     value: any | any[],
     rowIndex: number,
-    columnId: string | number
+    columnId: string | number,
   ) => void;
 }
 
@@ -87,33 +89,28 @@ export function Table(props: TableProps) {
     setFilteredData(data);
   }, [data]);
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-  } = useTable(
-    {
-      columns,
-      updateData,
-      data: filteredData,
-    } as TableOptions<any>,
-    useSortBy,
-    useFlexLayout
-  );
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable(
+      {
+        columns,
+        updateData,
+        data: filteredData,
+      } as TableOptions<any>,
+      useSortBy,
+      useFlexLayout,
+    );
 
   const [page, setPage] = useState(1);
   const numPages = useMemo(
     () => (paginateInterval ? Math.ceil(rows.length / paginateInterval) : 1),
-    [rows]
+    [rows],
   );
 
   const pageRows = useMemo(() => {
     if (paginateInterval) {
       return rows.slice(
         Math.floor((page - 1) * paginateInterval),
-        Math.floor(page * paginateInterval)
+        Math.floor(page * paginateInterval),
       );
     }
 
@@ -142,7 +139,7 @@ export function Table(props: TableProps) {
         style={{ maxWidth: '100%' }}
         className={clsx(
           'w-full pb-6 overflow-x-auto bg-white rounded-md',
-          RowAccordianElement ? 'pl-8 pr-4' : 'px-6'
+          RowAccordianElement ? 'pl-8 pr-4' : 'px-6',
         )}
       >
         {data.length > 0 && (
@@ -153,7 +150,7 @@ export function Table(props: TableProps) {
             />
 
             <tbody {...getTableBodyProps()}>
-              {pageRows.map((row) => {
+              {pageRows.map(row => {
                 prepareRow(row);
                 return (
                   <tr
@@ -167,8 +164,8 @@ export function Table(props: TableProps) {
                             {...cell.getCellProps()}
                             className={clsx(
                               'flex items-center',
-                              !leftAlignedColumns.some((c) => c === j) &&
-                                'text-center justify-center'
+                              !leftAlignedColumns.some(c => c === j) &&
+                                'text-center justify-center',
                             )}
                           >
                             <div>
@@ -184,7 +181,7 @@ export function Table(props: TableProps) {
                         <div
                           onClick={() =>
                             setExpandedRow(
-                              expandedRow === row.id ? null : row.id
+                              expandedRow === row.id ? null : row.id,
                             )
                           }
                           className="absolute left-0 flex items-center h-full px-2 py-2 -ml-6 text-gray-300 cursor-pointer hover:text-gray-500"
@@ -194,7 +191,7 @@ export function Table(props: TableProps) {
                               'w-2 duration-200 transform fill-current',
                               expandedRow === row.id
                                 ? '-rotate-90'
-                                : 'rotate-90'
+                                : 'rotate-90',
                             )}
                           />
                         </div>
@@ -245,19 +242,19 @@ const TableHead = (props: TableHeadProps) => {
     <thead>
       {headerGroups.map((headerGroup, i) => (
         <tr {...headerGroup.getHeaderGroupProps()}>
-          {headerGroup.headers.map((column) => (
+          {headerGroup.headers.map(column => (
             <th
               {...column.getHeaderProps((column as any).getSortByToggleProps())}
               className={clsx(
-                'pt-4 pb-2 text-sm text-gray-600 opacity-75 font-normal select-none whitespace-nowrap'
+                'pt-4 pb-2 text-sm text-gray-600 opacity-75 font-normal select-none whitespace-nowrap',
               )}
             >
               <div className="flex items-center pr-2 text-center">
                 <p
                   className={clsx(
-                    (leftAlignedColumns.find((n) => n === i)
+                    (leftAlignedColumns.find(n => n === i)
                       ? 'text-left'
-                      : 'text-center') ?? 'w-full font-medium'
+                      : 'text-center') ?? 'w-full font-medium',
                   )}
                 >
                   {column.render('Header')}
@@ -269,7 +266,7 @@ const TableHead = (props: TableHeadProps) => {
                         'h-2 ml-2 duration-150 transform fill-current text-gray-400',
                         (column as any).isSortedDesc
                           ? 'rotate-90'
-                          : '-rotate-90'
+                          : '-rotate-90',
                       )}
                     />
                   ) : (
@@ -339,7 +336,7 @@ const TablePagination = (props: TablePaginationProps) => {
         </Button>
 
         {
-          pageDisplayNumbers.map((p) => (
+          pageDisplayNumbers.map(p => (
             <Button
               key={p}
               size="tiny"

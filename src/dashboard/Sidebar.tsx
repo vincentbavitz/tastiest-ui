@@ -18,7 +18,7 @@ export const Sidebar = (props: SidebarProps) => {
   // const [compact, setCompact] = useState(props.compact ?? false);
   // setCompact;
 
-  const elements = React.Children.map(children, (child) => {
+  const elements = React.Children.map(children, child => {
     const selected =
       router.pathname.split('/')?.[1] === child.props.page.replace(/\//g, '');
 
@@ -28,8 +28,8 @@ export const Sidebar = (props: SidebarProps) => {
     });
   });
 
-  const top = elements.filter((item) => item.props.float === 'top');
-  const bottom = elements.filter((item) => item.props.float === 'bottom');
+  const top = elements.filter(item => item.props.float === 'top');
+  const bottom = elements.filter(item => item.props.float === 'bottom');
 
   return (
     <div className="relative h-full">
@@ -37,7 +37,7 @@ export const Sidebar = (props: SidebarProps) => {
         style={{ width: 'fit-content' }}
         className={clsx(
           'flex flex-col h-full duration-300 bg-primary text-light',
-          'relative'
+          'relative',
         )}
       >
         <div className="flex justify-center pt-6 pb-6">
@@ -82,6 +82,8 @@ export interface SidebarItemProps {
 const Item = (props: SidebarItemProps) => {
   const { label, page, selected, compact, notifications } = props;
 
+  notifications;
+
   const inner = (
     <Link href={page}>
       <a style={{ textDecoration: 'none' }}>
@@ -90,14 +92,14 @@ const Item = (props: SidebarItemProps) => {
             'text-gray-400 duration-150 hover:text-primary py-4 filter',
             compact ? 'px-6' : 'px-4',
             selected ? '-bg-primary-1' : 'bg-primary',
-            'hover:brightness-95'
+            'hover:brightness-95',
           )}
         >
           <div
             className={clsx(
               'flex flex-col items-center font-medium',
               compact && 'justify-center',
-              selected ? 'text-light' : 'text-gray-300'
+              selected ? 'text-light' : 'text-gray-300',
             )}
           >
             <props.icon

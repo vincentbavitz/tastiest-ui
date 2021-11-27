@@ -35,12 +35,12 @@ export function Popover(props: PopoverProps) {
   const { size = 'medium', align = 'left', children } = props;
   size;
 
-  React.Children.forEach(children, (child) =>
-    console.log('Popover ➡️ child:', (child?.type as any).displayName)
+  React.Children.forEach(children, child =>
+    console.log('Popover ➡️ child:', (child?.type as any).displayName),
   );
 
   let trigger: ReactElement<PopoverTriggerProps> | null = null;
-  React.Children.forEach(children, (child) => {
+  React.Children.forEach(children, child => {
     if (!child) {
       return;
     }
@@ -53,7 +53,7 @@ export function Popover(props: PopoverProps) {
 
   // Get child elements inside the popover
   let panel: ReactElement<PopoverPanelProps> | null = null;
-  React.Children.forEach(children, (child) => {
+  React.Children.forEach(children, child => {
     const displayName: DisplayNames = (child?.type as any).displayName;
     if (!child) {
       return;
@@ -106,7 +106,7 @@ const PopoverPanel = (props: PopoverPanelProps) => {
         'absolute w-56 mt-3 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
         align === 'left' && 'right-0',
         align === 'center' && '-left-64 -right-64 mx-auto',
-        align === 'right' && 'left-0'
+        align === 'right' && 'left-0',
       )}
     >
       <div className="px-4 py-4">{children}</div>

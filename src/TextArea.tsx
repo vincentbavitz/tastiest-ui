@@ -1,6 +1,5 @@
 import clsx from 'clsx';
 import React, { ChangeEvent, FocusEvent, useRef, useState } from 'react';
-import './tailwind.css';
 import { ComponentSize } from './types';
 
 export interface TextAreaProps
@@ -103,7 +102,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
         'hover:border-primary',
       ],
       color === 'neutral' && hasFocus ? 'border-gray-400' : 'border-gray-300',
-      'hover:-border-gray-300'
+      'hover:-border-gray-300',
     );
 
     return (
@@ -114,7 +113,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
               'mb-1',
               size === 'small' ? 'text-sm' : 'text-base',
               labelTheme === 'primary' &&
-                'text-primary font-medium tracking-wide'
+                'text-primary font-medium tracking-wide',
             )}
           >
             {label}
@@ -134,7 +133,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
               'border-2 py-1',
               colorStyles,
               size === 'small' ? 'px-2' : 'px-4',
-              disabled && 'opacity-75 cursor-not-allowed'
+              disabled && 'opacity-75 cursor-not-allowed',
             )}
             onClick={setFocus}
           >
@@ -149,7 +148,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
                 fontSize,
                 size === 'small' && 'py-0',
                 size === 'medium' && 'py-2',
-                size === 'large' && 'py-2'
+                size === 'large' && 'py-2',
               )}
               {...textareaProps}
               value={props.value ?? value}
@@ -162,5 +161,5 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
         </div>
       </div>
     );
-  }
+  },
 );

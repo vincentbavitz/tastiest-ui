@@ -1,3 +1,5 @@
+import './global.less';
+
 export * from './Avatar';
 export * from './Button';
 export * from './ButtonGroup';

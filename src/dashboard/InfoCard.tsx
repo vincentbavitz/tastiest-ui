@@ -40,7 +40,7 @@ const PolyfillDiv = styled.div`
   inset: -50%;
 `;
 
-export const InfoCard: FC<InfoCardProps> = (props) => {
+export const InfoCard: FC<InfoCardProps> = props => {
   const {
     label,
     info,
@@ -72,14 +72,14 @@ export const InfoCard: FC<InfoCardProps> = (props) => {
       className={clsx(
         'relative w-full rounded-md h-auto overflow-hidden',
         isLoading && 'bg-opacity-75',
-        styles.color[color]
+        styles.color[color],
       )}
     >
       <div className={clsx(compact ? 'px-4 py-3 pb-12' : 'px-6 py-4 pb-10')}>
         <p
           className={clsx(
             isLoading ? 'opacity-50' : 'opacity-75',
-            compact ? 'text-base' : 'text-lg'
+            compact ? 'text-base' : 'text-lg',
           )}
         >
           {label}
@@ -89,7 +89,7 @@ export const InfoCard: FC<InfoCardProps> = (props) => {
           className={clsx(
             'flex items-center tracking-wide',
             isLoading && 'opacity-50',
-            compact ? 'text-lg h-6' : 'text-2xl h-10'
+            compact ? 'text-lg h-6' : 'text-2xl h-10',
           )}
         >
           {isLoading ? polyfillInfo ?? null : info}

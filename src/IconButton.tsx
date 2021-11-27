@@ -10,7 +10,7 @@ export interface IconButtonProps {
   circle?: boolean;
 }
 
-export const IconButton: FC<IconButtonProps> = (props) => {
+export const IconButton: FC<IconButtonProps> = props => {
   const {
     icon: IconComponent,
     size = 'medium',
@@ -44,7 +44,7 @@ export const IconButton: FC<IconButtonProps> = (props) => {
         circle ? 'rounded-full' : 'rounded-md',
         styles.theme[theme],
         styles.size[size],
-        styles.focus
+        styles.focus,
       )}
     >
       <IconComponent className="" />

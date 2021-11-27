@@ -30,7 +30,7 @@ export interface TooltipProps {
  * Using Popper
  * ref. https://popper.js.org/react-popper/v2/
  */
-export const Tooltip: FC<TooltipProps> = (props) => {
+export const Tooltip: FC<TooltipProps> = props => {
   const {
     children,
     placement = 'top',
@@ -60,7 +60,7 @@ export const Tooltip: FC<TooltipProps> = (props) => {
           },
         },
       ],
-    }
+    },
   );
 
   const [visible, setVisible] = useState(show ?? false);

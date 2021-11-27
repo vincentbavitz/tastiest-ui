@@ -22,7 +22,7 @@ export function Select(props: SelectProps) {
   const { size = 'medium', onSelect, children } = props;
 
   // Selected is given by ID
-  const options = React.Children.map(children, (child) => child.props);
+  const options = React.Children.map(children, child => child.props);
   const [selected, setSelected] = useState<SelectOptionProps>(options[0]);
 
   const onChange = (option: SelectOptionProps) => {
@@ -33,7 +33,7 @@ export function Select(props: SelectProps) {
   return (
     <Listbox
       value={selected.id}
-      onChange={(onChange as never) as (option: string) => void}
+      onChange={onChange as never as (option: string) => void}
     >
       <div className="relative mt-1">
         <Listbox.Button
@@ -41,7 +41,7 @@ export function Select(props: SelectProps) {
             'relative w-full text-left bg-white shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500',
             size === 'large' && 'text-lg py-3 pl-3 pr-10 rounded-lg',
             size === 'medium' && 'text-base py-2 pl-3 pr-10 rounded-md',
-            size === 'small' && 'text-sm py-1 pl-2 pr-8 rounded'
+            size === 'small' && 'text-sm py-1 pl-2 pr-8 rounded',
           )}
         >
           <span className="block truncate">{selected.value}</span>
@@ -66,7 +66,7 @@ export function Select(props: SelectProps) {
             style={{ zIndex: Z_INDEX_SELECT }}
             className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
           >
-            {React.Children.map(children, (child) => {
+            {React.Children.map(children, child => {
               return <Option {...child.props} size={size} />;
             })}
           </Listbox.Options>
@@ -96,7 +96,7 @@ const Option = (option: SelectOptionProps) => {
           disabled ? 'opacity-50' : '',
           size === 'large' && 'py-3 pl-10 pr-4 text-lg',
           size === 'medium' && 'py-2 pl-10 pr-4 text-sm',
-          size === 'small' && 'py-1 pl-10 pr-2 text-sm'
+          size === 'small' && 'py-1 pl-10 pr-2 text-sm',
         )
       }
       value={option}
@@ -121,7 +121,7 @@ const Option = (option: SelectOptionProps) => {
                   'ml-1 text-secondary',
                   size === 'large' && 'text-lg',
                   size === 'medium' && 'text-base',
-                  size === 'small' && 'text-sm'
+                  size === 'small' && 'text-sm',
                 )}
                 aria-hidden="true"
               />

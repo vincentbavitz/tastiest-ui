@@ -28,7 +28,7 @@ export interface ModalProps {
   close?: () => void;
 }
 
-export const Modal: FC<ModalProps> = (props) => {
+export const Modal: FC<ModalProps> = props => {
   const {
     show,
     portalId = 'modal-root',
@@ -70,7 +70,7 @@ export const Modal: FC<ModalProps> = (props) => {
           ...defaultStyle,
         }}
         className={clsx('fixed inset-0 flex items-center justify-center')}
-        onClick={(e) => onClickedAway(e)}
+        onClick={e => onClickedAway(e)}
       >
         {/* Overlay */}
         <Transition.Child
@@ -97,7 +97,7 @@ export const Modal: FC<ModalProps> = (props) => {
         </Transition.Child>
       </div>
     </Transition>,
-    document.getElementById(portalId ?? 'modal-root') as HTMLElement
+    document.getElementById(portalId ?? 'modal-root') as HTMLElement,
   );
 };
 
@@ -160,7 +160,7 @@ const ModalInner = (props: ModalProps) => {
         'relative bg-white shadow-lg overflow-hidden',
         fullscreen ? 'rounded-none' : 'rounded-lg',
         !noPadding && styles.padding[size],
-        className
+        className,
       )}
     >
       <div
@@ -168,14 +168,14 @@ const ModalInner = (props: ModalProps) => {
           'flex w-full gap-10 justify-between',
           title
             ? 'items-center pb-3'
-            : `items-start ${styles.size.header[size]}`
+            : `items-start ${styles.size.header[size]}`,
         )}
       >
         {title ? (
           <div
             className={clsx(
               'flex-grow font-medium whitespace-nowrap',
-              styles.size.title[size]
+              styles.size.title[size],
             )}
           >
             {title}
@@ -187,7 +187,7 @@ const ModalInner = (props: ModalProps) => {
             onClick={close}
             className={clsx(
               title ? null : 'absolute top-5 right-6',
-              'w-4 h-4 cursor-pointer fill-current duration-300 text-gray-700 hover:text-dark'
+              'w-4 h-4 cursor-pointer fill-current duration-300 text-gray-700 hover:text-dark',
             )}
           />
         ) : null}
