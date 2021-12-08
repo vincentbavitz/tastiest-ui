@@ -9,7 +9,7 @@ module.exports = {
         inject: {
           insertAt: 'top',
         },
-        extract: false,
+        extract: 'style.min.css',
       })
     );
     return config;

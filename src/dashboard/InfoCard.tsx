@@ -74,7 +74,7 @@ export const InfoCard: FC<InfoCardProps> = (props) => {
         isLoading && 'bg-opacity-75',
         styles.color[color]
       )}
-      style={{ height: 'fit-content' }}
+      style={{ height: 'fit-content', minWidth: '333px' }}
     >
       <div className={clsx(compact ? 'px-4 py-3 pb-12' : 'px-6 py-4 pb-10')}>
         <p

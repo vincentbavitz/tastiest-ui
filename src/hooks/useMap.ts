@@ -83,7 +83,7 @@ export const useMap = (
         el.style.height = `${size}px`;
         el.style.cursor = 'pointer';
         el.style.backgroundSize = 'cover';
-        el.style.backgroundImage = "url('/assets/ui/location-brand-icon.png')";
+        el.style.backgroundImage = "url('/assets/location-brand-icon.png')";
 
         new mapboxgl.Marker(el).setLngLat([marker.lng, marker.lat]).addTo(_map);
       });
