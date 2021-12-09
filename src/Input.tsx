@@ -3,7 +3,7 @@ import { WarningOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useHoverDirty } from 'react-use';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { Tooltip } from './Tooltip';
 import { ComponentSize } from './types';
 

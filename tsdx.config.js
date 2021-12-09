@@ -6,10 +6,8 @@ module.exports = {
       postcss({
         config: { path: 'postcss.config.js' },
         minimize: true,
-        inject: {
-          insertAt: 'top',
-        },
-        extract: 'style.min.css',
+        inject: false,
+        extract: 'styles.min.css',
       })
     );
     return config;

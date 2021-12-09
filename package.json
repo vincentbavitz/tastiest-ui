@@ -7,7 +7,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "repository": "git://github.com:tastiest-io/tastiest-ui",
-  "version": "0.50.0",
+  "version": "0.52.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
@@ -51,13 +51,13 @@
   ],
   "peerDependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@emotion/styled": "^11.0.0",
     "clsx": "^1.1.1",
     "mapbox-gl": "^2.6.1",
     "next": ">=11",
     "react": ">=16",
     "react-use": "^17.3.1",
-    "rsuite": "^5.0.0",
-    "styled-components": "^5.0.0"
+    "rsuite": "^5.0.0"
   },
   "dependencies": {
     "@headlessui/react": "^1.4.1",
@@ -72,6 +72,8 @@
   "devDependencies": {
     "@ant-design/icons": "^4.7.0",
     "@babel/core": "^7.15.8",
+    "@emotion/react": "^11.7.0",
+    "@emotion/styled": "^11.6.0",
     "@size-limit/preset-small-lib": "^6.0.3",
     "@storybook/addon-essentials": "^6.3.12",
     "@storybook/addon-info": "^5.3.21",
@@ -84,7 +86,6 @@
     "@types/react": "^17.0.33",
     "@types/react-dom": "^17.0.10",
     "@types/react-table": "^7.7.8",
-    "@types/styled-components": "^5.1.15",
     "@types/uuid": "^8.3.1",
     "autoprefixer": "^9",
     "babel-loader": "^8.2.3",
@@ -102,7 +103,6 @@
     "rollup-plugin-postcss": "^4.0.2",
     "rsuite": "^5.2.0",
     "size-limit": "^6.0.3",
-    "styled-components": "^5.3.3",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat",
     "tsdx": "^0.14.1",
     "tslib": "^2.3.1",

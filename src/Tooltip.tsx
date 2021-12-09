@@ -2,7 +2,7 @@ import { Transition } from '@headlessui/react';
 import { Placement } from '@popperjs/core/lib/enums';
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { usePopper } from 'react-popper';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 import { Z_INDEX_MODAL_OVERLAY } from './Modal';
 
 // Same as modals

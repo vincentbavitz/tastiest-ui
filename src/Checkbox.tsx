@@ -1,6 +1,6 @@
 import clsx from 'clsx';
 import React, { FC, ReactNode } from 'react';
-import styled from 'styled-components';
+import styled from '@emotion/styled';
 
 const CheckboxContainer = styled.label`
   display: grid;
@@ -66,7 +66,7 @@ export interface CheckboxProps {
   onChange: (value: boolean) => void;
 }
 
-export const Checkbox: FC<CheckboxProps> = props => {
+export const Checkbox: FC<CheckboxProps> = (props) => {
   const { label, color = 'primary', checked, disabled, onChange } = props;
 
   const handleClick = (event: React.MouseEvent<HTMLInputElement>) => {
