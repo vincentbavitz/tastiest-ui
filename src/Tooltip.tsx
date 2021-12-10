@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { Z_INDEX_MODAL_OVERLAY } from './Modal';
 
 // Same as modals
-const Z_INDEX_TOOLTIP = Z_INDEX_MODAL_OVERLAY;
+const Z_INDEX_TOOLTIP = Z_INDEX_MODAL_OVERLAY - 1;
 
 export interface TooltipProps {
   trigger?: 'hover' | 'click' | 'manual';
