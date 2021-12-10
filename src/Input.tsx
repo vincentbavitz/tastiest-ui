@@ -2,7 +2,12 @@
 import { WarningOutlined } from '@ant-design/icons';
 import clsx from 'clsx';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useHoverDirty, useTimeoutFn } from 'react-use';
+import {
+  useHoverDirty,
+  useKey,
+  useKeyPressEvent,
+  useTimeoutFn,
+} from 'react-use';
 import styled from '@emotion/styled';
 import { Tooltip } from './Tooltip';
 import { ComponentSize } from './types';
@@ -41,6 +46,9 @@ export interface InputProps
   value?: string;
   onValueChange?(value: string): void;
 
+  // For forms, where the Return key should make an action
+  onReturn?: () => void;
+
   // Transforms the input on before the new value is set
   // Eg format: value => value.toLowerCase()
   formatter?: (value: string) => string;
@@ -68,6 +76,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       regex,
       formatter,
       onValueChange,
+      onReturn,
       error,
       ...inputProps
     } = props;
@@ -86,11 +95,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     const [shouldDisplayError, setShouldDisplayError] = useState(false);
     const hideErrorTimeout = () => setShouldDisplayError(false);
 
-    const [
-      isErrorHideTimeoutReady,
-      cancelErrorHideTimeout,
-      resetErrorHideTimeout,
-    ] = useTimeoutFn(hideErrorTimeout, 2500);
+    const [, cancelErrorHideTimeout, resetErrorHideTimeout] = useTimeoutFn(
+      hideErrorTimeout,
+      2500
+    );
 
     // Hide error after 2 seconds, but reset the timer when error changes
     useEffect(() => {
@@ -102,7 +110,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
       setShouldDisplayError(true);
       resetErrorHideTimeout();
-    }, [error]);
+    }, [error, value, props.value]);
 
     const styles = {
       size: {
@@ -152,6 +160,20 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
       setValue(_value);
     };
+
+    /**
+     * We must pass isFocused as a param because the
+     * action of hitting 'Enter' changes the isFocused state.
+     */
+    const handleOnReturn = (_isFocused: boolean) => {
+      console.log('handleOnReturn ➡️ isFocused:', _isFocused);
+
+      if (_isFocused) {
+        onReturn?.();
+      }
+    };
+
+    useKeyPressEvent('Enter', () => handleOnReturn(isFocused));
 
     // Handle onBlur to accept external values.
     // Eg. from react-hook-form

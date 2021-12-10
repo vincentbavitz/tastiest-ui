@@ -82,6 +82,7 @@ export const BellsAndWhistles = Template.bind({});
 export const WithoutLabel = Template.bind({});
 export const AutomaticallyFocused = Template.bind({});
 
+export const WithOnReturn = Template.bind({});
 export const CustomOnBlur = Template.bind({});
 export const ReactHookForm = ReactHookFormTemplate.bind({});
 
@@ -101,6 +102,8 @@ BellsAndWhistles.args = {
 AutomaticallyFocused.args = {
   value: 'Pre-filled value',
 };
+
+WithOnReturn.args = { onReturn: () => alert('onReturn!') };
 
 CustomOnBlur.args = {
   onBlur: () => alert('Custom onBlur!'),

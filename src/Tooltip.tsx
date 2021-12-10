@@ -17,6 +17,7 @@ export interface TooltipProps {
   // Manually control whether to show or not.
   show?: boolean;
 
+  // EDIT -> LOOK IN /Input for how to do this timeout.
   // How many ms to wait before automatically closing
   // This is very complicated, so it's on hold for now.
   //

@@ -7,7 +7,7 @@
     "registry": "https://npm.pkg.github.com"
   },
   "repository": "git://github.com:tastiest-io/tastiest-ui",
-  "version": "0.52.0",
+  "version": "0.53.0",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
   "files": [
