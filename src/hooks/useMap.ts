@@ -83,7 +83,8 @@ export const useMap = (
         el.style.height = `${size}px`;
         el.style.cursor = 'pointer';
         el.style.backgroundSize = 'cover';
-        el.style.backgroundImage = "url('/assets/location-brand-icon.png')";
+        el.style.backgroundImage =
+          "url('https://images.ctfassets.net/tq39z0nxr0bv/7LZDbHVz0K7juwgh6NT5yc/05171c72b827c55d9c84daa8644819b1/map-pin.svg')";
 
         new mapboxgl.Marker(el).setLngLat([marker.lng, marker.lat]).addTo(_map);
       });
