@@ -1,14 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { WarningOutlined } from '@ant-design/icons';
+import styled from '@emotion/styled';
 import clsx from 'clsx';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import {
-  useHoverDirty,
-  useKey,
-  useKeyPressEvent,
-  useTimeoutFn,
-} from 'react-use';
-import styled from '@emotion/styled';
+import { useHoverDirty, useKeyPressEvent, useTimeoutFn } from 'react-use';
 import { Tooltip } from './Tooltip';
 import { ComponentSize } from './types';
 
@@ -52,10 +47,6 @@ export interface InputProps
   // Transforms the input on before the new value is set
   // Eg format: value => value.toLowerCase()
   formatter?: (value: string) => string;
-
-  // Allows you to only accept values which satisfy this pattern
-  regex?: RegExp;
-  onBlurRegex?: RegExp;
 }
 
 export const Input = React.forwardRef<HTMLInputElement, InputProps>(
@@ -73,7 +64,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       label,
       suffix,
       disabled,
-      regex,
       formatter,
       onValueChange,
       onReturn,
@@ -129,10 +119,20 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       // Call external onChange if it exists
       props.onChange?.(event);
 
+      console.log('Input ➡️ event.target.value:', event.target.value);
+      console.log(
+        'Input ➡️ typeof event.target.value:',
+        typeof event.target.value
+      );
+
       const element = event?.target as HTMLInputElement;
       if (element?.value === undefined) {
+        console.log('exiting here');
+        setValue('');
         return;
       }
+
+      console.log('Input ➡️ value:', value);
 
       // Force focus on autocomplete
       if (element.value.length > 0) {
@@ -140,24 +140,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       }
 
       const _value = formatter?.(element.value) ?? element.value;
-
-      // Test regex
-      const isValid = regex ? regex?.test(String(_value)) : true;
-      if (!isValid && _value.length > 0) return;
-
-      // Emails don't support selectionStart
-      if (type !== 'email') {
-        const caret = element.selectionStart;
-        window.requestAnimationFrame(() => {
-          element.selectionStart = caret;
-          element.selectionEnd = caret;
-        });
-      }
-
-      if (onValueChange) {
-        onValueChange(_value);
-      }
-
+      onValueChange?.(_value);
       setValue(_value);
     };
 
@@ -166,8 +149,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
      * action of hitting 'Enter' changes the isFocused state.
      */
     const handleOnReturn = (_isFocused: boolean) => {
-      console.log('handleOnReturn ➡️ isFocused:', _isFocused);
-
       if (_isFocused) {
         onReturn?.();
       }
@@ -189,9 +170,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     // Keep value in sync with props.
     // This ensures that formatter works
     useEffect(() => {
-      if (props.value) {
-        setValue(props.value);
-      }
+      setValue(typeof props.value === 'undefined' ? '' : props.value);
     }, [props.value]);
 
     // Always focus when value changes

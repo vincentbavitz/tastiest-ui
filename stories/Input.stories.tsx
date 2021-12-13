@@ -3,6 +3,7 @@ import { Meta, Story } from '@storybook/react';
 import { EmailIcon } from '@tastiest-io/tastiest-icons';
 import React from 'react';
 import { Controller, useForm } from 'react-hook-form';
+import { Button } from '../src/Button';
 import { Input, InputProps } from '../src/Input';
 
 const meta: Meta = {
@@ -27,7 +28,7 @@ const Template: Story<InputProps> = (args) => (
 );
 
 const ReactHookFormTemplate: Story<InputProps> = (args) => {
-  const { handleSubmit, control } = useForm({
+  const { handleSubmit, control, reset } = useForm({
     mode: 'onTouched',
     reValidateMode: 'onBlur',
     criteriaMode: 'firstError',
@@ -69,6 +70,8 @@ const ReactHookFormTemplate: Story<InputProps> = (args) => {
               ></Input>
             )}
           />
+
+          <Button onClick={() => reset()}>Reset</Button>
         </div>
       </div>
     </div>
@@ -83,6 +86,8 @@ export const WithoutLabel = Template.bind({});
 export const AutomaticallyFocused = Template.bind({});
 
 export const WithOnReturn = Template.bind({});
+export const WithFormatter = Template.bind({});
+
 export const CustomOnBlur = Template.bind({});
 export const ReactHookForm = ReactHookFormTemplate.bind({});
 
@@ -111,6 +116,11 @@ CustomOnBlur.args = {
 
 WithoutLabel.args = {
   label: undefined,
+};
+
+WithFormatter.args = {
+  label: 'Uppercase formatter',
+  formatter: (value: string) => value.toUpperCase(),
 };
 
 Large.args = { size: 'large' };
