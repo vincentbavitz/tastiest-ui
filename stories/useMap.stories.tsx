@@ -22,10 +22,11 @@ const Template: Story = (args) => {
   useMap(
     'map',
     {
-      lat: 51,
+      lat: 52,
       lng: 1,
       zoom: 12,
       pitch: 0,
+      markers: [{ lat: 52, lng: 1 }],
     },
     {
       accessToken: `pk.eyJ1IjoidGFzdGllc3R2aW5jZSIsImEiOiJja2VnaXp0bzkwZWM0MzJxYng3OW9qZnY5In0.xA1wKv2WJEZUU9XvdlolLg`,
@@ -35,11 +36,13 @@ const Template: Story = (args) => {
 
   return (
     <div className="absolute inset-0 flex items-center justify-center bg-blue-200">
-      <div
-        id="map"
-        style={{ width: '500px', height: '400px' }}
-        className="shadow-lg rounded-lg"
-      ></div>
+      <div className="relative">
+        <div
+          id="map"
+          style={{ width: '500px', height: '400px' }}
+          className="shadow-lg rounded-lg"
+        ></div>
+      </div>
     </div>
   );
 };
