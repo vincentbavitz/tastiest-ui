@@ -1,13 +1,13 @@
 import clsx from 'clsx';
 import React, { FC } from 'react';
 
-type Size = 6 | 8 | 10;
+type Size = 5 | 6 | 8 | 10;
 type Type = 'initial' | 'initial-ring' | 'full';
 type Theme = 'light' | 'dark';
 
 export interface TastiestBrandProps {
   fill?: boolean;
-  size: Size;
+  size?: Size;
   type?: Type;
   theme?: Theme;
   onClick?: () => void;
@@ -46,7 +46,7 @@ export const TastiestBrand: FC<TastiestBrandProps> = (props) => {
 };
 
 interface TastiestRingProps {
-  size: Size;
+  size?: Size;
   type?: Omit<Type, 'full'>;
   theme?: Theme;
   fill?: boolean;
@@ -54,9 +54,6 @@ interface TastiestRingProps {
 
 const TastiestRing: FC<TastiestRingProps> = (props) => {
   const { fill, type, size = 8, theme = 'light' } = props;
-
-  console.log('TastiestBrand ➡️ props:', props);
-  console.log('TastiestBrand ➡️ size:', size);
 
   const sizeStyles = `h-${size} w-${size}`;
 

@@ -1,6 +1,7 @@
 import './global.css';
 
 export * from './Avatar';
+export * from './Breadcrumbs';
 export * from './Button';
 export * from './ButtonGroup';
 export * from './Checkbox';
