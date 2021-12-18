@@ -195,7 +195,7 @@ const ModalInner = (props: ModalProps) => {
 
       <div
         className={clsx(
-          'text-gray-800 font-light',
+          'relative text-gray-800 font-light',
           fullscreen ? 'flex-grow' : ''
         )}
       >
