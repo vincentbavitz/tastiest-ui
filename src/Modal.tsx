@@ -152,13 +152,13 @@ const ModalInner = (props: ModalProps) => {
     <div
       ref={boxRef}
       style={{
-        height: fullscreen ? '100%' : 'unset',
+        height: fullscreen ? '100vh' : 'unset',
         width: fullscreen ? '100vw' : 'unset',
         maxWidth: fullscreen ? 'unset' : maxWidth,
       }}
       className={classNames(
         'relative bg-white shadow-lg overflow-hidden',
-        fullscreen ? 'rounded-none' : 'rounded-lg',
+        fullscreen ? 'flex flex-col rounded-none' : 'rounded-lg',
         !noPadding && styles.padding[size],
         className
       )}
@@ -193,7 +193,14 @@ const ModalInner = (props: ModalProps) => {
         ) : null}
       </div>
 
-      <div className="text-gray-800 font-light">{children}</div>
+      <div
+        className={clsx(
+          'text-gray-800 font-light',
+          fullscreen ? 'flex-grow' : ''
+        )}
+      >
+        {children}
+      </div>
     </div>
   );
 };

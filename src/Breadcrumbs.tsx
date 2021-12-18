@@ -1,10 +1,12 @@
 import clsx from 'clsx';
 import Link from 'next/link';
 import React, { ReactElement } from 'react';
+import { ComponentSize } from '.';
 import { TastiestBrand } from './TastiestBrand';
 
 export interface BreadcrumbsProps {
   children: ReactElement<CrumbProps> | ReactElement<CrumbProps>[];
+  size?: ComponentSize;
 }
 
 /**
@@ -13,24 +15,35 @@ export interface BreadcrumbsProps {
  * `selected` as individual props to your crumbs.
  */
 export function Breadcrumbs(props: BreadcrumbsProps) {
-  const { children } = props;
+  const { children, size = 'medium' } = props;
 
   return (
     <div className="flex space-x-1 items-center flex-nowrap">
       <Link href="/">
-        <a className="no-underline">
-          <TastiestBrand size={6} type="initial-ring" />
+        <a className="no-underline mr-1">
+          <TastiestBrand size={5} type="initial-ring" />
         </a>
       </Link>
 
       {React.Children.map(children, (child, index) => {
+        if (!child) {
+          return null;
+        }
+
         const Child = React.cloneElement(child, {
           selected: index === React.Children.count(children) - 1,
         });
 
         return (
-          <div className="flex items-center">
-            <span className="mx-1 text-gray-400 select-none font-light text-sm">
+          <div
+            className={clsx(
+              'flex items-center whitespace-nowrap',
+              size === 'large' && 'text-sm',
+              size === 'medium' && 'text-sm',
+              size === 'small' && 'text-xs'
+            )}
+          >
+            <span className={clsx('text-gray-400 select-none font-light')}>
               {'/'}
             </span>
             {Child}
@@ -55,7 +68,7 @@ const Crumb = (props: CrumbProps) => {
       <a className="no-underline">
         <div
           className={clsx(
-            'flex items-center space-x-2 tex-lg px-2 duration-300',
+            'flex items-center space-x-2 px-1 duration-300',
             selected ? 'text-dark' : 'text-gray-400 hover:text-dark'
           )}
         >
