@@ -194,7 +194,7 @@ const DropdownItem = (props: DropdownItemProps) => {
               size === 'large' && 'px-3 py-2 text-base',
               size === 'medium' && 'px-2 py-2 text-sm',
               size === 'small' && 'px-2 py-1 text-xs',
-              selected && !active && 'bg-gray-100'
+              selected && !active ? 'bg-gray-100' : null
             )}
           >
             {icon ? (
@@ -234,6 +234,7 @@ const DropdownItem = (props: DropdownItemProps) => {
     <Inner />
   );
 };
+DropdownItem.displayName = DisplayNames.ITEM;
 
 Dropdown.Item = DropdownItem;
 Dropdown.Button = DropdownButton;
