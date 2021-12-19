@@ -1,8 +1,8 @@
+import styled from '@emotion/styled';
 import { Transition } from '@headlessui/react';
 import { Placement } from '@popperjs/core/lib/enums';
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { usePopper } from 'react-popper';
-import styled from '@emotion/styled';
 import { Z_INDEX_MODAL_OVERLAY } from './Modal';
 
 // Same as modals
@@ -116,7 +116,10 @@ export const Tooltip: FC<TooltipProps> = (props) => {
         </Transition>
       </PopperContainer>
 
-      <div ref={setReferenceElement as React.Ref<HTMLDivElement>}>
+      <div
+        className="w-full"
+        ref={setReferenceElement as React.Ref<HTMLDivElement>}
+      >
         <div
           onClick={handleReferenceElementClick}
           onMouseEnter={() => setHovering(true)}
