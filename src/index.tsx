@@ -14,6 +14,7 @@ export * from './Modal';
 export * from './Popover';
 export * from './Select';
 export * from './StatusOrb';
+export * from './Switch';
 export * from './TastiestBrand';
 export * from './TextArea';
 export * from './Tooltip';
