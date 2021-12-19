@@ -31,25 +31,23 @@ export const Switch: FC<SwitchProps> = (props) => {
   };
 
   return (
-    <div className="py-16">
-      <HeadlessSwitch
-        checked={checked}
-        onChange={onChange}
+    <HeadlessSwitch
+      checked={checked}
+      onChange={onChange}
+      className={clsx(
+        'relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
+        checked ? 'bg-secondary' : 'bg-primary',
+        styles.switch[size]
+      )}
+    >
+      <span
+        aria-hidden="true"
         className={clsx(
-          'relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
-          checked ? 'bg-secondary' : 'bg-primary',
-          styles.switch[size]
+          'pointer-events-none rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200',
+          checked ? styles.span.checked[size] : 'translate-x-0',
+          styles.span[size]
         )}
-      >
-        <span
-          aria-hidden="true"
-          className={clsx(
-            'pointer-events-none rounded-full bg-white shadow-lg transform ring-0 transition ease-in-out duration-200',
-            checked ? styles.span.checked[size] : 'translate-x-0',
-            styles.span[size]
-          )}
-        />
-      </HeadlessSwitch>
-    </div>
+      />
+    </HeadlessSwitch>
   );
 };

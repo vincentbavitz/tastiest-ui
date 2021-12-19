@@ -33,7 +33,7 @@ const Template: Story<DropdownProps> = (args) => (
         <Button color="danger">Danger!</Button>
       </Dropdown.Trigger>
 
-      <Dropdown.Item href="/" icon={<EditOutlined />}>
+      <Dropdown.Item selected href="/" icon={<EditOutlined />}>
         Profile
       </Dropdown.Item>
       <Dropdown.Item icon={<SettingOutlined />}>Settings</Dropdown.Item>

@@ -154,6 +154,7 @@ export interface DropdownItemProps {
   href?: string;
   icon?: ReactElement;
   size?: ComponentSize;
+  selected?: boolean;
   disabled?: boolean;
   display?: boolean;
   children: ReactNode;
@@ -163,6 +164,7 @@ export interface DropdownItemProps {
 const DropdownItem = (props: DropdownItemProps) => {
   const {
     theme = 'secondary',
+    selected = false,
     display = true,
     href,
     size,
@@ -191,7 +193,8 @@ const DropdownItem = (props: DropdownItemProps) => {
               'group flex rounded-md items-center w-full select-none',
               size === 'large' && 'px-3 py-2 text-base',
               size === 'medium' && 'px-2 py-2 text-sm',
-              size === 'small' && 'px-2 py-1 text-xs'
+              size === 'small' && 'px-2 py-1 text-xs',
+              selected && !active && 'bg-gray-100'
             )}
           >
             {icon ? (
@@ -231,7 +234,6 @@ const DropdownItem = (props: DropdownItemProps) => {
     <Inner />
   );
 };
-DropdownItem.displayName = DisplayNames.ITEM;
 
 Dropdown.Item = DropdownItem;
 Dropdown.Button = DropdownButton;
