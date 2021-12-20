@@ -29,7 +29,7 @@ const Template: Story<InputProps> = (args) => (
 
 const ReactHookFormTemplate: Story<InputProps> = (args) => {
   const { handleSubmit, control, reset } = useForm({
-    mode: 'onTouched',
+    mode: 'onBlur',
     reValidateMode: 'onBlur',
     criteriaMode: 'firstError',
     shouldFocusError: true,
@@ -66,7 +66,6 @@ const ReactHookFormTemplate: Story<InputProps> = (args) => {
                 error={formState.errors.email?.message}
                 value={field.value}
                 {...field}
-                onBlur={() => field.onBlur()}
               ></Input>
             )}
           />

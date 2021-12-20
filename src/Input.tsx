@@ -3,7 +3,7 @@ import { WarningOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import clsx from 'clsx';
 import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
-import { useHoverDirty, useKeyPressEvent, useTimeoutFn } from 'react-use';
+import { useHoverDirty, useKeyPressEvent } from 'react-use';
 import { Tooltip } from './Tooltip';
 import { ComponentSize } from './types';
 
@@ -80,27 +80,6 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
     // Value
     const [value, setValue] = useState<string>('');
     const [isFocused, setIsFocused] = useState(Boolean(props.value?.length));
-
-    // Displaying error, and hide after timeout etc.
-    const [shouldDisplayError, setShouldDisplayError] = useState(false);
-    const hideErrorTimeout = () => setShouldDisplayError(false);
-
-    const [, cancelErrorHideTimeout, resetErrorHideTimeout] = useTimeoutFn(
-      hideErrorTimeout,
-      2500
-    );
-
-    // Hide error after 2 seconds, but reset the timer when error changes
-    useEffect(() => {
-      if (!error) {
-        setShouldDisplayError(false);
-        cancelErrorHideTimeout();
-        return;
-      }
-
-      setShouldDisplayError(true);
-      resetErrorHideTimeout();
-    }, [error, value, props.value]);
 
     const styles = {
       size: {
@@ -186,7 +165,10 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
         className="relative w-full font-secondary cursor-text"
       >
         <Tooltip
-          show={shouldDisplayError}
+          show={Boolean(error)}
+          hideDelay={2500}
+          resetHideDeps={[error, value.length === 0]}
+          trigger="manual"
           content={
             <div className="flex items-center space-x-2 whitespace-nowrap">
               <WarningOutlined className="text-yellow-600" />

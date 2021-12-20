@@ -3,6 +3,7 @@ import { Transition } from '@headlessui/react';
 import { Placement } from '@popperjs/core/lib/enums';
 import React, { FC, ReactNode, useEffect, useState } from 'react';
 import { usePopper } from 'react-popper';
+import { useTimeoutFn } from 'react-use';
 import { Z_INDEX_MODAL_OVERLAY } from './Modal';
 
 // Same as modals
@@ -17,14 +18,11 @@ export interface TooltipProps {
   // Manually control whether to show or not.
   show?: boolean;
 
-  // EDIT -> LOOK IN /Input for how to do this timeout.
-  // How many ms to wait before automatically closing
-  // This is very complicated, so it's on hold for now.
-  //
-  // eg. What if the user hovers, unhovers, and re-hovers.
-  // the event from the first hover will trigger a timer
-  // which closes the second hover prematurely.
-  // delayClose?: number;
+  // Hide after x milliseconds.
+  hideDelay?: number;
+
+  // The dependencies which should trigger us to cancel the hidden timeout.
+  resetHideDeps?: Array<any>;
 }
 
 /**
@@ -38,10 +36,19 @@ export const Tooltip: FC<TooltipProps> = (props) => {
     trigger = 'hover',
     content,
     show,
+    hideDelay = Infinity,
+    resetHideDeps = [],
   } = props;
 
-  // const hoverDelayClose = delayClose ?? 0;
-  // const clickDelayClose = delayClose ?? 1500;
+  const [visible, setVisible] = useState(show ?? false);
+  const [hovering, setHovering] = useState(false);
+
+  // Display and hide after timeout.
+  const hideTimeout = () => setVisible(false);
+  const [, cancelHideTimeout, resetHideTimeout] = useTimeoutFn(
+    hideTimeout,
+    hideDelay
+  );
 
   const [referenceElement, setReferenceElement] = useState(null);
   const [popperElement, setPopperElement] = useState(null);
@@ -64,9 +71,6 @@ export const Tooltip: FC<TooltipProps> = (props) => {
     }
   );
 
-  const [visible, setVisible] = useState(show ?? false);
-  const [hovering, setHovering] = useState(false);
-
   // Control visibility based upon trigger.
   useEffect(() => {
     // only if they're not manually showing
@@ -74,6 +78,22 @@ export const Tooltip: FC<TooltipProps> = (props) => {
       setVisible(hovering);
     }
   }, [hovering]);
+
+  // Set timeout to hide.
+  useEffect(() => {
+    if (trigger === 'manual') {
+      // When it's manual and they have an automatic delay.
+      // Hide error after x milliseconds, but reset the timer when props change.
+      if (!show) {
+        setVisible(false);
+        cancelHideTimeout();
+        return;
+      }
+
+      setVisible(true);
+      resetHideTimeout();
+    }
+  }, [show, ...resetHideDeps]);
 
   // Force update the popper on visibility change.
   // This is to maintain the correct positioning offset by Transition
@@ -97,7 +117,7 @@ export const Tooltip: FC<TooltipProps> = (props) => {
         {...attributes.popper}
       >
         <Transition
-          show={show ?? visible}
+          show={visible ?? show}
           unmount={false}
           enter="transition ease-out duration-200"
           enterFrom="opacity-0 translate-y-1"

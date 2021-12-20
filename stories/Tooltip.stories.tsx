@@ -20,19 +20,22 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<TooltipProps> = (args) => (
-  <div className="ml-64 mt-20">
-    <Tooltip trigger="hover" {...args}>
-      <Button>Hover me</Button>
-    </Tooltip>
-  </div>
-);
+const Template: Story<TooltipProps> = (args) => {
+  return (
+    <div className="ml-64 mt-20">
+      <Tooltip trigger="hover" {...args}>
+        <Button>Hover me</Button>
+      </Tooltip>
+    </div>
+  );
+};
 
 export const Top = Template.bind({});
 export const Left = Template.bind({});
 export const Right = Template.bind({});
 export const Bottom = Template.bind({});
 export const ManualShow = Template.bind({});
+export const WithTimeout = Template.bind({});
 
 Top.args = {
   trigger: 'hover',
@@ -63,4 +66,12 @@ ManualShow.args = {
   show: true,
   content: 'This is some manual content!',
   placement: 'bottom',
+};
+
+WithTimeout.args = {
+  trigger: 'manual',
+  show: true,
+  content: 'This will disappear after a timeout',
+  placement: 'bottom',
+  hideDelay: 1500,
 };
