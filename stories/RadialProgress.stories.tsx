@@ -1,10 +1,10 @@
 import { Meta, Story } from '@storybook/react';
 import React from 'react';
-import { TastiestBrand, TastiestBrandProps } from '../src';
+import { RadialProgress, RadialProgressProps } from '../src';
 
 const meta: Meta = {
-  title: 'TastiestBrand',
-  component: TastiestBrand,
+  title: 'RadialProgress',
+  component: RadialProgress,
   argTypes: {
     children: {
       control: {
@@ -19,8 +19,10 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<TastiestBrandProps> = (args) => (
-  <TastiestBrand {...args} />
+const Template: Story<RadialProgressProps> = (args) => (
+  <div className="w-32 h-32">
+    <RadialProgress pc={33} {...args} />
+  </div>
 );
 
 export const Default = Template.bind({});
