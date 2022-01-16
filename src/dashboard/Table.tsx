@@ -60,7 +60,7 @@ export function Table(props: TableProps) {
     noDataLabel = 'No Data',
     updateData = null,
     isLoadingInitialData = false,
-    searchFunction = () => null,
+    searchFunction,
     paginateInterval,
     leftAlignedColumns = [0],
     rowAccordianElement: RowAccordianElement,
@@ -79,7 +79,7 @@ export function Table(props: TableProps) {
       return;
     }
 
-    setFilteredData(searchFunction(query, data) ?? []);
+    setFilteredData(searchFunction?.(query, data) ?? []);
   };
 
   // Set initial data for the table in the case that default useState value fails
@@ -124,18 +124,21 @@ export function Table(props: TableProps) {
     <div className="relative">
       <div className="flex items-center justify-between w-full mb-2">
         {label && <div className="pr-4 text-xl font-somatic">{label}</div>}
-        <div style={{ width: '300px' }} className="">
-          <Input
-            size="small"
-            color="neutral"
-            variant={'solid'}
-            value={searchQuery ?? ''}
-            onValueChange={updateSearch}
-            suffix={
-              <SearchOutlined className="cursor-default select-none text-gray-300" />
-            }
-          />
-        </div>
+
+        {searchFunction ? (
+          <div style={{ width: '300px' }} className="">
+            <Input
+              size="small"
+              color="neutral"
+              variant={'solid'}
+              value={searchQuery ?? ''}
+              onValueChange={updateSearch}
+              suffix={
+                <SearchOutlined className="cursor-default select-none text-gray-300" />
+              }
+            />
+          </div>
+        ) : null}
       </div>
 
       <div
@@ -167,8 +170,9 @@ export function Table(props: TableProps) {
                             {...cell.getCellProps()}
                             className={clsx(
                               'flex items-center',
-                              !leftAlignedColumns.some((c) => c === j) &&
-                                'text-center justify-center'
+                              leftAlignedColumns.includes(j)
+                                ? 'justify-start'
+                                : 'text-center justify-center'
                             )}
                           >
                             <div>
@@ -241,27 +245,30 @@ interface TableHeadProps {
 const TableHead = (props: TableHeadProps) => {
   const { headerGroups, leftAlignedColumns } = props;
 
+  console.log('Table ➡️ leftAlignedColumns:', leftAlignedColumns);
+  console.log('Table ➡️ headerGroups:', headerGroups);
+
   return (
     <thead>
-      {headerGroups.map((headerGroup, i) => (
+      {headerGroups.map((headerGroup) => (
         <tr {...headerGroup.getHeaderGroupProps()}>
-          {headerGroup.headers.map((column) => (
+          {headerGroup.headers.map((column, i) => (
             <th
               {...column.getHeaderProps((column as any).getSortByToggleProps())}
               className={clsx(
                 'pt-4 pb-2 text-sm text-gray-600 opacity-75 font-normal select-none whitespace-nowrap'
               )}
             >
-              <div className="flex items-center pr-2 text-center">
-                <p
-                  className={clsx(
-                    (leftAlignedColumns.find((n) => n === i)
-                      ? 'text-left'
-                      : 'text-center') ?? 'w-full font-medium'
-                  )}
-                >
-                  {column.render('Header')}
-                </p>
+              <div
+                className={clsx(
+                  'flex items-center pr-2 w-full font-medium',
+                  leftAlignedColumns.includes(i)
+                    ? 'justify-start'
+                    : 'justify-center',
+                  `th-${i}`
+                )}
+              >
+                <span className={clsx()}>{column.render('Header')}</span>
                 <span>
                   {(column as any).isSorted ? (
                     <TriangleIcon

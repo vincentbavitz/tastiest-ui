@@ -26,12 +26,11 @@ const Template: Story<TableProps> = (args) => {
     {
       id: 'followers',
       Header: 'Followers',
-      width: 80,
       accessor: (row) => {
         const numFollowers = row?.metrics?.followers?.length;
 
         return (
-          <p>
+          <p style={{ width: '200px' }}>
             {numFollowers ? (
               numFollowers
             ) : (
