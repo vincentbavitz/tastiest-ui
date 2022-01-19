@@ -42,6 +42,8 @@ export const Modal: FC<ModalProps> = (props) => {
 
   const defaultStyle = {
     zIndex: Z_INDEX_MODAL_OVERLAY,
+    width: fullscreen ? '100vw' : 'unset',
+    height: fullscreen ? '100vh' : 'unset',
     paddingLeft: `${padding}vw`,
     paddingRight: `${padding}vw`,
   };
