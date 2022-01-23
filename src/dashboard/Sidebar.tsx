@@ -76,19 +76,18 @@ export interface SidebarItemProps {
   float: 'top' | 'bottom';
   selected?: boolean;
   compact?: boolean;
-  notifications?: { amount: number; urgency: 'default' | 'moderate' | 'high' };
+  notifications?: { amount: number; urgency: 'high' | 'medium' | 'low' };
 }
 
 const Item = (props: SidebarItemProps) => {
   const { label, page, selected, compact, notifications } = props;
-  notifications;
 
   const inner = (
     <Link href={page}>
       <a style={{ textDecoration: 'none' }}>
         <div
           className={clsx(
-            'text-gray-400 duration-150 hover:text-primary py-4 filter',
+            'relative text-gray-400 duration-150 hover:text-primary py-4 filter',
             compact ? 'px-6' : 'px-4',
             selected ? '-bg-primary-1' : 'bg-primary',
             'hover:brightness-95'
@@ -101,9 +100,25 @@ const Item = (props: SidebarItemProps) => {
               selected ? 'text-light' : 'text-gray-300'
             )}
           >
-            <props.icon
-              className={clsx('h-6 stroke-current w-6 text-xl fill-current')}
-            />
+            <div className="relative">
+              <props.icon
+                className={clsx('h-6 stroke-current w-6 text-xl fill-current')}
+              />
+              {notifications ? (
+                <div
+                  className={clsx(
+                    'flex items-center justify-center z-50 absolute rounded-full w-5 h-5 font-mono text-xs',
+                    compact ? '-right-5 -top-2' : '-right-6 -top-1',
+                    notifications.urgency === 'high' && 'bg-red-600 font-bold',
+                    notifications.urgency === 'medium' &&
+                      'bg-yellow-300 text-dark',
+                    notifications.urgency === 'low' && 'bg-secondary text-light'
+                  )}
+                >
+                  {notifications.amount > 100 ? '99' : notifications.amount}
+                </div>
+              ) : null}
+            </div>
 
             {!compact && <p className={clsx()}>{label}</p>}
           </div>

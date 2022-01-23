@@ -43,18 +43,21 @@ const Template: Story<SidebarProps> = (args) => (
         label="Billing"
         page="/billing"
         icon={WalletOutlined}
+        notifications={{ amount: 1337, urgency: 'low' }}
         float="top"
       />
       <Sidebar.Item
         label="Support"
         page="/support"
         icon={SupportIcon}
+        notifications={{ amount: 50, urgency: 'high' }}
         float="bottom"
       />
       <Sidebar.Item
         label="Settings"
         page="/settings"
         icon={SettingOutlined}
+        notifications={{ amount: 1, urgency: 'medium' }}
         float="bottom"
       />
     </Sidebar>
