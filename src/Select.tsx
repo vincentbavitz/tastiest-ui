@@ -13,8 +13,10 @@ import { ComponentSize } from './types';
 const Z_INDEX_SELECT = Z_INDEX_MODAL_OVERLAY - 1;
 
 export interface SelectProps {
-  children: ReactElement<SelectOptionProps> | ReactElement<SelectOptionProps>[];
   onSelect: (id: string, value: string) => void;
+  initialSelected?: string;
+
+  children: ReactElement<SelectOptionProps> | ReactElement<SelectOptionProps>[];
   size?: ComponentSize;
 }
 
@@ -23,7 +25,11 @@ export function Select(props: SelectProps) {
 
   // Selected is given by ID
   const options = React.Children.map(children, (child) => child.props);
-  const [selected, setSelected] = useState<SelectOptionProps>(options[0]);
+  const initalSelected = props.initialSelected
+    ? (options.find((t) => t.id === props.initialSelected) as SelectOptionProps)
+    : options[0];
+
+  const [selected, setSelected] = useState<SelectOptionProps>(initalSelected);
 
   const onChange = (option: SelectOptionProps) => {
     setSelected(option);

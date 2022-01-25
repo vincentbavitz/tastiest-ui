@@ -36,4 +36,7 @@ const Template: Story<SelectProps> = (args) => (
 );
 
 export const Default = Template.bind({});
+export const InitialSelected = Template.bind({});
+
+InitialSelected.args = { initialSelected: 'hawking' };
 Default.args = {};
