@@ -36,7 +36,7 @@ export const Switch: FC<SwitchProps> = (props) => {
       onChange={onChange}
       className={clsx(
         'relative inline-flex flex-shrink-0 border-2 border-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75',
-        checked ? 'bg-secondary' : 'bg-primary',
+        checked ? 'bg-secondary' : 'bg-gray-300',
         styles.switch[size]
       )}
     >
