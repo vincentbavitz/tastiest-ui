@@ -23,7 +23,7 @@ export const TastiestBrand: FC<TastiestBrandProps> = (props) => {
       ) : (
         <div
           className={clsx(
-            'font-primary leading-none',
+            'font-primary leading-none duration-500',
             size === 6 && 'text-2xl',
             size === 8 && 'text-3xl',
             size === 10 && 'text-4xl',
