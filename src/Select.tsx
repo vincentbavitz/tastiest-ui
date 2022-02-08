@@ -18,10 +18,19 @@ export interface SelectProps {
 
   children: ReactElement<SelectOptionProps> | ReactElement<SelectOptionProps>[];
   size?: ComponentSize;
+
+  minSelectWidth?: number;
+  minOptionWidth?: number;
 }
 
 export function Select(props: SelectProps) {
-  const { size = 'medium', onSelect, children } = props;
+  const {
+    size = 'medium',
+    onSelect,
+    children,
+    minSelectWidth,
+    minOptionWidth,
+  } = props;
 
   // Selected is given by ID
   const options = React.Children.map(children, (child) => child.props);
@@ -31,17 +40,18 @@ export function Select(props: SelectProps) {
 
   const [selected, setSelected] = useState<SelectOptionProps>(initalSelected);
 
-  const onChange = (option: SelectOptionProps) => {
+  const onChange = (optionId: string) => {
+    const option = options.find((o) => o.id === optionId) as SelectOptionProps;
     setSelected(option);
     onSelect?.(option.id, option.value);
   };
 
   return (
-    <Listbox
-      value={selected.id}
-      onChange={(onChange as never) as (option: string) => void}
-    >
-      <div className="relative mt-1">
+    <Listbox value={selected.id} onChange={onChange}>
+      <div
+        style={{ minWidth: minSelectWidth ? `${minSelectWidth}px` : 'unset' }}
+        className="relative mt-1"
+      >
         <Listbox.Button
           className={clsx(
             'relative w-full text-left bg-white shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500',
@@ -70,10 +80,16 @@ export function Select(props: SelectProps) {
         >
           <Listbox.Options
             style={{ zIndex: Z_INDEX_SELECT }}
-            className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            className="absolute w-auto py-1 mt-1 overflow-y-auto overflow-x-hidden text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
           >
             {React.Children.map(children, (child) => {
-              return <Option {...child.props} size={size} />;
+              return (
+                <Option
+                  {...child.props}
+                  size={size}
+                  minWidth={minOptionWidth}
+                />
+              );
             })}
           </Listbox.Options>
         </Transition>
@@ -87,14 +103,16 @@ interface SelectOptionProps {
   value: string;
   disabled?: boolean;
   size?: ComponentSize;
+  minWidth?: number;
 }
 
 const Option = (option: SelectOptionProps) => {
-  const { id, size, value, disabled } = option;
+  const { id, size, value, disabled, minWidth } = option;
 
   return (
     <Listbox.Option
       key={id}
+      style={{ minWidth: minWidth ?? '75px' }}
       className={({ active, disabled }) =>
         clsx(
           'cursor-default select-none relative list-none',
@@ -105,11 +123,12 @@ const Option = (option: SelectOptionProps) => {
           size === 'small' && 'py-1 pl-10 pr-2 text-sm'
         )
       }
-      value={option}
+      value={option.id}
       disabled={disabled}
     >
       {({ selected, active }) => (
         <>
+          {selected}
           <span
             className={`${
               selected ? 'font-medium' : 'font-normal'
