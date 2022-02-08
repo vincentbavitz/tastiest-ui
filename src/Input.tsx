@@ -2,7 +2,13 @@
 import { WarningOutlined } from '@ant-design/icons';
 import styled from '@emotion/styled';
 import clsx from 'clsx';
-import React, { ChangeEvent, useEffect, useRef, useState } from 'react';
+import React, {
+  ChangeEvent,
+  ReactElement,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { useHoverDirty, useKeyPressEvent } from 'react-use';
 import { Tooltip } from './Tooltip';
 import { ComponentSize } from './types';
@@ -27,6 +33,11 @@ export interface InputProps
   label?: string;
   prefix?: JSX.Element;
   suffix?: JSX.Element;
+
+  // Custom input. Eg for Stripe embedded inputs.
+  input?: ReactElement;
+  // For custom input control over focus
+  forceFocus?: boolean;
 
   // Styling
   center?: boolean;
@@ -59,6 +70,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       size = 'medium',
       color = 'secondary',
       variant = 'default',
+      forceFocus = false,
       style,
       prefix,
       label,
@@ -79,7 +91,9 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
 
     // Value
     const [value, setValue] = useState<string>('');
-    const [isFocused, setIsFocused] = useState(Boolean(props.value?.length));
+    const [isFocused, setIsFocused] = useState(
+      forceFocus || Boolean(props.value?.length)
+    );
 
     const styles = {
       size: {
@@ -159,6 +173,19 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       }
     }, [value]);
 
+    const CustomNestedInput = React.useMemo(() => {
+      if (!props.input) {
+        return null;
+      }
+
+      return React.cloneElement(props.input, {
+        onFocus: () =>
+          props.readOnly || props.disabled ? null : setIsFocused(true),
+        onBlur: handleOnBlur,
+        disabled: disabled,
+      });
+    }, []);
+
     return (
       <div
         ref={wrapperRef}
@@ -184,7 +211,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
           {label ? (
             <InputLabel
               color={color}
-              isFocused={isFocused}
+              isFocused={forceFocus || isFocused}
               hasPrefix={Boolean(prefix)}
               label={label}
               size={size}
@@ -219,35 +246,39 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
               </div>
             )}
 
-            <input
-              ref={ref || inputRef}
-              className={clsx(
-                'bg-transparent',
-                'outline-none leading-none',
-                'w-0 flex-1',
-                disabled && 'cursor-not-allowed',
-                center && 'text-center',
-                styles.size[size],
-                inputClassName
-              )}
-              {...inputProps}
-              type={type}
-              value={value}
-              spellCheck={false}
-              disabled={disabled}
-              onChange={handleOnChange}
-              onFocus={() =>
-                props.readOnly || props.disabled ? null : setIsFocused(true)
-              }
-              onBlur={handleOnBlur}
-              placeholder={label ? '' : props.placeholder}
-            ></input>
+            {CustomNestedInput ? (
+              CustomNestedInput
+            ) : (
+              <input
+                ref={ref || inputRef}
+                className={clsx(
+                  'bg-transparent',
+                  'outline-none leading-none',
+                  'w-0 flex-1',
+                  disabled && 'cursor-not-allowed',
+                  center && 'text-center',
+                  styles.size[size],
+                  inputClassName
+                )}
+                {...inputProps}
+                type={type}
+                value={value}
+                spellCheck={false}
+                onChange={handleOnChange}
+                onFocus={() =>
+                  props.readOnly || props.disabled ? null : setIsFocused(true)
+                }
+                onBlur={handleOnBlur}
+                disabled={disabled}
+                placeholder={label ? '' : props.placeholder}
+              ></input>
+            )}
 
             <InputBorder
               label={label}
               color={color}
               isHovering={isHovering}
-              isFocused={isFocused}
+              isFocused={forceFocus || isFocused}
               hasError={Boolean(error)}
               variant={variant}
             />

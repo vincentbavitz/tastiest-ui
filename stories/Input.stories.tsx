@@ -1,7 +1,9 @@
 import { RightOutlined, SearchOutlined } from '@ant-design/icons';
 import { Meta, Story } from '@storybook/react';
+import { CardNumberElement, Elements } from '@stripe/react-stripe-js';
+import { loadStripe, StripeCardNumberElementOptions } from '@stripe/stripe-js';
 import { EmailIcon } from '@tastiest-io/tastiest-icons';
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Controller, useForm } from 'react-hook-form';
 import { Button } from '../src/Button';
 import { Input, InputProps } from '../src/Input';
@@ -77,6 +79,40 @@ const ReactHookFormTemplate: Story<InputProps> = (args) => {
   );
 };
 
+const CustomNestedTemplate: Story<InputProps> = (args) => {
+  const CARD_ELEMENT_OPTIONS: StripeCardNumberElementOptions = {
+    classes: {
+      base: 'py-3 w-full',
+    },
+    style: {
+      base: {
+        fontSize: '16px',
+      },
+    },
+  };
+
+  const stripePromise = useMemo(
+    () =>
+      loadStripe(
+        `pk_test_51HVFsIHZaOt3USRGOXhAlkKI9uBar8ZAnRY7lXJgyQWnfQwnlUoqgyKRPpjXYqSsFJQyGaAqeSbnsSi2IxAhnHZA00v99BVUGc`
+      ),
+    []
+  );
+
+  return (
+    <Elements stripe={stripePromise}>
+      <Input
+        size="large"
+        label="Card Number"
+        className="font-mono"
+        placeholder=""
+        forceFocus
+        input={<CardNumberElement options={CARD_ELEMENT_OPTIONS} />}
+      />
+    </Elements>
+  );
+};
+
 export const Default = Template.bind({});
 export const ReadOnly = Template.bind({});
 export const Validated = Template.bind({});
@@ -85,10 +121,12 @@ export const WithoutLabel = Template.bind({});
 export const AutomaticallyFocused = Template.bind({});
 
 export const WithOnReturn = Template.bind({});
+export const WithForceFocus = Template.bind({});
 export const WithFormatter = Template.bind({});
 
 export const CustomOnBlur = Template.bind({});
 export const ReactHookForm = ReactHookFormTemplate.bind({});
+export const CustomNestedInput = CustomNestedTemplate.bind({});
 
 export const Large = Template.bind({});
 export const Medium = Template.bind({});
@@ -120,6 +158,11 @@ WithoutLabel.args = {
 WithFormatter.args = {
   label: 'Uppercase formatter',
   formatter: (value: string) => value.toUpperCase(),
+};
+
+WithForceFocus.args = {
+  label: 'Forcefully focussed',
+  forceFocus: true,
 };
 
 Large.args = { size: 'large' };
