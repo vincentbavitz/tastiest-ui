@@ -13,19 +13,21 @@ import { ComponentSize } from './types';
 const Z_INDEX_SELECT = Z_INDEX_MODAL_OVERLAY - 1;
 
 export interface SelectProps {
-  onSelect: (id: string, value: string) => void;
-  initialSelected?: string;
-
-  children: ReactElement<SelectOptionProps> | ReactElement<SelectOptionProps>[];
+  color?: 'primary' | 'secondary' | 'neutral';
   size?: ComponentSize;
 
   minSelectWidth?: number;
   minOptionWidth?: number;
+  initialSelected?: string;
+  onSelect: (id: string, value: string) => void;
+
+  children: ReactElement<SelectOptionProps> | ReactElement<SelectOptionProps>[];
 }
 
 export function Select(props: SelectProps) {
   const {
     size = 'medium',
+    color = 'neutral',
     onSelect,
     children,
     minSelectWidth,
@@ -52,24 +54,36 @@ export function Select(props: SelectProps) {
         style={{ minWidth: minSelectWidth ? `${minSelectWidth}px` : 'unset' }}
         className="relative mt-1"
       >
-        <Listbox.Button
-          className={clsx(
-            'relative w-full text-left bg-white shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500',
-            size === 'large' && 'text-lg py-3 pl-3 pr-10 rounded-lg',
-            size === 'medium' && 'text-base py-2 pl-3 pr-10 rounded-md',
-            size === 'small' && 'text-sm py-1 pl-2 pr-8 rounded'
-          )}
-        >
-          <span className="block truncate">{selected.value}</span>
-          <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
-            <div
-              style={{ fontSize: '9px' }}
-              className="flex flex-col leading-none text-gray-400"
+        <Listbox.Button as={Fragment}>
+          {({ open }) => (
+            <button
+              className={clsx(
+                'relative w-full text-left bg-white cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 ring-opacity-25',
+                size === 'large' && 'text-lg py-3 pl-3 pr-10 rounded-lg',
+                size === 'medium' && 'text-base py-2 pl-3 pr-10 rounded-md',
+                size === 'small' && 'text-sm py-1 pl-2 pr-8 rounded',
+                color === 'neutral' &&
+                  `shadow-md ${open ? 'ring-2 ring-secondary' : ''}`,
+                color === 'primary' &&
+                  `border border-primary ${open ? 'ring-2 ring-primary' : ''}`,
+                color === 'secondary' &&
+                  `border border-secondary ${
+                    open ? 'ring-2 ring-secondary' : ''
+                  }`
+              )}
             >
-              <CaretUpFilled />
-              <CaretDownFilled />
-            </div>
-          </span>
+              <span className="block truncate">{selected.value}</span>
+              <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
+                <div
+                  style={{ fontSize: '9px' }}
+                  className="flex flex-col leading-none text-gray-400"
+                >
+                  <CaretUpFilled />
+                  <CaretDownFilled />
+                </div>
+              </span>
+            </button>
+          )}
         </Listbox.Button>
 
         <Transition

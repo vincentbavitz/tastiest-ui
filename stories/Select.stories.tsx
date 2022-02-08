@@ -20,7 +20,7 @@ const meta: Meta = {
 export default meta;
 
 const Template: Story<SelectProps> = (args) => (
-  <div className="inset-0 absolute bg-gradient-to-br from-blue-400 via-indigo-400 to-purple-500">
+  <div className="inset-0 absolute bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100">
     <div className="w-72 pt-16 ml-16">
       <Select
         {...args}
@@ -36,7 +36,7 @@ const Template: Story<SelectProps> = (args) => (
 );
 
 const TinyTemplate: Story<SelectProps> = (args) => (
-  <div className="inset-0 absolute bg-gradient-to-br from-blue-400 via-indigo-400 to-purple-500">
+  <div className="inset-0 absolute bg-gradient-to-br from-blue-100 via-indigo-100 to-purple-100">
     <div className="pt-16 ml-16">
       <div className="flex space-x-2 text-dark">
         <Select minSelectWidth={100} minOptionWidth={200} onSelect={() => null}>

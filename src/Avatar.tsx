@@ -1,7 +1,6 @@
 import classNames from 'classnames';
 import clsx from 'clsx';
 import React from 'react';
-import { TastiestBrand } from './TastiestBrand';
 
 export interface AvatarProps {
   // Size is in the same units as Tailwind units
@@ -44,7 +43,7 @@ export function Avatar(props: AvatarProps) {
         </div>
       ) : (
         // Default Tastiest Avatar
-        <TastiestBrand fill type="initial" />
+        <span className="font-primary text-light text-2xl">T</span>
       )}
     </div>
   );
