@@ -15,6 +15,7 @@ export interface TextAreaProps
   // Appearance
   size?: ComponentSize;
   color?: 'primary' | 'secondary' | 'neutral';
+  rows?: number;
 
   // Applied to parent only
   className?: string;
