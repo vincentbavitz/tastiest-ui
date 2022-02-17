@@ -30,12 +30,25 @@ const Template: Story<TooltipProps> = (args) => {
   );
 };
 
+const TinyChildrenTemplate: Story<TooltipProps> = (args) => {
+  return (
+    <div className="ml-64 mt-20">
+      <div className="relative w-0 h-0">
+        <Tooltip trigger="hover" {...args}>
+          <Button>Hover me</Button>
+        </Tooltip>
+      </div>
+    </div>
+  );
+};
+
 export const Top = Template.bind({});
 export const Left = Template.bind({});
 export const Right = Template.bind({});
 export const Bottom = Template.bind({});
 export const ManualShow = Template.bind({});
 export const WithTimeout = Template.bind({});
+export const WithTinyChildren = TinyChildrenTemplate.bind({});
 
 Top.args = {
   trigger: 'hover',
@@ -66,6 +79,13 @@ ManualShow.args = {
   show: true,
   content: 'This is some manual content!',
   placement: 'bottom',
+};
+
+WithTinyChildren.args = {
+  trigger: 'manual',
+  show: true,
+  content: 'I have tiny children',
+  placement: 'top-end',
 };
 
 WithTimeout.args = {

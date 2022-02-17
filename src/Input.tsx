@@ -305,7 +305,7 @@ interface InputLabelProps {
   size: ComponentSize;
 }
 
-const InputLabel = (props: InputLabelProps) => {
+export const InputLabel = (props: InputLabelProps) => {
   const { label, color, hasPrefix, isFocused, size } = props;
 
   const translateX = isFocused ? `${hasPrefix ? '-0.95' : '0.70'}rem` : '0rem';
@@ -378,7 +378,7 @@ interface InputBorderProps {
   variant: InputVariant;
 }
 
-const InputBorder = (props: InputBorderProps) => {
+export const InputBorder = (props: InputBorderProps) => {
   const { label, color, isHovering, isFocused, hasError, variant } = props;
 
   const borderColors = clsx(

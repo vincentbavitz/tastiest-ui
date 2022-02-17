@@ -19,7 +19,15 @@ const meta: Meta = {
 
 export default meta;
 
-const Template: Story<TextAreaProps> = args => <TextArea {...args} />;
+const Template: Story<TextAreaProps> = (args) => (
+  <div className="pt-12">
+    <TextArea {...args} />
+  </div>
+);
 
 export const Default = Template.bind({});
-Default.args = {};
+Default.args = {
+  label: 'Textarea Label',
+  rows: 5,
+  error: 'Some error',
+};
