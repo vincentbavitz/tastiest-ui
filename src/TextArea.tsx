@@ -72,7 +72,7 @@ export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
       },
       variant: {
         default: 'bg-transparent',
-        solid: 'bg-white rounded filter shadow',
+        solid: 'bg-white filter shadow',
       },
     };
 

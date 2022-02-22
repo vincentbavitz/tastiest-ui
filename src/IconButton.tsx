@@ -41,7 +41,7 @@ export const IconButton: FC<IconButtonProps> = (props) => {
       onClick={onClick}
       className={clsx(
         'flex justify-center duration-300 shadow-md items-center select-none',
-        circle ? 'rounded-full' : 'rounded-md',
+        circle ? 'rounded-full' : '',
         styles.theme[theme],
         styles.size[size],
         styles.focus

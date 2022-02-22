@@ -162,13 +162,6 @@ export const Button: FC<ButtonProps> = (props) => {
     type === 'outline' ? outlineStyles : null,
   );
 
-  // prettier-ignore
-  const roundedStyles = 
-    flatEdge === 'left' ? 'rounded-r-md' :
-    flatEdge === 'right' ? 'rounded-l-md' :
-    flatEdge === 'both' ? 'rounded-none' :
-    'rounded-md';
-
   return (
     <button
       style={{ width: wide ? '100%' : 'min-content' }}
@@ -186,7 +179,6 @@ export const Button: FC<ButtonProps> = (props) => {
         'select-none',
         sizeStyles,
         typeStyles,
-        roundedStyles,
         selectedStyles,
         disabledStyles
       )}

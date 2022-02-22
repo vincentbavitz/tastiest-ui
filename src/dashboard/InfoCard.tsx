@@ -1,8 +1,8 @@
+import { keyframes } from '@emotion/react';
+import styled from '@emotion/styled';
 import { ResponsiveLine, Serie } from '@nivo/line';
 import clsx from 'clsx';
 import React, { FC } from 'react';
-import styled from '@emotion/styled';
-import { keyframes } from '@emotion/react';
 
 type InfoCardColor =
   | 'primary'
@@ -71,7 +71,7 @@ export const InfoCard: FC<InfoCardProps> = (props) => {
   return (
     <div
       className={clsx(
-        'relative w-full rounded-md overflow-hidden',
+        'relative w-full overflow-hidden',
         isLoading && 'bg-opacity-75',
         styles.color[color]
       )}

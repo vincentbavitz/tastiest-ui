@@ -44,22 +44,6 @@ export const Sidebar = (props: SidebarProps) => {
           <TastiestBrand theme="dark" type="initial-ring" />
         </div>
 
-        {/* <div
-          onClick={() => setCompact(!compact)}
-          className={clsx(
-            'absolute right-0 z-50 -bg-primary-1 flex items-center w-4 h-10',
-            'shadow-md rounded-r-md',
-            'transform translate-x-full top-6 cursor-pointer',
-            'text-gray-300 hover:text-white'
-          )}
-        >
-          {compact ? (
-            <RightOutlined className="text-xs" />
-          ) : (
-            <LeftOutlined className="text-xs" />
-          )}
-        </div> */}
-
         <div className="relative flex flex-col flex-grow justify-between">
           <div>{top}</div>
           <div>{bottom}</div>

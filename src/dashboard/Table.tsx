@@ -144,7 +144,7 @@ export function Table(props: TableProps) {
       <div
         style={{ maxWidth: '100%' }}
         className={clsx(
-          'w-full pb-6 overflow-x-auto bg-white rounded-md',
+          'w-full pb-6 overflow-x-auto bg-white',
           RowAccordianElement ? 'pl-8 pr-4' : 'px-6'
         )}
       >

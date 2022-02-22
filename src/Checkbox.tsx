@@ -1,6 +1,6 @@
+import styled from '@emotion/styled';
 import clsx from 'clsx';
 import React, { FC, ReactNode } from 'react';
-import styled from '@emotion/styled';
 
 const CheckboxContainer = styled.label`
   display: grid;
@@ -48,7 +48,6 @@ const CheckboxControl = styled.span`
   display: inline-grid;
   width: 1em;
   height: 1em;
-  border-radius: 0.125em;
   border: max(1px, 0.1em) solid currentColor;
 
   svg {

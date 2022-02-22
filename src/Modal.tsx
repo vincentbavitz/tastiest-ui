@@ -160,7 +160,7 @@ const ModalInner = (props: ModalProps) => {
       }}
       className={classNames(
         'relative bg-white shadow-lg overflow-hidden',
-        fullscreen ? 'flex flex-col rounded-none' : 'rounded-lg',
+        fullscreen ? 'flex flex-col' : '',
         !noPadding && styles.padding[size],
         className
       )}

@@ -40,7 +40,7 @@ const Template: Story = (args) => {
         <div
           id="map"
           style={{ width: '500px', height: '400px' }}
-          className="shadow-lg rounded-lg"
+          className="shadow-lg"
         ></div>
       </div>
     </div>

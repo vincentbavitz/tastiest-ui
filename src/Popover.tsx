@@ -103,7 +103,7 @@ const PopoverPanel = (props: PopoverPanelProps) => {
         maxWidth: align === 'center' ? '32rem' : 'unset',
       }}
       className={clsx(
-        'absolute w-56 mt-3 origin-top-right bg-white rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
+        'absolute w-56 mt-3 origin-top-right bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none',
         align === 'left' && 'right-0',
         align === 'center' && '-left-64 -right-64 mx-auto',
         align === 'right' && 'left-0'

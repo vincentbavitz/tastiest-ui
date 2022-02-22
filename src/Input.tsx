@@ -103,7 +103,7 @@ export const Input = React.forwardRef<HTMLInputElement, InputProps>(
       },
       variant: {
         default: 'bg-transparent',
-        solid: 'bg-white rounded filter shadow',
+        solid: 'bg-white filter shadow',
       },
     };
 
@@ -389,7 +389,6 @@ export const InputBorder = (props: InputBorderProps) => {
   );
 
   const borderStyles = clsx(
-    'rounded',
     isFocused ? 'border-2' : 'border',
     hasError ? 'border-danger' : borderColors
   );

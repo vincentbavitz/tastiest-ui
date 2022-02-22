@@ -46,11 +46,8 @@ export function Dropdown(props: DropdownProps) {
     DropdownButtonProps | DropdownTriggerProps
   > | null = null;
 
-  console.log('Dropdown ➡️ Z_INDEX_DROPDOWN:', Z_INDEX_DROPDOWN);
-
   React.Children.forEach(children, (child) => {
     const displayName: DisplayNames = (child?.type as any).displayName;
-    console.log('Dropdown ➡️ displayName:', displayName);
 
     // prettier-ignore
     if (child && displayName === DisplayNames.TRIGGER) {
@@ -96,7 +93,7 @@ export function Dropdown(props: DropdownProps) {
         <Menu.Items
           style={{ zIndex: Z_INDEX_DROPDOWN, marginTop: `${offset}px` }}
           className={clsx(
-            'absolute right-0 w-56 origin-top-right bg-white divide-y divide-gray-100 rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'
+            'absolute right-0 w-56 origin-top-right bg-white divide-y divide-gray-100 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none'
           )}
         >
           <div className="px-1 py-1">{items}</div>
@@ -190,7 +187,7 @@ const DropdownItem = (props: DropdownItemProps) => {
             className={clsx(
               active && !disabled ? `bg-${theme} text-white` : 'text-gray-900',
               disabled ? 'opacity-75 pointer-events-none cursor-default' : '',
-              'group flex rounded-md items-center w-full select-none',
+              'group flex items-center w-full select-none',
               size === 'large' && 'px-3 py-2 text-base',
               size === 'medium' && 'px-2 py-2 text-sm',
               size === 'small' && 'px-2 py-1 text-xs',

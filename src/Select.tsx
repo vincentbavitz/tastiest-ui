@@ -59,9 +59,9 @@ export function Select(props: SelectProps) {
             <button
               className={clsx(
                 'relative w-full text-left bg-white cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-orange-300 focus-visible:ring-offset-2 focus-visible:border-indigo-500 ring-opacity-25',
-                size === 'large' && 'text-lg py-3 pl-3 pr-10 rounded-lg',
-                size === 'medium' && 'text-base py-2 pl-3 pr-10 rounded-md',
-                size === 'small' && 'text-sm py-1 pl-2 pr-8 rounded',
+                size === 'large' && 'text-lg py-3 pl-3 pr-10',
+                size === 'medium' && 'text-base py-2 pl-3 pr-10',
+                size === 'small' && 'text-sm py-1 pl-2 pr-8',
                 color === 'neutral' &&
                   `shadow-md ${open ? 'ring-2 ring-secondary' : ''}`,
                 color === 'primary' &&
@@ -94,7 +94,7 @@ export function Select(props: SelectProps) {
         >
           <Listbox.Options
             style={{ zIndex: Z_INDEX_SELECT }}
-            className="absolute w-auto py-1 mt-1 overflow-y-auto overflow-x-hidden text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
+            className="absolute w-auto py-1 mt-1 overflow-y-auto overflow-x-hidden text-base bg-white shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm"
           >
             {React.Children.map(children, (child) => {
               return (
