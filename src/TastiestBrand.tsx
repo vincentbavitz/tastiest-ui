@@ -23,22 +23,33 @@ export const TastiestBrand: FC<TastiestBrandProps> = (props) => {
       ) : (
         <div
           className={clsx(
-            'font-primary leading-none duration-500',
+            'flex items-end font-primary leading-none duration-500',
             size === 6 && 'text-2xl',
             size === 8 && 'text-3xl',
             size === 10 && 'text-4xl',
             theme === 'dark' ? 'text-light' : 'text-dark'
           )}
         >
-          Tastiest
-          <span
+          <div className="">T</div>
+          <div
+            style={{ transform: 'translate(-0.15rem, -0.06rem)' }}
             className={clsx(
-              'no-underline',
-              theme === 'dark' ? 'text-secondary' : 'text-primary'
+              'font-medium',
+              size === 6 && 'text-xl',
+              size === 8 && 'text-2xl',
+              size === 10 && 'text-3xl'
             )}
           >
-            .
-          </span>
+            ASTIEST
+            <span
+              className={clsx(
+                'no-underline',
+                theme === 'dark' ? 'text-secondary' : 'text-primary'
+              )}
+            >
+              .
+            </span>
+          </div>
         </div>
       )}
     </div>
