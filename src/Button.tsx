@@ -212,7 +212,7 @@ export const Button: FC<ButtonProps> = (props) => {
 
       <div
         className={clsx(
-          'w-full font-normal',
+          'w-full font-semibold',
           loading ? 'opacity-0' : 'opacity-100'
         )}
       >
