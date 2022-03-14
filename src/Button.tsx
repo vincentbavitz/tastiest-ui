@@ -28,7 +28,7 @@ export interface ButtonProps {
 
 export const Button: FC<ButtonProps> = (props) => {
   const {
-    color = 'secondary',
+    color = 'primary',
     size = 'medium',
     type = 'solid',
     disabled = false,
